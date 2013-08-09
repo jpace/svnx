@@ -43,6 +43,7 @@ spec = Gem::Specification.new do |s|
   s.test_files         = FileList["{test}/**/*test.rb"].to_a
   s.has_rdoc           = false
   s.bindir             = 'bin'
+  s.license            = 'MIT'
 
   s.add_dependency("logue", ">= 1.0.0")
   s.add_dependency("rainbow", ">= 1.1.4")
