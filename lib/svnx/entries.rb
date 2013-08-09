@@ -26,7 +26,7 @@ module SVNx
 
         @elements = get_elements doc
         @size = @elements.size
-      elsif xmlentries = args[:xmlentries]
+      elsif args[:xmlentries]
         raise "argument xmlentries is no longer supported"
       end
     end
