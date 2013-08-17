@@ -3,6 +3,7 @@
 
 require 'svnx/command'
 require 'rainbow'
+require 'svnx/info/entries'
 
 module SVNx
   class InfoCommandLine < CommandLine
@@ -39,6 +40,16 @@ module SVNx
   class InfoCommand < Command
     def command_line
       InfoCommandLine.new @args
+    end
+  end
+
+  class InfoExec
+    attr_reader :entry
+    
+    def initialize args
+      cmd = InfoCommand.new InfoCommandArgs.new(args)
+      # info has only one entry
+      @entry = SVNx::Info::Entries.new(:xmllines => cmd.execute)[0]
     end
   end
 end
