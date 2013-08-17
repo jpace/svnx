@@ -4,10 +4,11 @@
 require 'tc'
 require 'svnx/log/command'
 require 'rexml/document'
+require 'logue/loggable'
 
-module PVN
+module SVNx
   class IntegrationTestCase < PVN::TestCase
-    include Loggable
+    include Logue::Loggable
 
     PT_DIRNAME = '/Programs/pvn/pvntestbed.from'
 

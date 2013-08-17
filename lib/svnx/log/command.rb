@@ -31,10 +31,10 @@ module SVNx
     attr_reader :revision
     attr_reader :use_cache
 
-    def initialize args = Hash.new
+    def initialize args
       @limit = args[:limit]
       @verbose = args[:verbose]
-      @use_cache = args[:use_cache].nil? || args[:use_cache]
+      @use_cache = args.key?(:use_cache) ? args[:use_cache] : false
       @revision = args[:revision]
       super
     end
@@ -71,6 +71,15 @@ module SVNx
     def command_line
       cls = @use_cache ? LogCommandLineCaching : LogCommandLine
       cls.new @args
+    end
+  end
+
+  class LogExec
+    attr_reader :entries
+    
+    def initialize args
+      cmd = LogCommand.new LogCommandArgs.new(args)
+      @entries = SVNx::Log::Entries.new :xmllines => cmd.execute
     end
   end
 end

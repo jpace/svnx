@@ -1,8 +1,6 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'rubygems'
-require 'riel'
 require 'svnx/cat/command'
 require 'svnx/log/command'
 require 'svnx/info/command'

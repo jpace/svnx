@@ -10,7 +10,7 @@ module SVNx
   class Entry
     include Logue::Loggable
 
-    def initialize args = Hash.new
+    def initialize args
       if xmllines = args[:xmllines]
         if xmllines.kind_of? Array
           xmllines = xmllines.join ''

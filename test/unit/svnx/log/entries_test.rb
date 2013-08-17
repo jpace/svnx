@@ -40,7 +40,6 @@ module SVNx::Log
     
     def test_empty_message_element
       entries = Entries.new :xmllines => Resources::PT_LOG_R19.readlines
-      nentries = entries.size
       
       # empty message here:
       assert_entry_fields_not_nil entries[0]
