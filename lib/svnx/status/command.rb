@@ -25,4 +25,13 @@ module SVNx
       StatusCommandLine.new @args
     end
   end
+
+  class StatusExec
+    attr_reader :entries
+    
+    def initialize args
+      cmd = StatusCommand.new StatusCommandArgs.new(args)
+      @entries = SVNx::Status::Entries.new(:xmllines => cmd.execute)
+    end
+  end
 end

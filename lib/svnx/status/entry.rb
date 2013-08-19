@@ -13,6 +13,7 @@ module SVNx::Status
     attr_reader :path
     attr_reader :status_revision
     attr_reader :action
+    attr_reader :commit_revision
 
     def initialize args = Hash.new
       super
