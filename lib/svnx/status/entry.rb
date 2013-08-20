@@ -14,22 +14,9 @@ module SVNx::Status
     attr_reader :action
     attr_reader :commit_revision
 
-    def initialize args = Hash.new
+    def initialize args
       super
       @action = SVNx::Action.new @status
-    end
-
-    def set_from_xml xmldoc
-      stelmt = xmldoc.elements['status']
-      tgt    = stelmt.elements['target']
-      
-      set_attr_var tgt, 'path'
-      
-      if entry = tgt.elements['entry']
-        set_from_element entry
-      else
-        @status = "unchanged"
-      end
     end
 
     def set_from_element elmt
@@ -39,11 +26,8 @@ module SVNx::Status
       @status = wcstatus.attributes['item']
       @status_revision = wcstatus.attributes['revision']
       
-      if commit = wcstatus.elements['commit']
-        @commit_revision = commit.attributes['revision']
-      else
-        @commit_revision = nil
-      end
+      commit = wcstatus.elements['commit']
+      @commit_revision = commit && commit.attributes['revision']
     end
 
     def to_s

@@ -5,18 +5,14 @@ require 'svnx/command'
 
 module SVNx
   class StatusCommandLine < CommandLine
-    def initialize args = Array.new
+    def initialize args
       super "status", args.to_a
     end
   end
 
   class StatusCommandArgs < CommandArgs
     def to_a
-      ary = Array.new
-      if @path
-        ary << @path
-      end
-      ary
+      [ @path ].compact
     end
   end  
 
