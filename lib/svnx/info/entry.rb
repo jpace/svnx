@@ -13,11 +13,6 @@ module SVNx::Info
     attr_reader :path
     attr_reader :revision
 
-    def set_from_xml xmldoc
-      entry = xmldoc.elements['info/entry']
-      set_from_element entry
-    end
-
     def set_from_element elmt
       set_attr_var elmt, 'kind'
       set_attr_var elmt, 'path'
