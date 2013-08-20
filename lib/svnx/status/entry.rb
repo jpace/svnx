@@ -8,7 +8,6 @@ module SVNx; module Status; end; end
 
 module SVNx::Status
   class Entry < SVNx::Entry
-
     attr_reader :status
     attr_reader :path
     attr_reader :status_revision
