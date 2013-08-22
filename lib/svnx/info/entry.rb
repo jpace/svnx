@@ -17,6 +17,7 @@ module SVNx::Info
       set_attr_var elmt, 'kind'
       set_attr_var elmt, 'path'
       set_attr_var elmt, 'revision'
+      
       set_elmt_var elmt, 'url'
       
       repo = elmt.elements['repository']

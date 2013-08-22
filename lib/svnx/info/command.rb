@@ -2,13 +2,11 @@
 # -*- ruby -*-
 
 require 'svnx/command'
-require 'rainbow'
 require 'svnx/info/entries'
 
 module SVNx
   class InfoCommandLine < CommandLine
     def initialize args = Array.new
-      info "args.to_a: #{args.to_a}".color(:blue)
       super "info", args.to_a
     end
   end

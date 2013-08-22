@@ -58,4 +58,13 @@ module SVNx
       cls.new @args
     end
   end
+
+  class CatExec
+    attr_reader :output
+    
+    def initialize args
+      cmd = CatCommand.new CatCommandArgs.new(args)
+      @output = cmd.execute
+    end
+  end
 end
