@@ -5,7 +5,7 @@ require 'tc'
 require 'svnx/action'
 
 module SVNx
-  class ActionTestCase < PVN::TestCase
+  class ActionTestCase < SVNx::TestCase
     def assert_action_equals expadd, expdel, expmod, expunver, *vals
       vals.each do |val|
         action = Action.new val

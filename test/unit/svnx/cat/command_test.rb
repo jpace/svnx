@@ -5,7 +5,7 @@ require 'tc'
 require 'svnx/cat/command'
 
 module SVNx::Cat
-  class CommandTestCase < PVN::TestCase
+  class CommandTestCase < SVNx::TestCase
     EXPROOT = 'file:///Programs/Subversion/Repositories/pvntestbed.from'
 
     def test_cat_default

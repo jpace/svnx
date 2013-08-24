@@ -5,7 +5,7 @@ require 'tc'
 require 'system/command/line'
 
 module System
-  class CommandLineTestCase < PVN::TestCase
+  class CommandLineTestCase < SVNx::TestCase
     def test_ctor
       cl = System::CommandLine.new [ "ls" ]
       assert_equal "ls", cl.to_command

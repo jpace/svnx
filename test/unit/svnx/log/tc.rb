@@ -7,7 +7,7 @@ require 'rexml/document'
 require 'resources'
 
 module SVNx::Log
-  class TestCase < PVN::TestCase
+  class TestCase < SVNx::TestCase
     def find_subelement_by_name elmt, name
       subelmt = elmt.elements.detect { |el| el.name == name }
       subelmt ? subelmt.get_text.to_s : nil

@@ -11,7 +11,7 @@ Logue::Log.set_widths(-35, 4, -35)
 # produce colorized output, even when redirecting to a file:
 Sickill::Rainbow.enabled = true
 
-module PVN
+module SVNx
   class TestCase < Test::Unit::TestCase
     include Logue::Loggable
     

@@ -7,7 +7,7 @@ require 'resources'
 module SVNx; module Info; end; end
 
 module SVNx::Info
-  class TestCase < PVN::TestCase
+  class TestCase < SVNx::TestCase
     EXPROOT = 'file:///Programs/Subversion/Repositories/pvntestbed.from'
 
     def assert_entry_equals entry, expdata

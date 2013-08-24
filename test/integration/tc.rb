@@ -7,13 +7,13 @@ require 'rexml/document'
 require 'logue/loggable'
 
 module SVNx
-  class IntegrationTestCase < PVN::TestCase
+  class IntegrationTestCase < SVNx::TestCase
     include Logue::Loggable
 
     PT_DIRNAME = '/Programs/pvn/pvntestbed.from'
 
     def setup
-      @cache_dir = ENV['PVN_CACHE_DIR'] || '/tmp/pvncache.testing'
+      @cache_dir = ENV['SVNX_CACHE_DIR'] || '/tmp/pvncache.testing'
       remove_cache_dir
       
       super
