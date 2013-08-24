@@ -15,7 +15,7 @@ module SVNx::Log
 
     def test_specified_args
       entries = SVNx::LogExec.new(path: '/Programs/pvn/pvntestbed.from', revision: nil, limit: nil, verbose: true, use_cache: false).entries
-
+      
       assert_equal 22, entries.size
 
       assert_entry '21', 'Governor William J. Le Petomane', 3, entries, 1
@@ -56,6 +56,19 @@ module SVNx::Log
 
       assert_entry '22', 'Lyle', 0, entries, 0
       assert_entry '18', 'Lili von Shtupp', 0, entries, 4
+    end
+
+    def test_default_entries_class
+      logexec = SVNx::LogExec.new(path: '/Programs/pvn/pvntestbed.from', revision: nil, limit: nil, verbose: true, use_cache: false)
+      assert_instance_of SVNx::Log::Entries, logexec.entries
+    end
+
+    class LogTestEntries < SVNx::Log::Entries
+    end
+
+    def test_specified_entries_class
+      logexec = SVNx::LogExec.new(path: '/Programs/pvn/pvntestbed.from', revision: nil, limit: nil, verbose: true, use_cache: false, entries_class: LogTestEntries)
+      assert_instance_of LogTestEntries, logexec.entries
     end
   end
 end

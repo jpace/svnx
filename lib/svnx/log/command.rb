@@ -79,7 +79,8 @@ module SVNx
     
     def initialize args
       cmd = LogCommand.new LogCommandArgs.new(args)
-      @entries = SVNx::Log::Entries.new :xmllines => cmd.execute
+      entcls = args[:entries_class] || SVNx::Log::Entries
+      @entries = entcls.new :xmllines => cmd.execute
     end
   end
 end
