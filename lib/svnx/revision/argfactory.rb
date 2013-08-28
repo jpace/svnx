@@ -7,6 +7,9 @@ module SVNx::Revision
   class ArgumentFactory
     include Logue::Loggable
 
+    DATE_REGEXP = Regexp.new '^\{(.*?)\}'
+    SVN_ARGUMENT_WORDS = %w{ HEAD BASE COMMITTED PREV }
+
     def create value, args = Hash.new
       case value
       when Fixnum
@@ -34,11 +37,11 @@ module SVNx::Revision
 
     def create_for_string value, args
       case 
-      when Argument::SVN_ARGUMENT_WORDS.include?(value)
+      when SVN_ARGUMENT_WORDS.include?(value)
         StringArgument.orig_new value
       when md = RELATIVE_REVISION_RE.match(value)
         RelativeArgument.orig_new md[0].to_i, entries: args[:entries]
-      when Argument::DATE_REGEXP.match(value)
+      when DATE_REGEXP.match(value)
         StringArgument.orig_new value
       else
         IndexArgument.orig_new value.to_i

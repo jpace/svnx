@@ -29,5 +29,16 @@ module SVNx::Revision
         assert_kind_of StringArgument, arg
       end
     end
+
+    def test_date
+      arg = ArgumentFactory.new.create '{2012-12-10}', entries: @entries
+      assert_kind_of StringArgument, arg
+    end
+
+    def test_relative_argument
+      arg = ArgumentFactory.new.create(-4, entries: @entries)
+      assert_kind_of IndexArgument, arg
+      assert_equal 15, arg.value
+    end
   end
 end

@@ -21,9 +21,6 @@ module SVNx::Revision
   class Argument
     include Logue::Loggable, Comparable
 
-    DATE_REGEXP = Regexp.new '^\{(.*?)\}'
-    SVN_ARGUMENT_WORDS = %w{ HEAD BASE COMMITTED PREV }
-
     # these are also valid revisions
     # :working_copy
     # :head
