@@ -16,8 +16,12 @@ module SVNx::Revision
       @entries = SVNx::Log::Entries.new :xmllines => xmllines
     end
 
-    def create_argument value
+    def new_argument value
       Argument.new value, entries: @entries
+    end
+
+    def create_argument value
+      Argument.create value, entries: @entries
     end
 
     def assert_argument_value exp_value, value
@@ -50,6 +54,12 @@ module SVNx::Revision
 
     def assert_argument_gt expeq, xval, yval
       assert_compare :>, expeq, xval, yval
+    end
+
+    def test_new_and_create_same
+      x = new_argument 13
+      y = create_argument 13
+      assert_equal y.value, x.value
     end
 
     def test_absolute_midrange

@@ -31,7 +31,7 @@ end
 
 spec = Gem::Specification.new do |s| 
   s.name               = "svnx"
-  s.version            = "0.1.0"
+  s.version            = "0.2.0"
   s.author             = "Jeff Pace"
   s.email              = "jeugenepace@gmail.com"
   s.homepage           = "http://www.incava.org/projects/svnx"
