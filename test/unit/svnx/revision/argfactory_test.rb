@@ -35,8 +35,14 @@ module SVNx::Revision
       assert_kind_of StringArgument, arg
     end
 
-    def test_relative_argument
+    def test_relative_argument_fixnum
       arg = ArgumentFactory.new.create(-4, entries: @entries)
+      assert_kind_of IndexArgument, arg
+      assert_equal 15, arg.value
+    end
+
+    def test_relative_argument_string
+      arg = ArgumentFactory.new.create('-4', entries: @entries)
       assert_kind_of IndexArgument, arg
       assert_equal 15, arg.value
     end
