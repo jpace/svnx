@@ -31,12 +31,6 @@ module SVNx::Revision
       def create value, args = Hash.new
         ArgumentFactory.new.create value, args
       end
-
-      alias_method :orig_new, :new
-
-      def new value, args = Hash.new
-        ArgumentFactory.new.create value, args
-      end
     end
 
     def initialize value

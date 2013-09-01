@@ -28,7 +28,7 @@ module SVNx::Revision
     end
 
     def to_revision val, entries
-      val.kind_of?(Argument) || Argument.new(val, entries: entries)
+      val.kind_of?(Argument) ? val : Argument.create(val, entries: entries)
     end
     
     def to_s
@@ -40,7 +40,7 @@ module SVNx::Revision
     end
 
     def head?
-      @to == :head
+      @to && @to.value == 'HEAD'
     end
 
     def working_copy?

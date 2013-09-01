@@ -17,7 +17,7 @@ module SVNx::Revision
     end
 
     def new_argument value
-      Argument.new value, entries: @entries
+      Argument.new value
     end
 
     def create_argument value

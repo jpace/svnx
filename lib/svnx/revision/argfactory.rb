@@ -29,22 +29,22 @@ module SVNx::Revision
     def create_for_fixnum value, args
       if value < 0
         # these are log entries:
-        RelativeArgument.orig_new value, entries: args[:entries]
+        RelativeArgument.new value, entries: args[:entries]
       else
-        IndexArgument.orig_new value
+        IndexArgument.new value
       end
     end
 
     def create_for_string value, args
       case 
       when SVN_ARGUMENT_WORDS.include?(value)
-        StringArgument.orig_new value
+        StringArgument.new value
       when md = RELATIVE_REVISION_RE.match(value)
-        RelativeArgument.orig_new md[0].to_i, entries: args[:entries]
+        RelativeArgument.new md[0].to_i, entries: args[:entries]
       when DATE_REGEXP.match(value)
-        StringArgument.orig_new value
+        StringArgument.new value
       else
-        IndexArgument.orig_new value.to_i
+        IndexArgument.new value.to_i
       end
     end
   end
