@@ -1,10 +1,8 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'rubygems'
 require 'system/command/arg'
 require 'logue/loggable'
-require 'riel/pathname'
 require 'open3'
 require 'rainbow'
 
