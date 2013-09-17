@@ -4,7 +4,6 @@
 require 'integration/tc'
 require 'svnx/status/command'
 require 'svnx/status/entries'
-require 'svnx/exec'
 
 module SVNx::Status
   class CommandTestCase < SVNx::IntegrationTestCase
