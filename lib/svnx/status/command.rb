@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'svnx/command'
+require 'svnx/base/command'
 
 module SVNx
   class StatusCommandLine < CommandLine

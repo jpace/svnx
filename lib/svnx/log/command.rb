@@ -3,7 +3,7 @@
 
 require 'system/command/line'
 require 'system/command/caching'
-require 'svnx/command'
+require 'svnx/base/command'
 require 'logue/loggable'
 
 module SVNx

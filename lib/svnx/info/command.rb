@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'svnx/command'
+require 'svnx/base/command'
 require 'svnx/info/entries'
 
 module SVNx

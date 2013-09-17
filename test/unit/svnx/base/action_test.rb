@@ -2,7 +2,7 @@
 # -*- ruby -*-
 
 require 'tc'
-require 'svnx/action'
+require 'svnx/base/action'
 
 module SVNx
   class ActionTestCase < SVNx::TestCase

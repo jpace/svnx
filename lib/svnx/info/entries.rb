@@ -2,7 +2,7 @@
 # -*- ruby -*-
 
 require 'svnx/info/entry'
-require 'svnx/entries'
+require 'svnx/base/entries'
 
 module SVNx::Info
   class Entries < SVNx::Entries

@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'svnx/entries'
+require 'svnx/base/entries'
 require 'svnx/log/entry'
 
 module SVNx::Log

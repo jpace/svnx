@@ -1,8 +1,8 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'svnx/entry'
-require 'svnx/action'
+require 'svnx/base/entry'
+require 'svnx/base/action'
 
 module SVNx; module Status; end; end
 
