@@ -2,5 +2,6 @@
 # -*- ruby -*-
 
 module SVNx
-  VERSION = "0.4.0"
+  NAME = "svnx"
+  VERSION = "0.5.0"
 end

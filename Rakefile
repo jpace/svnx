@@ -3,6 +3,7 @@ require 'rake/testtask'
 require 'rubygems/package_task'
 require 'fileutils'
 require './test/unit/resources'
+require './lib/svnx'
 
 Dir['tasks/**/*.rake'].each { |t| load t }
 
@@ -30,11 +31,11 @@ task :build_fixtures do
 end
 
 spec = Gem::Specification.new do |s| 
-  s.name               = "svnx"
-  s.version            = "0.4.0"
+  s.name               = SVNx::NAME
+  s.version            = SVNx::VERSION
   s.author             = "Jeff Pace"
   s.email              = "jeugenepace@gmail.com"
-  s.homepage           = "http://www.incava.org/projects/svnx"
+  s.homepage           = "http://github.com/jpace/svnx"
   s.platform           = Gem::Platform::RUBY
   s.summary            = "Wrapper around Subversion command line."
   s.description        = "A bridge between Subversion functionality, via the command line, and Ruby."
