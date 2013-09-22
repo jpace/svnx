@@ -37,7 +37,6 @@ module SVNx::Revision
     def test_init_takes_arguments
       fa = Argument.new 143
       ta = Argument.new 199
-      rr = Range.new fa, ta
       assert_range '143:199', '143', '199', fa, ta
     end
 
