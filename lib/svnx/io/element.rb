@@ -8,6 +8,7 @@ require 'svnx/status/entries'
 require 'svnx/status/command'
 require 'svnx/info/entries'
 require 'svnx/info/command'
+require 'pathname'
 
 module SVNx; module IO; end; end
 
@@ -30,10 +31,14 @@ module SVNx::IO
       # $$$ todo: map svnurl to SVNElement, and fname to FSElement
 
       @svn   = args[:svn] # || (args[:file] && SVNElement.new(:filename => args[:file]))
-      @local = args[:local] # && PVN::FSElement.new(args[:local] || args[:file])
+      @local = args[:local] && Pathname.new(args[:local]) # && PVN::FSElement.new(args[:local] || args[:file])
       @path  = args[:path]
       
       info "local: #{@local.inspect}"
+    end
+
+    def exist?
+      @local && @local.exist?
     end
   end
 end
