@@ -50,6 +50,8 @@ module SVNx::IO
     end
 
     def get_info revision = nil
+      return nil unless in_svn?
+      
       usepath = @local ? @local.to_path : @path
       inf = SVNx::InfoExec.new path: usepath, revision: revision
       inf.entry

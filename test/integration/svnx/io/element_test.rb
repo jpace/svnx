@@ -48,12 +48,7 @@ module SVNx::IO
 
     def test_get_info_no_info
       el = Element.new local: '/Programs/pvn/pvntestbed.pending/src/java/Charlie.java'
-      begin
-        el.get_info
-        fail "should get exception for file not in svn."
-      rescue
-        # this is expected
-      end
+      assert_nil el.get_info
     end
 
     def test_is_in_svn_up_to_date
