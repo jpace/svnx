@@ -35,5 +35,15 @@ module SVNx::IO
       info "el: #{el}"
       assert !el.directory?
     end
+
+    def test_get_info
+      el = Element.new local: '/Programs/pvn/pvntestbed.pending/FirstFile.txt'
+      inf = el.get_info
+      assert_equal 'file', inf.kind
+      assert_equal 'FirstFile.txt', inf.path
+      assert_equal '22', inf.revision
+      assert_equal 'file:///Programs/Subversion/Repositories/pvntestbed.from', inf.root
+      assert_equal 'file:///Programs/Subversion/Repositories/pvntestbed.from/FirstFile.txt', inf.url
+    end
   end
 end

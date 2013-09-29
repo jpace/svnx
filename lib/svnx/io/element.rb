@@ -44,5 +44,15 @@ module SVNx::IO
     def directory?
       @local && @local.directory?
     end
+
+    def file?
+      @local && @local.file?
+    end
+
+    def get_info revision = nil
+      usepath = @local ? @local.to_path : @path
+      inf = SVNx::InfoExec.new path: usepath, revision: revision
+      inf.entry
+    end
   end
 end
