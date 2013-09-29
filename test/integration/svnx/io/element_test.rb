@@ -23,5 +23,17 @@ module SVNx::IO
       info "el: #{el}"
       assert !el.exist?
     end
+
+    def test_is_directory
+      el = Element.new local: '/Programs/pvn/pvntestbed.pending/text'
+      info "el: #{el}"
+      assert el.directory?
+    end
+
+    def test_is_not_directory
+      el = Element.new local: '/Programs/pvn/pvntestbed.pending/FirstFile.txt'
+      info "el: #{el}"
+      assert !el.directory?
+    end
   end
 end

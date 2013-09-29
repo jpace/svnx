@@ -40,5 +40,9 @@ module SVNx::IO
     def exist?
       @local && @local.exist?
     end
+
+    def directory?
+      @local && @local.directory?
+    end
   end
 end
