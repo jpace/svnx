@@ -36,7 +36,7 @@ module SVNx::IO
       assert !el.directory?
     end
 
-    def test_get_info
+    def test_get_info_has_info
       el = Element.new local: '/Programs/pvn/pvntestbed.pending/FirstFile.txt'
       inf = el.get_info
       assert_equal 'file', inf.kind
@@ -44,6 +44,16 @@ module SVNx::IO
       assert_equal '22', inf.revision
       assert_equal 'file:///Programs/Subversion/Repositories/pvntestbed.from', inf.root
       assert_equal 'file:///Programs/Subversion/Repositories/pvntestbed.from/FirstFile.txt', inf.url
+    end
+
+    def test_get_info_no_info
+      el = Element.new local: '/Programs/pvn/pvntestbed.pending/src/java/Charlie.java'
+      begin
+        inf = el.get_info
+        fail "should get exception for file not in svn."
+      rescue => e
+        # this is expected
+      end
     end
   end
 end
