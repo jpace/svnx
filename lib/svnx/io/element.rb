@@ -54,5 +54,11 @@ module SVNx::IO
       inf = SVNx::InfoExec.new path: usepath, revision: revision
       inf.entry
     end
+
+    def in_svn?
+      usepath = @local ? @local.to_path : @path
+      st = SVNx::StatusExec.new path: usepath
+      st.entries.size == 0 || st.entries[0].status != 'unversioned'
+    end
   end
 end
