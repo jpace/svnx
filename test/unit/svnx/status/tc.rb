@@ -14,7 +14,7 @@ module SVNx::Status
     end
 
     def assert_status_entry_equals exp_status, exp_path, entry
-      assert_equal exp_status, entry.status
+      assert_equal exp_status.to_s, entry.status.to_s
       assert_equal exp_path, entry.path
     end
   end

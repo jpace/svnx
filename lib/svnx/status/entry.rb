@@ -13,8 +13,10 @@ module SVNx::Status
     attr_reader :status_revision
     attr_reader :action
     attr_reader :commit_revision
+    attr_reader :name
 
     def initialize args
+      @rootpath = args[:rootpath]
       super
       @action = SVNx::Action.new @status
     end
@@ -23,11 +25,15 @@ module SVNx::Status
       set_attr_var elmt, 'path'
 
       wcstatus = elmt.elements['wc-status']
-      @status = wcstatus.attributes['item']
+      @status = SVNx::Action.new(wcstatus.attributes['item'])
       @status_revision = wcstatus.attributes['revision']
       
       commit = wcstatus.elements['commit']
       @commit_revision = commit && commit.attributes['revision']
+      @name = @path.dup
+      if @rootpath
+        @name[Regexp.new('^' + @rootpath)] = ""
+      end
     end
 
     def to_s

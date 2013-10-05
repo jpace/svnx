@@ -60,7 +60,7 @@ module SVNx::IO
     def in_svn?
       usepath = @local ? @local.to_path : @path
       st = SVNx::StatusExec.new path: usepath
-      st.entries.size == 0 || st.entries[0].status != 'unversioned'
+      st.entries.size == 0 || st.entries[0].status.to_s != 'unversioned'
     end
 
     # returns a set of entries modified over the given revision
@@ -89,7 +89,7 @@ module SVNx::IO
 
       entries.each do |entry|
         entry.paths.each do |epath|
-          if epath.action == act && epath.name.start_with?(filter)
+          if epath.action.to_s == act.to_s && epath.name.start_with?(filter)
             modified << epath
           end
         end
@@ -103,7 +103,7 @@ module SVNx::IO
       entries = statexec.entries
 
       entries.select do |entry|
-        status.nil? || entry.status == status
+        status.nil? || entry.status.to_s == status.to_s
       end
     end
   end

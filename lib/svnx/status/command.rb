@@ -2,6 +2,7 @@
 # -*- ruby -*-
 
 require 'svnx/base/command'
+require 'svnx/info/command'
 
 module SVNx
   class StatusCommandLine < CommandLine
@@ -26,8 +27,22 @@ module SVNx
     attr_reader :entries
     
     def initialize args
+      path = args[:path]
+      rootpath = nil
+      
+      while true
+        begin
+          inf = InfoExec.new(path: path).entry
+          rootpath = inf.wc_root
+          break
+        rescue
+          path = Pathname.new(path).dirname.to_s
+          break if path == '/'
+        end
+      end
+
       cmd = StatusCommand.new StatusCommandArgs.new(args)
-      @entries = SVNx::Status::Entries.new(:xmllines => cmd.execute)
+      @entries = SVNx::Status::Entries.new(xmllines: cmd.execute, rootpath: rootpath)
     end
   end
 end

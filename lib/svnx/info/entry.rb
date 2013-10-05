@@ -12,6 +12,7 @@ module SVNx::Info
     attr_reader :kind
     attr_reader :path
     attr_reader :revision
+    attr_reader :wc_root
 
     def set_from_element elmt
       set_attr_var elmt, 'kind'
@@ -22,6 +23,13 @@ module SVNx::Info
       
       repo = elmt.elements['repository']
       set_elmt_var repo, 'root'
+
+      @wc_root = nil
+      if wcinfo = elmt.elements['wc-info']
+        if wcroot = wcinfo.elements['wcroot-abspath']
+          @wc_root = wcroot.text
+        end
+      end
     end
   end
 end

@@ -13,7 +13,7 @@ module SVNx::Status
 
       assert_equal exp_path, entry.path, msg
       assert_equal exp_cmt_rev, entry.commit_revision, msg
-      assert_equal exp_status, entry.status, msg
+      assert_equal exp_status.to_s, entry.status.to_s, msg
       assert_equal exp_st_rev, entry.status_revision, msg
     end
 

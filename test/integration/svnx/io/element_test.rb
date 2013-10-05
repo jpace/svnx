@@ -66,18 +66,17 @@ module SVNx::IO
       assert !el.in_svn?
     end
 
-    def assert_status_entry exppath, expstatus, entry
+    def assert_status_entry exppath, expname, expstatus, entry
       assert_equal exppath, entry.path
-      assert_equal expstatus, entry.status
+      assert_equal expname, entry.name
+      assert_equal expstatus, entry.status.to_s
     end
 
     def test_find_modified_local_entries
       el = Element.new local: '/Programs/pvn/pvntestbed.pending'
       entries = el.find_modified_entries
       assert_equal 1, entries.size
-      ent = entries[0]
-      info "ent: #{ent}"
-      assert_status_entry '/Programs/pvn/pvntestbed.pending/FirstFile.txt', 'modified', entries[0]
+      assert_status_entry '/Programs/pvn/pvntestbed.pending/FirstFile.txt', '/FirstFile.txt', 'modified', entries[0]
     end
 
     def assert_log_entry expname, expaction, entry
