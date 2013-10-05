@@ -2,6 +2,7 @@
 # -*- ruby -*-
 
 require 'svnx/base/entry'
+require 'svnx/base/action'
 
 module SVNx; module Log; end; end
 
@@ -23,7 +24,7 @@ module SVNx::Log
         action = get_attribute pe, 'action'
         name = pe.text
 
-        @paths << LogEntryPath.new(kind: kind, action: action, name: name)
+        @paths << LogEntryPath.new(kind: kind, action: SVNx::Action.new(action), name: name)
       end
     end
 

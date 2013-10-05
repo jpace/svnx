@@ -85,9 +85,11 @@ module SVNx::IO
       
       modified = Array.new
 
+      act = action.kind_of?(SVNx::Action) ? action : SVNx::Action.new(action)
+
       entries.each do |entry|
         entry.paths.each do |epath|
-          if epath.action == action && epath.name.start_with?(filter)
+          if epath.action == act && epath.name.start_with?(filter)
             modified << epath
           end
         end

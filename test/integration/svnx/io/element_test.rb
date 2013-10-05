@@ -82,16 +82,16 @@ module SVNx::IO
 
     def assert_log_entry expname, expaction, entry
       assert_equal expname, entry.name
-      assert_equal expaction, entry.action
+      assert_equal expaction, entry.action.to_s
     end
 
     def test_find_modified_remote_entries
       el = Element.new local: '/Programs/pvn/pvntestbed.pending'
       entries = el.find_modified_entries '20:22'
       assert_equal 3, entries.size
-      assert_log_entry '/SecondFile.txt', 'M', entries[0]
-      assert_log_entry '/src/ruby/charlie.rb', 'M', entries[1]
-      assert_log_entry '/SecondFile.txt', 'M', entries[2]
+      assert_log_entry '/SecondFile.txt', 'modified', entries[0]
+      assert_log_entry '/src/ruby/charlie.rb', 'modified', entries[1]
+      assert_log_entry '/SecondFile.txt', 'modified', entries[2]
     end
   end
 end
