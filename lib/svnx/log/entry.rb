@@ -7,7 +7,6 @@ module SVNx; module Log; end; end
 
 module SVNx::Log
   class Entry < SVNx::Entry
-
     attr_reader :revision, :author, :date, :paths, :msg
 
     def set_from_element elmt
@@ -24,7 +23,7 @@ module SVNx::Log
         action = get_attribute pe, 'action'
         name = pe.text
 
-        @paths << LogEntryPath.new(:kind => kind, :action => action, :name => name)
+        @paths << LogEntryPath.new(kind: kind, action: action, name: name)
       end
     end
 

@@ -62,5 +62,47 @@ module SVNx::IO
       st = SVNx::StatusExec.new path: usepath
       st.entries.size == 0 || st.entries[0].status != 'unversioned'
     end
+
+    # returns a set of entries modified over the given revision
+    def find_modified_entries revision = nil
+      if revision.nil?
+        find_by_status "modified"
+      else
+        find_in_log revision, "M"
+      end
+    end
+
+    def find_in_log revision, action
+      svninfo = get_info
+
+      filter = svninfo.url.dup
+      filter.slice! svninfo.root
+
+      # we can't cache this, because we don't know if there has been an svn
+      # update since the previous run:
+      logexec = SVNx::LogExec.new :path => @local, :revision => revision, :verbose => true, :use_cache => false
+      entries = logexec.entries
+      
+      modified = Array.new
+
+      entries.each do |entry|
+        entry.paths.each do |epath|
+          if epath.action == action && epath.name.start_with?(filter)
+            modified << epath
+          end
+        end
+      end
+
+      modified
+    end
+
+    def find_by_status status
+      statexec = SVNx::StatusExec.new path: @local, use_cache: false
+      entries = statexec.entries
+
+      entries.select do |entry|
+        status.nil? || entry.status == status
+      end
+    end
   end
 end

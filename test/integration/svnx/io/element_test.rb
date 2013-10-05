@@ -65,5 +65,33 @@ module SVNx::IO
       el = Element.new local: '/Programs/pvn/pvntestbed.pending/src/java/Charlie.java'
       assert !el.in_svn?
     end
+
+    def assert_status_entry exppath, expstatus, entry
+      assert_equal exppath, entry.path
+      assert_equal expstatus, entry.status
+    end
+
+    def test_find_modified_local_entries
+      el = Element.new local: '/Programs/pvn/pvntestbed.pending'
+      entries = el.find_modified_entries
+      assert_equal 1, entries.size
+      ent = entries[0]
+      info "ent: #{ent}"
+      assert_status_entry '/Programs/pvn/pvntestbed.pending/FirstFile.txt', 'modified', entries[0]
+    end
+
+    def assert_log_entry expname, expaction, entry
+      assert_equal expname, entry.name
+      assert_equal expaction, entry.action
+    end
+
+    def test_find_modified_remote_entries
+      el = Element.new local: '/Programs/pvn/pvntestbed.pending'
+      entries = el.find_modified_entries '20:22'
+      assert_equal 3, entries.size
+      assert_log_entry '/SecondFile.txt', 'M', entries[0]
+      assert_log_entry '/src/ruby/charlie.rb', 'M', entries[1]
+      assert_log_entry '/SecondFile.txt', 'M', entries[2]
+    end
   end
 end
