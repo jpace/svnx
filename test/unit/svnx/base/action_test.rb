@@ -33,8 +33,15 @@ module SVNx
       assert_action_equals false, false, false, true, 'unversioned', '?'
     end
 
-    def test_constant
-      assert_equal SVNx::Action.new('unversioned'), SVNx::Action::UNVERSIONED
+    def test_constants
+      assert_equal SVNx::Action.new('added'), SVNx::Action::ADDED
+      assert_equal SVNx::Action.new('deleted'), SVNx::Action::DELETED
+      assert_equal SVNx::Action.new('modified'), SVNx::Action::MODIFIED
+      assert_equal SVNx::Action.new('unversioned'), SVNx::Action::UNVERSIONED 
+    end
+    
+    def test_invalid_type
+      assert_nil SVNx::Action.new('dummy')
     end
   end
 end

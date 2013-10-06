@@ -12,6 +12,10 @@ module SVNx
     STATUS_TO_TYPE = Hash.new
     STATUS_TO_ACTION = Hash.new
 
+    def initialize type
+      @type = type
+    end
+
     class << self
       alias_method :orig_new, :new
       
@@ -19,7 +23,11 @@ module SVNx
         if act = STATUS_TO_ACTION[str]
           act
         else
-          orig_new STATUS_TO_TYPE[str]
+          type = STATUS_TO_TYPE[str]
+          return nil unless type
+          action = orig_new type
+          STATUS_TO_ACTION[str] = action
+          action
         end
       end
 
@@ -32,10 +40,6 @@ module SVNx
           STATUS_TO_ACTION[key] = action
         end
       end
-    end
-
-    def initialize type
-      @type = type
     end
 
     def <=> other
