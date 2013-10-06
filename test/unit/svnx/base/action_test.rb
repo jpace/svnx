@@ -32,5 +32,9 @@ module SVNx
     def test_unversioned
       assert_action_equals false, false, false, true, 'unversioned', '?'
     end
+
+    def test_constant
+      assert_equal SVNx::Action.new('unversioned'), SVNx::Action::UNVERSIONED
+    end
   end
 end

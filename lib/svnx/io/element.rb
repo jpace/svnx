@@ -68,7 +68,7 @@ module SVNx::IO
       if revision.nil?
         find_by_status "modified"
       else
-        find_in_log revision, "M"
+        find_in_log revision, 'M'
       end
     end
 
