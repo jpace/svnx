@@ -19,15 +19,15 @@ module SVNx
     class << self
       alias_method :orig_new, :new
       
-      def new str
-        if act = STATUS_TO_ACTION[str]
+      def new arg
+        if arg.kind_of? Action
+          arg
+        elsif act = STATUS_TO_ACTION[arg]
           act
         else
-          type = STATUS_TO_TYPE[str]
-          return nil unless type
-          action = orig_new type
-          STATUS_TO_ACTION[str] = action
-          action
+          type = STATUS_TO_TYPE[arg]
+          raise "no such action: #{arg.inspect}" unless type
+          STATUS_TO_ACTION[arg] = orig_new type
         end
       end
 

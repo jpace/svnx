@@ -41,7 +41,9 @@ module SVNx
     end
     
     def test_invalid_type
-      assert_nil SVNx::Action.new('dummy')
+      assert_raise(RuntimeError) do
+        SVNx::Action.new('dummy')
+      end
     end
   end
 end
