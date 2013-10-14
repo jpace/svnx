@@ -63,12 +63,14 @@ module SVNx::IO
       st.entries.size == 0 || st.entries[0].status.to_s != 'unversioned'
     end
 
-    # returns a set of entries modified over the given revision
-    def find_modified_entries revision = nil
+    def find_entries args = Hash.new
+      revision = args[:revision]
+      status = args[:status]
+      
       if revision.nil?
-        find_by_status "modified"
+        find_by_status status
       else
-        find_in_log revision, 'M'
+        find_in_log revision, status
       end
     end
 
@@ -80,22 +82,11 @@ module SVNx::IO
 
       # we can't cache this, because we don't know if there has been an svn
       # update since the previous run:
-      logexec = SVNx::LogExec.new :path => @local, :revision => revision, :verbose => true, :use_cache => false
+      logexec = SVNx::LogExec.new path: @local, revision: revision, verbose: true, use_cache: false
       entries = logexec.entries
       
-      modified = Array.new
-
       act = action.kind_of?(SVNx::Action) ? action : SVNx::Action.new(action)
-
-      entries.each do |entry|
-        entry.paths.each do |epath|
-          if epath.action.to_s == act.to_s && epath.name.start_with?(filter)
-            modified << epath
-          end
-        end
-      end
-
-      modified
+      entries.match act, filter
     end
 
     def find_by_status status

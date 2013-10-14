@@ -72,11 +72,47 @@ module SVNx::IO
       assert_equal expstatus, entry.status.to_s
     end
 
-    def test_find_modified_local_entries
+    def assert_status_entry_2 exp, entry
+      assert_equal exp[:path], entry.path
+      assert_equal exp[:name], entry.name
+      assert_equal exp[:status], entry.status.to_s
+    end
+
+    def run_local_test expected, status
       el = Element.new local: '/Programs/pvn/pvntestbed.pending'
-      entries = el.find_modified_entries
+      entries = el.find_entries status: status
+      assert_equal expected.size, entries.size
+      expected.each do |exp|
+        assert_status_entry_2 exp, entries[0]
+      end
+    end
+
+    def test_find_modified_local_entries
+      expected = Array.new
+      expected << { path: '/Programs/pvn/pvntestbed.pending/FirstFile.txt', name: '/FirstFile.txt', status: 'modified' }
+      run_local_test expected, :modified
+    end
+
+    def test_find_added_local_entries
+      el = Element.new local: '/Programs/pvn/pvntestbed.pending'
+      entries = el.find_entries status: 'added'
+      assert_equal 2, entries.size
+      assert_status_entry '/Programs/pvn/pvntestbed.pending/src/ruby/dog.rb', '/src/ruby/dog.rb', 'added', entries[0]
+      assert_status_entry '/Programs/pvn/pvntestbed.pending/SeventhFile.txt', '/SeventhFile.txt', 'added', entries[1]
+    end
+
+    def test_find_deleted_local_entries
+      el = Element.new local: '/Programs/pvn/pvntestbed.pending'
+      entries = el.find_entries status: 'deleted'
       assert_equal 1, entries.size
-      assert_status_entry '/Programs/pvn/pvntestbed.pending/FirstFile.txt', '/FirstFile.txt', 'modified', entries[0]
+      assert_status_entry '/Programs/pvn/pvntestbed.pending/dirzero/SixthFile.txt', '/dirzero/SixthFile.txt', 'deleted', entries[0]
+    end
+
+    def test_find_unversioned_local_entries
+      el = Element.new local: '/Programs/pvn/pvntestbed.pending'
+      entries = el.find_entries status: 'unversioned'
+      assert_equal 1, entries.size
+      assert_status_entry '/Programs/pvn/pvntestbed.pending/src/java/Charlie.java', '/src/java/Charlie.java', 'unversioned', entries[0]
     end
 
     def assert_log_entry expname, expaction, entry
@@ -86,11 +122,11 @@ module SVNx::IO
 
     def test_find_modified_remote_entries
       el = Element.new local: '/Programs/pvn/pvntestbed.pending'
-      entries = el.find_modified_entries '20:22'
+      entries = el.find_entries revision: '20:22', status: :modified
       assert_equal 3, entries.size
       assert_log_entry '/SecondFile.txt', 'modified', entries[0]
-      assert_log_entry '/src/ruby/charlie.rb', 'modified', entries[1]
-      assert_log_entry '/SecondFile.txt', 'modified', entries[2]
+      assert_log_entry '/SecondFile.txt', 'modified', entries[1]
+      assert_log_entry '/src/ruby/charlie.rb', 'modified', entries[2]
     end
   end
 end

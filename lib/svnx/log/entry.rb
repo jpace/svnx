@@ -35,8 +35,14 @@ module SVNx::Log
     def to_s
       [ @revision, @author, @date, @msg, @paths ].collect { |x| x.to_s }.join " "
     end
-  end
 
+    def match action, filter
+      paths.select do |path|
+        path.match? action, filter
+      end
+    end
+  end
+  
   class LogEntryPath
     attr_reader :kind, :action, :name
     
@@ -48,6 +54,14 @@ module SVNx::Log
 
     def to_s
       @name
+    end
+
+    def <=> other
+      name <=> other.name
+    end
+
+    def match? action, filter
+      @action.to_s == action.to_s && @name.start_with?(filter)
     end
   end
 end

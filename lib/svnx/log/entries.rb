@@ -13,5 +13,13 @@ module SVNx::Log
     def create_entry xmlelement
       Entry.new :xmlelement => xmlelement
     end
+
+    def match action, filter
+      matching = Array.new
+      each do |entry|
+        matching.concat entry.match(action, filter)
+      end
+      matching.sort
+    end
   end
 end
