@@ -66,24 +66,23 @@ module SVNx::IO
       assert !el.in_svn?
     end
 
-    def assert_status_entry exppath, expname, expstatus, entry
-      assert_equal exppath, entry.path
-      assert_equal expname, entry.name
-      assert_equal expstatus, entry.status.to_s
-    end
-
-    def assert_status_entry_2 exp, entry
-      assert_equal exp[:path], entry.path
-      assert_equal exp[:name], entry.name
-      assert_equal exp[:status], entry.status.to_s
+    def assert_status_entry idx, exp, entries
+      entry = entries[idx]
+      msg = "entry \##{idx}"
+      info "entry: #{entry}"
+      
+      assert_equal exp[:path], entry.path, msg
+      assert_equal exp[:name], entry.name, msg
+      assert_equal exp[:status], entry.status.to_s, msg
     end
 
     def run_local_test expected, status
       el = Element.new local: '/Programs/pvn/pvntestbed.pending'
       entries = el.find_entries status: status
+      info "entries: #{entries}"
       assert_equal expected.size, entries.size
-      expected.each do |exp|
-        assert_status_entry_2 exp, entries[0]
+      expected.each_with_index do |exp, idx|
+        assert_status_entry idx, exp, entries
       end
     end
 
@@ -94,25 +93,22 @@ module SVNx::IO
     end
 
     def test_find_added_local_entries
-      el = Element.new local: '/Programs/pvn/pvntestbed.pending'
-      entries = el.find_entries status: 'added'
-      assert_equal 2, entries.size
-      assert_status_entry '/Programs/pvn/pvntestbed.pending/src/ruby/dog.rb', '/src/ruby/dog.rb', 'added', entries[0]
-      assert_status_entry '/Programs/pvn/pvntestbed.pending/SeventhFile.txt', '/SeventhFile.txt', 'added', entries[1]
+      expected = Array.new
+      expected << { path: '/Programs/pvn/pvntestbed.pending/src/ruby/dog.rb', name: '/src/ruby/dog.rb', status: 'added' }
+      expected << { path: '/Programs/pvn/pvntestbed.pending/SeventhFile.txt', name: '/SeventhFile.txt', status: 'added' }
+      run_local_test expected, :added
     end
 
     def test_find_deleted_local_entries
-      el = Element.new local: '/Programs/pvn/pvntestbed.pending'
-      entries = el.find_entries status: 'deleted'
-      assert_equal 1, entries.size
-      assert_status_entry '/Programs/pvn/pvntestbed.pending/dirzero/SixthFile.txt', '/dirzero/SixthFile.txt', 'deleted', entries[0]
+      expected = Array.new
+      expected << { path: '/Programs/pvn/pvntestbed.pending/dirzero/SixthFile.txt', name: '/dirzero/SixthFile.txt', status: 'deleted' }
+      run_local_test expected, :deleted
     end
 
     def test_find_unversioned_local_entries
-      el = Element.new local: '/Programs/pvn/pvntestbed.pending'
-      entries = el.find_entries status: 'unversioned'
-      assert_equal 1, entries.size
-      assert_status_entry '/Programs/pvn/pvntestbed.pending/src/java/Charlie.java', '/src/java/Charlie.java', 'unversioned', entries[0]
+      expected = Array.new
+      expected << { path: '/Programs/pvn/pvntestbed.pending/src/java/Charlie.java', name: '/src/java/Charlie.java', status: 'unversioned' }
+      run_local_test expected, :unversioned
     end
 
     def assert_log_entry expname, expaction, entry
