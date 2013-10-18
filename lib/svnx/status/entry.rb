@@ -8,6 +8,8 @@ module SVNx; module Status; end; end
 
 module SVNx::Status
   class Entry < SVNx::Entry
+    include Comparable
+    
     attr_reader :status
     attr_reader :path
     attr_reader :status_revision
@@ -38,6 +40,10 @@ module SVNx::Status
 
     def to_s
       "path: #{@path}; status: #{@status}"
+    end
+
+    def <=> other
+      path <=> other.path
     end
   end
 end

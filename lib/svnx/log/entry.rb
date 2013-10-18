@@ -26,6 +26,9 @@ module SVNx::Log
 
         @paths << LogEntryPath.new(kind: kind, action: SVNx::Action.new(action), name: name)
       end
+      
+      # Svn isn't consistent with the order of paths
+      @paths.sort!
     end
 
     def message
@@ -44,6 +47,8 @@ module SVNx::Log
   end
   
   class LogEntryPath
+    include Comparable
+    
     attr_reader :kind, :action, :name
     
     def initialize args = Hash.new

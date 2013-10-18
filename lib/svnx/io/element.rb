@@ -95,7 +95,14 @@ module SVNx::IO
 
       entries.select do |entry|
         status.nil? || entry.status.to_s == status.to_s
-      end
+      end.sort
+    end
+
+    def log_entries args = Hash.new
+      rev = args[:revision]
+      # use_cache should be conditional on revision:
+      logexec = SVNx::LogExec.new :path => @local, :revision => rev && rev.to_s, :verbose => true, :use_cache => false
+      logexec.entries
     end
   end
 end
