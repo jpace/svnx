@@ -171,5 +171,36 @@ module SVNx::IO
       
       assert_log_entries expected, entries, 1
     end
+
+    def test_cat_no_revision
+      el = Element.new local: PENDING_PATH + '/FirstFile.txt'
+
+      expected = Array.new
+      expected << "this is the second line of the first file.\n"
+      expected << "third line here.\n"
+      expected << "fourth line this is.\n"
+
+      lines = el.cat
+      assert_equal expected, lines
+    end
+
+    def test_cat_valid_revision
+      el = Element.new local: PENDING_PATH + '/FirstFile.txt'
+
+      expected = Array.new
+      expected << "This is the first line of the first file in the testbed.\n"
+      expected << "This is the second line of the first file.\n"
+
+      lines = el.cat revision: 2
+
+      assert_equal expected, lines
+    end
+
+    def test_cat_invalid_revision
+      el = Element.new local: PENDING_PATH + '/FirstFile.txt'
+      assert_raises(RuntimeError) do
+        el.cat revision: 41
+      end
+    end
   end
 end

@@ -8,6 +8,7 @@ require 'svnx/status/entries'
 require 'svnx/status/command'
 require 'svnx/info/entries'
 require 'svnx/info/command'
+require 'svnx/cat/command'
 require 'pathname'
 
 module SVNx; module IO; end; end
@@ -103,6 +104,12 @@ module SVNx::IO
       # use_cache should be conditional on revision:
       logexec = SVNx::LogExec.new :path => @local, :revision => rev && rev.to_s, :verbose => true, :use_cache => false
       logexec.entries
+    end
+
+    def cat args = Hash.new
+      rev = args[:revision]
+      catexec = SVNx::CatExec.new :path => @local, :revision => rev && rev.to_s, :use_cache => false
+      catexec.output
     end
   end
 end
