@@ -202,5 +202,24 @@ module SVNx::IO
         el.cat revision: 41
       end
     end
+
+    def test_to_s
+      el = Element.new local: PENDING_PATH + '/FirstFile.txt'
+      assert_equal "svn => ; local => #{PENDING_PATH}/FirstFile.txt", el.to_s
+    end
+
+    def assert_comparable expected, x, y
+      assert_equal expected, x <=> y
+    end
+
+    def test_comparable
+      a = Element.new local: PENDING_PATH + '/A.txt'
+      b0 = Element.new local: PENDING_PATH + '/B.txt'
+      b1 = Element.new local: PENDING_PATH + '/B.txt'
+
+      assert_comparable -1, a,  b0
+      assert_comparable  1, b0, a
+      assert_comparable  0, b0, b1
+    end
   end
 end

@@ -18,7 +18,7 @@ module SVNx::IO
   # which should exist).
 
   class Element
-    include Logue::Loggable
+    include Logue::Loggable, Comparable
 
     attr_reader :svn
     attr_reader :path
@@ -110,6 +110,14 @@ module SVNx::IO
       rev = args[:revision]
       catexec = SVNx::CatExec.new :path => @local, :revision => rev && rev.to_s, :use_cache => false
       catexec.output
+    end
+
+    def to_s
+      "svn => " + @svn.to_s + "; local => " + @local.to_s
+    end
+
+    def <=> other
+      @local <=> other.local
     end
   end
 end
