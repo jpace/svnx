@@ -1,3 +1,7 @@
 Wed Aug 28 08:41:00 2013
 
   Added Argument.create.
+
+Thu Nov  7 10:11:50 2013
+
+  Added char method to Action, to match Svn's status character.

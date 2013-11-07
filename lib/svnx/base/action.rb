@@ -8,18 +8,20 @@ module SVNx
     include Logue::Loggable, Comparable
     
     attr_reader :type
+    attr_reader :char
 
     STATUS_TO_TYPE = Hash.new
     STATUS_TO_ACTION = Hash.new
 
-    def initialize type
+    def initialize type, char
       @type = type
+      @char = char
     end
 
     class << self
       alias_method :orig_new, :new
       
-      def new arg
+      def new arg, char = nil
         if arg.kind_of? Action
           arg
         elsif act = STATUS_TO_ACTION[arg]
@@ -27,14 +29,14 @@ module SVNx
         else
           type = STATUS_TO_TYPE[arg]
           raise "no such action: #{arg.inspect}" unless type
-          STATUS_TO_ACTION[arg] = orig_new type
+          STATUS_TO_ACTION[arg] = orig_new type, char
         end
       end
 
       def add_type str, char
         sym = str.to_sym
         STATUS_TO_TYPE[sym] = sym
-        action = SVNx::Action.new(sym)
+        action = SVNx::Action.new sym, char
         SVNx::Action.const_set str.upcase, action
         [ sym, str, char ].each do |key|
           STATUS_TO_ACTION[key] = action
