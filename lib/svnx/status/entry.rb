@@ -8,7 +8,7 @@ module SVNx; module Status; end; end
 
 module SVNx::Status
   class Entry < SVNx::Entry
-    include Comparable
+    include Comparable, Logue::Loggable
     
     attr_reader :status
     attr_reader :path
@@ -33,8 +33,14 @@ module SVNx::Status
       commit = wcstatus.elements['commit']
       @commit_revision = commit && commit.attributes['revision']
       @name = @path.dup
+
+      info "@name: #{@name}"
+      info "@path: #{@path}"
+      info "@rootpath: #{@rootpath}"
+
       if @rootpath
-        @name[Regexp.new('^' + @rootpath)] = ""
+        # name is prefixed with directory unless '.' is used as the argument
+        @name.sub! Regexp.new('^' + @rootpath), ''
       end
     end
 
