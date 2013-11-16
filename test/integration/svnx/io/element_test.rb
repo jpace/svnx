@@ -33,6 +33,16 @@ module SVNx::IO
       assert !el.directory?
     end
 
+    def test_is_file
+      el = Element.new local: PENDING_PATH + '/FirstFile.txt'
+      assert el.file?
+    end
+
+    def test_is_not_file
+      el = Element.new local: PENDING_PATH + '/text'
+      assert !el.file?
+    end
+
     def test_get_info_has_info
       el = Element.new local: PENDING_PATH + '/FirstFile.txt'
       inf = el.get_info
