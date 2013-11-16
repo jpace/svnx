@@ -59,9 +59,13 @@ module SVNx::IO
     end
 
     def in_svn?
-      usepath = @local ? @local.to_path : @path
-      st = SVNx::StatusExec.new path: usepath
-      st.entries.size == 0 || st.entries[0].status.to_s != 'unversioned'
+      # svn status can only be a local path:
+      if @local
+        st = SVNx::StatusExec.new path: @local.to_path
+        st.entries.size == 0 || st.entries[0].status.to_s != 'unversioned'
+      else
+        raise "cannot determine svn status without a local path; only target '#{@path}' defined"
+      end
     end
 
     def find_entries args = Hash.new
