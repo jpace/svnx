@@ -8,7 +8,7 @@ require 'singleton'
 class SvnResource
   include Logue::Loggable
   
-  RES_DIR = '/proj/org/incava/pvn/test/resources/'
+  RES_DIR = '/proj/org/incava/svnx/test/resources/'
   
   def initialize dir, cmd, args = Array.new
     @dir = dir

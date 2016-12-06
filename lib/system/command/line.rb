@@ -4,7 +4,7 @@
 require 'system/command/arg'
 require 'logue/loggable'
 require 'open3'
-require 'rainbow'
+require 'rainbow/ext/string'
 
 module System
   class CommandLine
