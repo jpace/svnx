@@ -46,8 +46,8 @@ spec = Gem::Specification.new do |s|
   s.bindir             = 'bin'
   s.license            = 'MIT'
 
-  s.add_dependency("logue", ">= 1.0.0")
-  s.add_dependency("rainbow", ">= 1.1.4")
+  s.add_dependency("logue", "~> 1.0")
+  s.add_dependency("rainbow", "~> 2.1")
 end
  
 Gem::PackageTask.new(spec) do |pkg| 
