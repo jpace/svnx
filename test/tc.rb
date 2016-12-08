@@ -12,7 +12,7 @@ Logue::Log.level = level
 Logue::Log.set_widths(-35, 4, -35)
 
 # produce colorized output, even when redirecting to a file:
-Sickill::Rainbow.enabled = true
+Rainbow.enabled = true
 
 module SVNx
   class TestCase < Test::Unit::TestCase
