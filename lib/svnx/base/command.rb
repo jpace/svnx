@@ -4,6 +4,7 @@
 require 'system/command/line'
 require 'logue/loggable'
 require 'system/command/caching'
+require 'svnx/base/args'
 
 # this replaces svnx/lib/command/svncommand.
 
@@ -40,20 +41,6 @@ module SVNx
   class CachingCommandLine < System::CachingCommandLine
     include CmdLine
   end
-
-  class CommandArgs
-    include Logue::Loggable
-    
-    attr_accessor :path
-
-    def initialize args = Hash.new
-      @path = args[:path]
-    end
-
-    def to_a
-      [ @path ].compact
-    end
-  end  
 
   class Command
     include Logue::Loggable
