@@ -8,8 +8,6 @@ require 'zlib'
 
 module System
   class CacheFileTestCase < CommandTestCase
-    CACHE_DIR = Pathname.new '/tmp/pvn/testing'
-
     def test_creates_gzfile
       cf = CacheFile.new CACHE_DIR, [ "ls", "/var/tmp" ]
       cfpn = cf.instance_eval '@pn'

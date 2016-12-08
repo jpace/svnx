@@ -4,9 +4,9 @@
 require 'system/command/caching'
 require 'system/command/tc'
 
-# Ruby 2 changes this to "file: Class#method", so we've got to cache it (ironic,
-# no?)
+# Ruby 2 changes this to "file: Class#method", so we've got to cache it (ironic, no?)
 $curfile = $0
+puts "caching_test: $curfile: #{$curfile}"
 
 module System
   class CachingCommandLineTestCase < CommandTestCase

@@ -7,13 +7,8 @@ require 'svnx/base/command'
 require 'logue/loggable'
 require 'svnx/base/args'
 
-module SVNx
-  module LogCmdLine
-  end
-end
-
-module SVNx::LogCmdLine
-  class LogCommandArgs < SVNx::CommandArgs
+module SvnLog
+  class Args < SVNx::CommandArgs
     include Logue::Loggable
     
     attr_reader :limit
@@ -49,6 +44,14 @@ module SVNx::LogCmdLine
       end
       
       ary.compact
+    end
+  end
+end
+
+# the old name and module
+module SVNx
+  module LogCmdLine
+    class LogCommandArgs < SvnLog::Args
     end
   end
 end

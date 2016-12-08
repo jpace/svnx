@@ -227,9 +227,9 @@ module SVNx::IO
       b0 = Element.new local: PENDING_PATH + '/B.txt'
       b1 = Element.new local: PENDING_PATH + '/B.txt'
 
-      assert_comparable -1, a,  b0
-      assert_comparable  1, b0, a
-      assert_comparable  0, b0, b1
+      assert_comparable(-1, a,  b0)
+      assert_comparable( 1, b0, a)
+      assert_comparable( 0, b0, b1)
     end
   end
 end
