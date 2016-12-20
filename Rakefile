@@ -16,6 +16,7 @@ class SVNXTestTask < Rake::TestTask
       t.libs << 'test'
       t.libs << 'test/unit'
       t.pattern = 'test/' + pattern
+      puts "t.pattern: #{t.pattern}"
       t.warning = true
       t.verbose = true
     end

@@ -1,44 +1,17 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'system/command/line'
 require 'logue/loggable'
 require 'system/command/caching'
 require 'svnx/base/args'
+require 'svnx/base/cmdline'
 
 # this replaces svnx/lib/command/svncommand.
 
+class SvnCommand
+end
+
 module SVNx
-  DEFAULT_CACHE_DIR = '/tmp/svnx'
-  TMP_DIR_ENV_VARNAME = 'SVNX_TMP_DIR'
-
-  module CmdLine
-    include Logue::Loggable
-
-    def initialize subcmd, args
-      cmdargs = [ 'svn', subcmd ]
-      cmdargs << '--xml' if uses_xml?
-      cmdargs.concat args
-      super cmdargs
-    end
-
-    def uses_xml?
-      true
-    end
-
-    def cache_dir
-      ENV[TMP_DIR_ENV_VARNAME] || DEFAULT_CACHE_DIR
-    end
-  end
-
-  class CommandLine < System::CommandLine
-    include CmdLine
-  end
-
-  class CachingCommandLine < System::CachingCommandLine
-    include CmdLine
-  end
-
   class Command
     include Logue::Loggable
 

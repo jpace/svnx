@@ -19,12 +19,12 @@ module SVNx
       super
 
       @origdir = Dir.pwd
-      Dir.chdir '/Programs/pvn/pvntestbed.pending'
+      # Dir.chdir '/Programs/pvn/pvntestbed.pending'
     end
 
     def teardown
       remove_cache_dir
-      Dir.chdir @origdir
+      # Dir.chdir @origdir
       super
     end
 

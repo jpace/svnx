@@ -6,7 +6,8 @@ require 'system/command/tc'
 
 # Ruby 2 changes this to "file: Class#method", so we've got to cache it (ironic, no?)
 $curfile = $0
-puts "caching_test: $curfile: #{$curfile}"
+
+Logue::Log.level = Logue::Log::WARN
 
 module System
   class CachingCommandLineTestCase < CommandTestCase
@@ -77,7 +78,7 @@ module System
       cachefile = cl.cache_file
 
       cl.execute
-      assert CACHE_DIR.exist?
+      assert CACHE_DIR.exist?, "CACHE_DIR: #{CACHE_DIR}"
 
       cachelines = read_gzfile cachefile
 

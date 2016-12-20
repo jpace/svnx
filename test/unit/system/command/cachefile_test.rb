@@ -1,52 +1,55 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'tc'
 require 'system/command/tc'
-require 'system/command/caching'
-require 'zlib'
+require 'system/command/cachefile'
+
+Logue::Log.level = Logue::Log::WARN
 
 module System
   class CacheFileTestCase < CommandTestCase
+    include Logue::Loggable
+
+    def get_cache_file command
+      CacheFile.new CACHE_DIR, command
+    end
+
+    def rm_cached_file cachefile
+      pn = cachefile.pathname
+      pn.exist? && pn.unlink
+    end
+    
     def test_creates_gzfile
-      cf = CacheFile.new CACHE_DIR, [ "ls", "/var/tmp" ]
-      cfpn = cf.instance_eval '@pn'
-      cfpn.unlink if cfpn.exist?
+      cf = get_cache_file [ "ls", "/var/tmp" ]
+      rm_cached_file cf
+      assert_false cf.pathname.exist?
       
-      lines = cf.readlines
+      output = cf.readlines
+      assert cf.pathname.exist?
 
-      cfpn = cf.instance_eval '@pn'
-      assert cfpn.exist?
-
-      Zlib::GzipReader.open(cfpn.to_s) do |gz|
-        fromgz = gz.readlines
-        assert_equal lines, fromgz
-      end
+      fromgz = read_gzfile cf.pathname
+      assert_equal output, fromgz
     end
 
     def test_reads_gzfile
-      cf = CacheFile.new CACHE_DIR, [ "ls", "-l", "/var/tmp" ]
-      cfpn = cf.instance_eval '@pn'
-      cfpn.unlink if cfpn.exist?
-      
-      lines = cf.readlines
+      cf = get_cache_file [ "ls", "-l", "/var/tmp" ]
+      rm_cached_file cf
+      assert_false cf.pathname.exist?
 
-      cfpn = cf.instance_eval '@pn'
-      assert cfpn.exist?
+      execlines = cf.readlines
+      assert cf.pathname.exist?
 
       # same as above
-      cf2 = CacheFile.new CACHE_DIR, [ "ls", "-l", "/var/tmp" ]
+      cf2 = get_cache_file [ "ls", "-l", "/var/tmp" ]
       
       def cf2.save_file
         fail "should not have called save file for read"
       end
 
-      lines2 = cf2.readlines
-
-      assert_equal lines2, lines
-
-      fromgz = read_gzfile cfpn
-      assert_equal lines, fromgz
+      cachedlines = cf2.readlines
+      fromgz = read_gzfile cf.pathname
+      assert_equal execlines, fromgz
+      assert_equal execlines, cachedlines
     end
   end
 end

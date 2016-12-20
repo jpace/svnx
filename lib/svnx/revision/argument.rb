@@ -42,7 +42,11 @@ module SVNx::Revision
     end
 
     def <=> other
-      @value <=> other.value
+      if other.kind_of? Argument
+        @value <=> other.value
+      else
+        @value <=> other
+      end
     end
   end
 

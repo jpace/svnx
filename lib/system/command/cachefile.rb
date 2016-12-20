@@ -6,45 +6,53 @@ require 'zlib'
 require 'logue/loggable'
 
 module System
-  class CacheFile
+  class GzipPathname < Pathname
     include Logue::Loggable
-
-    attr_reader :output
     
-    def initialize cache_dir, args
-      @args = args
-      @pn = Pathname.new(cache_dir) + (args.join('-').gsub('/', '_slash_') + '.gz')
-      @output = nil
-    end
-
-    def save_file
-      @pn.parent.mkpath unless @pn.parent.exist?
-      @pn.unlink if @pn.exist?
-      Zlib::GzipWriter.open(@pn.to_s) do |gz|
-        gz.puts @output
+    def save_file content
+      parent.mkpath unless parent.exist?
+      unlink if exist?
+      Zlib::GzipWriter.open(to_s) do |gz|
+        gz.puts content
       end
     end
 
     def read_file
-      Zlib::GzipReader.open(@pn.to_s) do |gz|
-        @output = gz.readlines
+      Array.new.tap do |content|
+        Zlib::GzipReader.open(to_s) do |gz|
+          content.concat gz.readlines
+        end
       end
-      @output
     end
+  end
+  
+  class CacheFile
+    include Logue::Loggable
 
+    attr_reader :output
+    attr_reader :pathname
+    
+    def initialize cache_dir, args
+      @args = args
+      basename = args.join('-').gsub('/', '_slash_') + '.gz'
+      fullname = Pathname(cache_dir) + basename
+      @pathname = GzipPathname.new fullname
+      @output = nil
+    end
+    
     def readlines
-      if @pn.exist?
-        read_file
+      if @pathname.exist?
+        @output = @pathname.read_file
       else
         cl = CommandLine.new @args
         @output = cl.execute
-        save_file
+        @pathname.save_file @output
         @output
       end
     end
 
     def to_s
-      @pn.to_s
+      @pathname.to_s
     end
   end
 end

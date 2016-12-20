@@ -4,6 +4,8 @@
 require 'svnx/status/tc'
 require 'svnx/status/entries'
 
+Logue::Log.level = Logue::Log::WARN
+
 module SVNx::Status
   class EntriesTestCase < SVNx::Status::TestCase
     def test_create_from_xml

@@ -4,7 +4,7 @@
 require 'tc'
 require 'system/command/line'
 
-Logue::Log.level = Logue::Log::DEBUG
+Logue::Log.level = Logue::Log::WARN
 
 module System
   class CommandLineTestCase < SVNx::TestCase
@@ -22,7 +22,6 @@ module System
     # <<
 
     def assert_lshift expected, initargs, add
-      info "self: #{self}"
       cl = System::CommandLine.new initargs
       cl << add
       assert_equal expected, cl.args
@@ -46,7 +45,6 @@ module System
     # execute/status
 
     def assert_execute_status expect_success, args
-      info "self: #{self}"
       cl = System::CommandLine.new args
       cl.execute
       assert_equal expect_success, cl.status.success?, "args: #{args}"

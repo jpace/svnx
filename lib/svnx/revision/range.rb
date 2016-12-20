@@ -5,7 +5,10 @@ require 'svnx/log/entries'
 require 'svnx/revision/argument'
 require 'logue/loggable'
 
-module SVNx; module Revision; end; end
+module SVNx
+  module Revision
+  end
+end
 
 module SVNx::Revision
   # this is of the form: -r123:456

@@ -4,7 +4,10 @@
 require 'tc'
 require 'resources'
 
-module SVNx; module Info; end; end
+module SVNx
+  module Info
+  end
+end
 
 module SVNx::Info
   class TestCase < SVNx::TestCase
