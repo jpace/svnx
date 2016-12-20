@@ -8,7 +8,10 @@ require 'rainbow'
 # no verbose if running all tests:
 level = ARGV.detect { |x| x.index '**' } ? Logue::Log::WARN : Logue::Log::DEBUG
 
-Logue::Log.level = level
+puts "ARGV: #{ARGV}"
+puts "level: #{level}"
+
+Logue::Log.level = Logue::Log::DEBUG
 Logue::Log.set_widths(-35, 4, -35)
 
 # produce colorized output, even when redirecting to a file:
@@ -19,6 +22,7 @@ module SVNx
     include Logue::Loggable
     
     def setup
+      info "self: #{self}"
     end
   end
 end

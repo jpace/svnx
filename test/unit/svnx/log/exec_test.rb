@@ -1,12 +1,12 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'minitest/autorun'
+require 'test/unit'
 require 'pathname'
 require 'svnx/log/tc'
 require 'svnx/log/exec'
 
-class ExecTest < Minitest::Test
+class ExecTest < Test::Unit::TestCase
   def test_equivalent_api
     a = SvnLog::Exec
     b = SVNx::LogExec

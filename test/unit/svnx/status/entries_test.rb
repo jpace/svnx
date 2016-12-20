@@ -10,6 +10,7 @@ module SVNx::Status
   class EntriesTestCase < SVNx::Status::TestCase
     def test_create_from_xml
       entries = Entries.new :xmllines => Resources::PTP_STATUS.readlines
+      info "entries: #{entries}"
 
       assert_equal 5, entries.size
       assert_status_entry_equals 'modified', 'FirstFile.txt', entries[0]
