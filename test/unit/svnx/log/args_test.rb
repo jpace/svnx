@@ -12,4 +12,9 @@ class ArgsTest < Test::Unit::TestCase
     b = SVNx::LogCmdLine::LogCommandArgs.new limit: 1
     assert_equal b.limit, a.limit
   end
+
+  def test_limit
+    args = SvnLog::Args.new limit: 3
+    assert_equal 3, args.limit
+  end
 end
