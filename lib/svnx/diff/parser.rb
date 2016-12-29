@@ -6,7 +6,7 @@ require 'svnx/diff/elements'
 
 class SvnDiffParser
   include Logue::Loggable
-  
+
   def parse_header_file line
     re = Regexp.new '^[\-\+]{3} (.*)\t\((?:nonexistent|revision (\d+))\)'
     if md = re.match(line)
