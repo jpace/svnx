@@ -45,7 +45,9 @@ class SvnDiffHunkRanges
   end
 end
 
-class SvnDiffHunkLine
+# unused; I prefer: [ :added, "sometext" ]
+
+class SvnDiffLine
   attr_reader :type
   attr_reader :text
 

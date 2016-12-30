@@ -3,6 +3,7 @@
 
 require 'svnx/base/entry'
 require 'svnx/base/action'
+require 'time'
 
 module SVNx; module Log; end; end
 
@@ -42,6 +43,18 @@ module SVNx::Log
     def match action, filter
       paths.select do |path|
         path.match? action, filter
+      end
+    end
+
+    def datetime
+      @dt ||= DateTime.parse date
+    end
+
+    def find_paths args
+      paths.select do |path|
+        if args[:kind]
+          path.kind == args[:kind]
+        end
       end
     end
   end
