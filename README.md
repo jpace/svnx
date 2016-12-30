@@ -7,6 +7,6 @@ Svnx is a module that wraps the `svn` command line.
 
 ## AUTHOR
 
-Jeff Pace (jeugenepace at gmail dot com)
+Jeff Pace
 
 http://www.github.com/jpace/svnx
