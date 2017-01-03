@@ -46,7 +46,10 @@ class SvnDiffParser
         char_to_type = { ' ' => :context, '+' => :added,  '-' => :deleted }
         
         while !lines.empty?
-          if type = char_to_type[lines[0][0]]
+          if lines[0] == "\\ No newline at end of file"
+            hunk.lines << [ :context, :no_newline ]
+            lines.shift
+          elsif type = char_to_type[lines[0][0]]
             hunk.lines << [ type, lines.shift[1 .. -1] ]
           else
             break

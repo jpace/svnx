@@ -131,6 +131,41 @@ class DiffParserTest < Test::Unit::TestCase
     assert_equal [ "@@ -43,6 +46,9 @@" ], lines
   end
 
+  def test_parse_hunk_no_newline_at_end_of_file
+    lines = Array.new
+    lines << "@@ -28,7 +28,10 @@"
+    lines << "     public static List<Branch> getAll() {"
+    lines << "         return branches;"
+    lines << "     }"
+    lines << "-    "
+    lines << "+"
+    lines << "+    /**"
+    lines << "+     * Returns the version based on the Subversion URL."
+    lines << "+     */"
+    lines << "     public static String getVersion(String url) {"
+    lines << "         tr.Ace.onGreen(\"url\", url);"
+    lines << "         if (url == null) {"
+    lines << "\\ No newline at end of file"
+    lines << "@@ -43,6 +46,9 @@"
+    
+    explines = Array.new
+    explines << [ :context, "    public static List<Branch> getAll() {" ]
+    explines << [ :context, "        return branches;" ]
+    explines << [ :context, "    }" ]
+    explines << [ :deleted, "    " ]
+    explines << [ :added,   "" ]
+    explines << [ :added,   "    /**" ]
+    explines << [ :added,   "     * Returns the version based on the Subversion URL." ]
+    explines << [ :added,   "     */" ]
+    explines << [ :context, "    public static String getVersion(String url) {" ]
+    explines << [ :context, "        tr.Ace.onGreen(\"url\", url);" ]
+    explines << [ :context, "        if (url == null) {" ]
+    explines << [ :context, :no_newline ]
+
+    assert_parse_hunk explines, lines
+    assert_equal [ "@@ -43,6 +46,9 @@" ], lines
+  end
+
   def assert_parse_hunks exp_num_hunks, lines
     p = SvnDiffParser.new
     hunks = p.parse_hunks lines
