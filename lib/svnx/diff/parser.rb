@@ -7,29 +7,33 @@ require 'svnx/diff/elements'
 class SvnDiffParser
   include Logue::Loggable
 
-  def parse_header_file line
+  def parse_header_file lines
     re = Regexp.new '^[\-\+]{3} (.*)\t\((?:nonexistent|revision (\d+))\)'
-    if md = re.match(line)
+    if md = re.match(lines.first)
+      lines.shift
       SvnDiffFile.new filename: md[1], revision: md[2] && md[2].to_i
     end
   end
   
   def parse_header_section lines
     re = Regexp.new '^Index: (.*)'
-    if md = re.match(lines[0])
+    if md = re.match(lines.first)
       filename = md[1]      
       lines.shift
       
       # discard the ==== line:
       lines.shift
+
+      from = parse_header_file lines
+      to = parse_header_file lines
       
-      SvnDiffHeader.new filename: filename, from: parse_header_file(lines.shift), to: parse_header_file(lines.shift)
+      SvnDiffHeader.new filename: filename, from: from, to: to
     end
   end
 
   def parse_ranges lines
     range_re = Regexp.new '@@ \-(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@'
-    if md = range_re.match(lines[0])
+    if md = range_re.match(lines.first)
       lines.shift
       
       from, to = [ 1, 3 ].collect do |idx|
@@ -46,10 +50,10 @@ class SvnDiffParser
         char_to_type = { ' ' => :context, '+' => :added,  '-' => :deleted }
         
         while !lines.empty?
-          if lines[0] == "\\ No newline at end of file"
+          if lines.first == "\\ No newline at end of file"
             hunk.lines << [ :context, :no_newline ]
             lines.shift
-          elsif type = char_to_type[lines[0][0]]
+          elsif type = char_to_type[lines.first[0]]
             hunk.lines << [ type, lines.shift[1 .. -1] ]
           else
             break
@@ -74,11 +78,13 @@ class SvnDiffParser
   def parse_file_diff lines
     if header = parse_header_section(lines)
       SvnFileDiff.new(header).tap do |diff|
-        while !lines.empty?
-          if hunk = parse_hunk(lines)
-            diff.hunks << hunk
-          else
-            break
+        if header.from && header.to
+          while !lines.empty?
+            if hunk = parse_hunk(lines)
+              diff.hunks << hunk
+            else
+              break
+            end
           end
         end
       end

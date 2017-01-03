@@ -12,32 +12,38 @@ class DiffParserTest < Test::Unit::TestCase
 
   # header file
 
-  def assert_parse_header_file exp_filename, exp_revision, line
+  def assert_parse_header_file exp_filename, exp_revision, lines
     p = SvnDiffParser.new
-    f = p.parse_header_file line
+    f = p.parse_header_file lines
     assert_equal exp_filename, f.filename
     assert_equal exp_revision, f.revision
   end
   
   def test_parse_header_file_from_with_revision
-    line = "--- x/y/Z.t\t(revision 11)"
+    lines = Array.new
+    lines << "--- x/y/Z.t\t(revision 11)"
     filename = "x/y/Z.t"
     revision = 11
-    assert_parse_header_file filename, revision, line
+    assert_parse_header_file filename, revision, lines
+    assert_empty lines
   end
   
   def test_parse_header_file_to_with_revision
-    line = "+++ x/y/Z.t\t(revision 12)"
+    lines = Array.new
+    lines << "+++ x/y/Z.t\t(revision 12)"
     filename = "x/y/Z.t"
     revision = 12
-    assert_parse_header_file filename, revision, line
+    assert_parse_header_file filename, revision, lines
+    assert_empty lines
   end
   
   def test_parse_header_file_to_without_revision
-    line = "+++ x/y/Z.t\t(nonexistent)"
+    lines = Array.new
+    lines << "+++ x/y/Z.t\t(nonexistent)"
     filename = "x/y/Z.t"
     revision = nil
-    assert_parse_header_file filename, revision, line
+    assert_parse_header_file filename, revision, lines
+    assert_empty lines
   end
 
   # header section
@@ -211,12 +217,12 @@ class DiffParserTest < Test::Unit::TestCase
 
   def test_parse_file_diff
     lines = Array.new
-    lines << "Index: src/test/java/com/softwareag/is/grace/is/TestBranches.java"
+    lines << "Index: path/to/dir/TestBranches.java"
     lines << "==================================================================="
-    lines << "--- src/test/java/com/softwareag/is/grace/is/TestBranches.java\t(nonexistent)"
-    lines << "+++ src/test/java/com/softwareag/is/grace/is/TestBranches.java\t(revision 1501158)"
+    lines << "--- path/to/dir/TestBranches.java\t(nonexistent)"
+    lines << "+++ path/to/dir/TestBranches.java\t(revision 1501158)"
     lines << "@@ -0,0 +1,38 @@"
-    lines << "+package com.softwareag.is.grace.is;"
+    lines << "+package com.example.ex;"
     lines << "+"
     lines << "+import java.util.List;"
     lines << "+import junit.framework.TestCase;"
@@ -254,9 +260,19 @@ class DiffParserTest < Test::Unit::TestCase
     lines << "+        assertFindBranch(false, \"83\");"
     lines << "+    }"
     lines << "+}"
-    lines << "Index: src/main/java/com/softwareag/is/grace/is/Branches.java"
+    lines << "Index: path/to/dir/Branches.java"
     
     assert_parse_file_diff 1, lines
-    assert_equal [ "Index: src/main/java/com/softwareag/is/grace/is/Branches.java" ], lines
+    assert_equal [ "Index: path/to/dir/Branches.java" ], lines
+  end
+
+  def test_parse_file_diff_no_content
+    lines = Array.new
+    lines << "Index: path/to/empty/File.txt"
+    lines << "==================================================================="
+    lines << "Index: path/to/next/File.txt"
+    
+    assert_parse_file_diff 0, lines
+    assert_equal [ "Index: path/to/next/File.txt" ], lines
   end
 end
