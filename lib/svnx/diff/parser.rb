@@ -28,12 +28,13 @@ class SvnDiffParser
   end
 
   def parse_ranges lines
-    range_re = Regexp.new '@@ \-(\d+)(?:,(\d+)?) \+(\d+)(?:,(\d+)?) @@'
+    range_re = Regexp.new '@@ \-(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@'
     if md = range_re.match(lines[0])
       lines.shift
       
-      from = SvnDiffHunkRange.new md[1].to_i, md[2].to_i
-      to   = SvnDiffHunkRange.new md[3].to_i, md[4].to_i
+      from, to = [ 1, 3 ].collect do |idx|
+        SvnDiffHunkRange.new md[idx].to_i, (md[idx + 1] || 1).to_i
+      end
       
       SvnDiffHunkRanges.new from, to
     end

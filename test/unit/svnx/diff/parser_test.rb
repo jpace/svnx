@@ -65,18 +65,28 @@ class DiffParserTest < Test::Unit::TestCase
   def assert_parse_ranges exp_from_line, exp_from_length, exp_to_line, exp_to_length, line
     p = SvnDiffParser.new
     ranges = p.parse_ranges line
-
+    
     assert_equal exp_from_line, ranges.from.line
     assert_equal exp_from_length, ranges.from.length
     assert_equal exp_to_line, ranges.to.line
     assert_equal exp_to_length, ranges.to.length
   end
   
-  def test_parse_range_deladd_deladd
+  def test_parse_ranges_deladd_deladd
     lines = Array.new
     lines << "@@ -28,7 +28,10 @@"
 
     assert_parse_ranges 28, 7, 28, 10, lines
+    assert_empty lines
+  end
+
+  def test_parse_ranges_one_line
+    # apparently (I haven't seen it) this is valid output (for one line of length):
+    
+    lines = Array.new
+    lines << "@@ -28 +28 @@"
+
+    assert_parse_ranges 28, 1, 28, 1, lines
     assert_empty lines
   end
 
