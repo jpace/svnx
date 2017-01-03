@@ -45,7 +45,7 @@ class SvnDiffHunkRanges
   end
 end
 
-# unused; I prefer: [ :added, "sometext" ]
+# unused; I prefer a two-element array: [ :added, "sometext" ]
 
 class SvnDiffLine
   attr_reader :type
@@ -71,8 +71,8 @@ class SvnFileDiff
   attr_reader :header
   attr_reader :hunks
   
-  def initialize header
+  def initialize header, hunks = Array.new
     @header = header
-    @hunks = Array.new
+    @hunks = hunks
   end
 end
