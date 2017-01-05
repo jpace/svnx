@@ -19,6 +19,16 @@ class SvnDiffCommand
   attr_reader :entries
   
   def initialize cmdopts = Hash.new
+    # the pattern:
+
+    # rawargs =>
+    # options =>
+    # svn args =>
+    # command line =>
+    # output =>
+    # parser =>
+    # entries
+    
     opts = SvnDiffOptions.new cmdopts
     info "opts: #{opts}"
     args = SvnDiffArgs.new opts

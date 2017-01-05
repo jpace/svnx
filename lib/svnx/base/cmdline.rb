@@ -4,11 +4,9 @@
 require 'logue/loggable'
 require 'system/command/line'
 require 'system/command/caching'
+require 'svnx/base/env'
 
 module SVNx
-  DEFAULT_CACHE_DIR = '/tmp/svnx'
-  TMP_DIR_ENV_VARNAME = 'SVNX_TMP_DIR'
-
   module CmdLine
     include Logue::Loggable
 
@@ -24,7 +22,7 @@ module SVNx
     end
 
     def cache_dir
-      ENV[TMP_DIR_ENV_VARNAME] || DEFAULT_CACHE_DIR
+      Svnx::Env.instance.cache_dir
     end
   end
 
