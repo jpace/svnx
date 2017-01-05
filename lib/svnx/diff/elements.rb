@@ -77,12 +77,3 @@ class SvnFileDiff
     @hunks = hunks
   end
 end
-
-# all diffs from Svn output
-class SvnDiffs
-  attr_reader :diffs
-  
-  def initialize
-    @diffs = Array.new
-  end
-end

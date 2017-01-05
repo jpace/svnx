@@ -171,7 +171,7 @@ class DiffParserTest < Test::Unit::TestCase
     assert_parse_hunk explines, lines
     assert_equal [ "@@ -43,6 +46,9 @@" ], lines
   end
-
+  
   def assert_parse_hunks exp_num_hunks, lines
     p = SvnDiffParser.new
     hunks = p.parse_hunks lines
