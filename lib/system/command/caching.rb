@@ -5,32 +5,35 @@ require 'system/command/line'
 require 'system/command/cachefile'
 
 module System
-  class CachingCommandLine < CommandLine
-    # caches its input and values.
+end
 
-    @@cache_dir = '/tmp' + Pathname.new($0).expand_path.to_s
+include System
 
-    class << self
-      def cache_dir
-        @@cache_dir
-      end
+class System::CachingCommandLine < CommandLine
+  # caches its input and values.
 
-      def cache_dir= dir
-        @@cache_dir = dir
-      end
-    end
+  @@cache_dir = '/tmp' + Pathname.new($0).expand_path.to_s
 
+  class << self
     def cache_dir
       @@cache_dir
     end
 
-    def cache_file
-      CacheFile.new cache_dir, @args
+    def cache_dir= dir
+      @@cache_dir = dir
     end
+  end
 
-    def execute
-      cachefile = cache_file
-      @output = cachefile.readlines
-    end
+  def cache_dir
+    @@cache_dir
+  end
+
+  def cache_file
+    CacheFile.new cache_dir, @args
+  end
+
+  def execute
+    cachefile = cache_file
+    @output = cachefile.readlines
   end
 end
