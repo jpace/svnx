@@ -90,4 +90,16 @@ class SvnDiffParser
       end
     end
   end
+
+  def parse_all_output lines
+    SvnDiffs.new.tap do |diffs|
+      until lines.empty?
+        if filediff = parser.parse_file_diff(lines)
+          diffs << filediff
+        else
+          break
+        end
+      end
+    end
+  end
 end
