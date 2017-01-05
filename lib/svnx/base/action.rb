@@ -2,46 +2,51 @@
 # -*- ruby -*-
 
 require 'logue/loggable'
+require 'singleton'
 
 module SVNx
+end
+
+class SvnActionStatus
+  include Singleton
+
+  attr_reader :stati
+
+  def initialize 
+    @status_to_symbol = Hash.new
+    @stati = Array.new
+
+    add_type 'added',       'A'
+    add_type 'deleted',     'D'
+    add_type 'modified',    'M'
+    add_type 'unversioned', '?'
+  end
+
+  def symbol_for arg
+    @status_to_symbol[arg]
+  end
+
+  def add_type str, char
+    sym = str.to_sym
+    @stati << str
+    [ sym, str, char ].each do |key|
+      @status_to_symbol[key] = sym
+    end
+  end  
 end
 
 class SVNx::Action
   include Logue::Loggable, Comparable
   
   attr_reader :type
-  attr_reader :char
-
-  STATUS_TO_TYPE = Hash.new
-  STATUS_TO_ACTION = Hash.new
-
-  def initialize type, char
-    @type = type
-    @char = char
-  end
-
-  class << self
-    alias_method :orig_new, :new
-    
-    def new arg, char = nil
-      if arg.kind_of? SVNx::Action
-        arg
-      elsif act = STATUS_TO_ACTION[arg]
-        act
-      else
-        type = STATUS_TO_TYPE[arg]
-        raise "no such action: #{arg.inspect}" unless type
-        STATUS_TO_ACTION[arg] = orig_new type, char
-      end
-    end
-
-    def add_type str, char
-      sym = str.to_sym
-      STATUS_TO_TYPE[sym] = sym
-      action = SVNx::Action.new sym, char
-      SVNx::Action.const_set str.upcase, action
-      [ sym, str, char ].each do |key|
-        STATUS_TO_ACTION[key] = action
+  
+  def initialize type, char = nil
+    if type.kind_of? self.class
+      @type = type.type
+    else
+      sas = SvnActionStatus.instance
+      unless @type = sas.symbol_for(type)
+        raise "not a valid action type: #{type}"
       end
     end
   end
@@ -53,18 +58,18 @@ class SVNx::Action
   def to_s
     @type.to_s
   end
-
-  add_type 'added', 'A'
-  add_type 'deleted', 'D'
-  add_type 'modified', 'M'
-  add_type 'unversioned', '?'
-
-  STATUS_TO_TYPE.values.uniq.each do |val|
-    methname = val.to_s + '?'
+  
+  sas = SvnActionStatus.instance
+  sas.stati.each do |str|
+    action = SVNx::Action.new str
+    SVNx::Action.const_set str.upcase, action
+    
+    methname = str + '?'
     define_method methname do
       instance_eval do
-        @type == STATUS_TO_TYPE[val]
+        sym = SvnActionStatus.instance.symbol_for str
+        @type.to_sym == sym
       end
-    end
-  end    
+    end      
+  end  
 end

@@ -4,7 +4,10 @@
 require 'svnx/base/entry'
 require 'svnx/base/action'
 
-module SVNx; module Status; end; end
+module SVNx
+  module Status
+  end
+end
 
 module SVNx::Status
   class Entry < SVNx::Entry
