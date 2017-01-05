@@ -5,33 +5,42 @@ require 'test/unit'
 require 'svnx/diff/args'
 
 class TestArgs < Test::Unit::TestCase
+  def create_options optargs = Hash.new
+    SvnDiffOptions.new optargs
+  end
+
+  def create_args options
+    SvnDiffArgs.new options
+  end
+  
+  def assert_to_svn_args expected, optargs = Hash.new
+    opts = create_options optargs
+    create_args(opts).tap do |args|
+      assert_equal expected, args.to_svn_args, "optargs: #{optargs}"
+    end
+  end
+  
   def test_default
-    args = SvnDiffArgs.new
-    assert_equal [], args.to_svn_args
+    assert_to_svn_args Array.new
   end
   
   def test_commit
-    args = SvnDiffArgs.new commit: 123
-    assert_equal [ "-c", 123 ], args.to_svn_args
+    assert_to_svn_args [ "-c", 123 ], commit: 123
   end
   
   def test_ignoreproperties_true
-    args = SvnDiffArgs.new ignoreproperties: true
-    assert_equal [ "--ignore-properties" ], args.to_svn_args
+    assert_to_svn_args [ "--ignore-properties" ], ignoreproperties: true
   end
   
   def test_ignoreproperties_false
-    args = SvnDiffArgs.new ignoreproperties: false
-    assert_equal [], args.to_svn_args
+    assert_to_svn_args Array.new, ignoreproperties: false
   end
   
   def test_ignorewhitespace_true
-    args = SvnDiffArgs.new ignorewhitespace: true
-    assert_equal [ "-x", "-bw" ], args.to_svn_args
+    assert_to_svn_args [ "-x", "-bw" ], ignorewhitespace: true
   end
   
   def test_ignorewhitespace_false
-    args = SvnDiffArgs.new ignorewhitespace: false
-    assert_equal [], args.to_svn_args
+    assert_to_svn_args Array.new, ignorewhitespace: false
   end
 end
