@@ -6,36 +6,48 @@ require 'pathname'
 require 'svnx/diff/options'
 
 class SvnDiffOptionsTest < Test::Unit::TestCase
+  def assert_options expvals, optvals = Hash.new
+    opts = SvnDiffOptions.new optvals
+    expvals.each do |methname, expval|
+      val = opts.send methname
+      assert_equal expval, val, "method: #{methname}"
+    end
+  end
+  
   def test_default
-    opts = SvnDiffOptions.new
-    assert_equal nil, opts.commit
-    assert_equal nil, opts.ignoreproperties
-    assert_equal nil, opts.ignorewhitespace
+    defexpected = { commit: nil,
+                    ignoreproperties: nil,
+                    ignorewhitespace: nil,
+                    path: nil,
+                    url: nil }
+    assert_options defexpected
   end
   
   def test_commit
-    opts = SvnDiffOptions.new commit: 123
-    assert_equal 123, opts.commit
+    assert_options({ commit: 123 }, commit: 123)
   end
   
   def test_ignoreproperties_true
-    opts = SvnDiffOptions.new ignoreproperties: true
-    assert_equal true, opts.ignoreproperties
+    assert_options({ ignoreproperties: true }, ignoreproperties: true)
   end
   
   def test_ignoreproperties_false
-    opts = SvnDiffOptions.new ignoreproperties: false
-    assert_equal false, opts.ignoreproperties
+    assert_options({ ignoreproperties: false }, ignoreproperties: false)
   end
   
   def test_ignorewhitespace_true
-    opts = SvnDiffOptions.new ignorewhitespace: true
-    assert_equal true, opts.ignorewhitespace
+    assert_options({ ignorewhitespace: true }, ignorewhitespace: true)
   end
   
   def test_ignorewhitespace_false
-    opts = SvnDiffOptions.new ignorewhitespace: false
-    assert_equal false, opts.ignorewhitespace
+    assert_options({ ignorewhitespace: false }, ignorewhitespace: false);
+  end 
+
+  def test_url
+    assert_options({ url: "p://xyz", path: nil }, url: "p://xyz")
   end
-  
+
+  def test_path
+    assert_options({ path: "a/b", url: nil }, path: "a/b")
+  end
 end
