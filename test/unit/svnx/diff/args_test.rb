@@ -43,4 +43,12 @@ class TestArgs < Test::Unit::TestCase
   def test_ignorewhitespace_false
     assert_to_svn_args Array.new, ignorewhitespace: false
   end
+
+  def test_url
+    assert_to_svn_args [ "p://xyz" ], url: "p://xyz"
+  end
+
+  def test_path
+    assert_to_svn_args [ "a/b" ], path: "a/b"
+  end
 end

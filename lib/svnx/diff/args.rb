@@ -10,15 +10,21 @@ class SvnDiffArgs
 
   def to_svn_args
     Array.new.tap do |args|
-      add_if args, @options.commit, "-c", @options.commit
-      add_if args, @options.ignoreproperties, "--ignore-properties"
-      add_if args, @options.ignorewhitespace, "-x", "-bw"
+      options_to_args.each do |optname, values|
+        if @options.send optname
+          args.concat [ values ].flatten
+        end
+      end
     end
   end
 
-  def add_if args, condition, *values
-    if condition
-      args.concat values
+  def options_to_args
+    Hash.new.tap do |optargs|
+      optargs[:commit]           = [ "-c", @options.commit ]
+      optargs[:ignoreproperties] = [ "--ignore-properties" ]
+      optargs[:ignorewhitespace] = [ "-x", "-bw" ]
+      optargs[:url]              = @options.url
+      optargs[:path]             = @options.path
     end
   end
 end
