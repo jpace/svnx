@@ -7,9 +7,7 @@ require 'system/command/cachefile'
 module System
 end
 
-include System
-
-class System::CachingCommandLine < CommandLine
+class System::CachingCommandLine < System::CommandLine
   # caches its input and values.
 
   @@cache_dir = '/tmp' + Pathname.new($0).expand_path.to_s
@@ -29,7 +27,7 @@ class System::CachingCommandLine < CommandLine
   end
 
   def cache_file
-    CacheFile.new cache_dir, @args
+    System::CacheFile.new cache_dir, @args
   end
 
   def execute

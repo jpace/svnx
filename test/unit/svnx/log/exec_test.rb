@@ -2,7 +2,6 @@
 # -*- ruby -*-
 
 require 'test/unit'
-require 'pathname'
 require 'svnx/log/tc'
 require 'svnx/log/exec'
 

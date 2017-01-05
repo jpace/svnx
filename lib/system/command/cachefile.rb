@@ -8,8 +8,6 @@ require 'logue/loggable'
 module System
 end
 
-include System
-
 class System::GzipPathname < Pathname
   include Logue::Loggable
   
@@ -40,7 +38,7 @@ class System::CacheFile
     @args = args
     basename = args.join('-').gsub('/', '_slash_') + '.gz'
     fullname = Pathname(cache_dir) + basename
-    @pathname = GzipPathname.new fullname
+    @pathname = System::GzipPathname.new fullname
     @output = nil
   end
   
@@ -48,7 +46,7 @@ class System::CacheFile
     if @pathname.exist?
       @output = @pathname.read_file
     else
-      cl = CommandLine.new @args
+      cl = System::CommandLine.new @args
       @output = cl.execute
       @pathname.save_file @output
       @output
