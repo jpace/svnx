@@ -11,6 +11,10 @@ class SvnDiffCmdLine < SVNx::CachingCommandLine
   def uses_xml?
     false
   end
+
+  def subcommand
+    "diff"
+  end
 end
 
 class SvnDiffCommand
