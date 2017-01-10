@@ -19,6 +19,7 @@ class SvnActionStatus
     add_type 'added',       'A'
     add_type 'deleted',     'D'
     add_type 'modified',    'M'
+    add_type 'replaced',    'R'
     add_type 'unversioned', '?'
   end
 
