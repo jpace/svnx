@@ -1,16 +1,12 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'test/unit'
+require 'svnx/common/options_tc'
 require 'svnx/diff/options'
 
-class SvnDiffOptionsTest < Test::Unit::TestCase
-  def assert_options expvals, optvals = Hash.new
-    opts = SvnDiffOptions.new optvals
-    expvals.each do |methname, expval|
-      val = opts.send methname
-      assert_equal expval, val, "method: #{methname}"
-    end
+class SvnDiffOptionsTest < SvnCommonOptionsTestCase
+  def options_class
+    SvnDiffOptions
   end
   
   def test_default

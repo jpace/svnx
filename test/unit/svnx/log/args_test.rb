@@ -4,7 +4,7 @@
 require 'test/unit'
 require 'svnx/log/args'
 
-class ArgsTest < Test::Unit::TestCase
+class SvnLogArgsTest < Test::Unit::TestCase
   include Logue::Loggable
   
   def test_equivalent_api

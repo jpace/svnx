@@ -1,23 +1,16 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'test/unit'
+require 'svnx/common/args_tc'
 require 'svnx/merge/args'
 
-class TestSvnMergeArgs < Test::Unit::TestCase
+class TestSvnMergeArgs < SvnCommonArgsTestCase
   def create_options optargs = Hash.new
     SvnMergeOptions.new optargs
   end
 
   def create_args options
     SvnMergeArgs.new options
-  end
-  
-  def assert_to_svn_args expected, optargs = Hash.new
-    opts = create_options optargs
-    create_args(opts).tap do |args|
-      assert_equal expected, args.to_svn_args, "optargs: #{optargs}"
-    end
   end
   
   def test_default

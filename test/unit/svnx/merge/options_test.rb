@@ -1,24 +1,22 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'test/unit'
+require 'svnx/common/options_tc'
 require 'svnx/merge/options'
 
-class SvnMergeOptionsTest < Test::Unit::TestCase
-  def assert_options expvals, optvals = Hash.new
-    opts = SvnMergeOptions.new optvals
-    expvals.each do |methname, expval|
-      val = opts.send methname
-      assert_equal expval, val, "method: #{methname}"
-    end
+class SvnMergeOptionsTest < SvnCommonOptionsTestCase
+  def options_class
+    SvnMergeOptions
   end
   
   def test_default
-    defexpected = { commit: nil,
-                    range: nil,
-                    accept: nil,
-                    path: nil,
-                    url: nil }
+    defexpected = {
+      commit: nil,
+      range: nil,
+      accept: nil,
+      path: nil,
+      url: nil
+    }
     assert_options defexpected
   end
   
