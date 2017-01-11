@@ -64,15 +64,15 @@ class SvnDiffParser
   end
 
   def parse_hunks lines
-    hunks = Array.new
-    while !lines.empty?
-      if hunk = parse_hunk(lines)
-        hunks << hunk
-      else
-        break
+    Array.new.tap do |hunks|
+      while !lines.empty?
+        if hunk = parse_hunk(lines)
+          hunks << hunk
+        else
+          break
+        end
       end
     end
-    hunks
   end
 
   def parse_file_diff lines
