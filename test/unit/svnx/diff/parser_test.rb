@@ -7,7 +7,7 @@ require 'svnx/diff/parser'
 
 Logue::Log.level = Logue::Log::INFO
 
-class DiffParserTest < Test::Unit::TestCase
+class SvnDiffParserTest < Test::Unit::TestCase
   include Logue::Loggable
 
   # header file

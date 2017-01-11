@@ -4,7 +4,7 @@
 require 'test/unit'
 require 'svnx/diff/args'
 
-class TestArgs < Test::Unit::TestCase
+class TestSvnDiffArgs < Test::Unit::TestCase
   def create_options optargs = Hash.new
     SvnDiffOptions.new optargs
   end

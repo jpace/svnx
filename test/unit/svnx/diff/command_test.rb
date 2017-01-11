@@ -21,7 +21,7 @@ class SvnDiffCmdLine
   end
 end
 
-class CommandTest < Test::Unit::TestCase
+class SvnDiffCommandTest < Test::Unit::TestCase
   include Logue::Loggable
 
   def assert_command cmdopts = Hash.new

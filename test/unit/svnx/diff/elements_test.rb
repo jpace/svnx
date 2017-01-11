@@ -5,7 +5,7 @@ require 'test/unit'
 require 'pathname'
 require 'svnx/diff/elements'
 
-class ElementTest < Test::Unit::TestCase
+class SvnDiffElementTest < Test::Unit::TestCase
   def create_diff_file fname, rev
     SvnDiffFile.new filename: fname, revision: rev
   end

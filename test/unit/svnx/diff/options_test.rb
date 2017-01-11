@@ -2,7 +2,6 @@
 # -*- ruby -*-
 
 require 'test/unit'
-require 'pathname'
 require 'svnx/diff/options'
 
 class SvnDiffOptionsTest < Test::Unit::TestCase
