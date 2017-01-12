@@ -7,9 +7,13 @@ require 'logue/loggable'
 require 'svnx/base/cmdline'
 require 'svnx/diff/parser'
 
-class Svnx::Diff::CmdLine < Svnx::CachingCommandLine
+class Svnx::Diff::CmdLine < Svnx::CommandLine
   def uses_xml?
     false
+  end
+
+  def caching?
+    true
   end
 
   def subcommand
