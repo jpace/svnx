@@ -2,15 +2,15 @@
 # -*- ruby -*-
 
 require 'svnx/common/args_tc'
-require 'svnx/propset/args'
+require 'svnx/info/args'
 
-class TestSvnPropsetArgs < SvnCommonArgsTestCase
+class TestSvnInfoArgs < SvnCommonArgsTestCase
   def create_options optargs = Hash.new
-    SvnPropsetOptions.new optargs
+    SvnInfoOptions.new optargs
   end
 
   def create_args options
-    SvnPropsetArgs.new options
+    SvnInfoArgs.new options
   end
   
   def test_default
@@ -24,14 +24,6 @@ class TestSvnPropsetArgs < SvnCommonArgsTestCase
   def test_revision_range
     assert_to_svn_args [ "-r", "123:456" ], revision: "123:456"
   end
-  
-  def test_name_value
-    assert_to_svn_args [ "abc", "def" ], name: "abc", value: "def"
-  end 
-  
-  def test_value_name
-    assert_to_svn_args [ "abc", "def" ], value: "def", name: "abc"
-  end 
   
   def test_url
     assert_to_svn_args [ "p://abc" ], url: "p://abc"
