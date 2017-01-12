@@ -14,7 +14,7 @@ module SvnLog
     attr_reader :entries
     
     def initialize args
-      cmd = Svnx::LogCommand.new Args.new(args)
+      cmd = Svnx::Log::CommandLine.new Svnx::Log::Args.new(args)
       entcls = args[:entries_class] || Svnx::Log::Entries
       @entries = entcls.new :xmllines => cmd.execute
     end

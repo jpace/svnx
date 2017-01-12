@@ -45,7 +45,9 @@ class Svnx::Diff::Command
     info "cmdargs: #{cmdargs}"
     cmdline = Svnx::Diff::CmdLine.new "diff", cmdargs
     info "cmdline: #{cmdline}"
-    output = cmdline.execute
+    cmdline.execute
+    output = cmdline.output
+    debug "output: #{output}"
     @entries = Svnx::Diff::Parser.new.parse_all_output output
   end
 end
