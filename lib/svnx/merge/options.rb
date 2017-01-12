@@ -3,7 +3,12 @@
 
 require 'svnx/util/objutil'
 
-class SvnMergeOptions
+module Svnx
+  module Merge
+  end
+end
+
+class Svnx::Merge::Options
   include Svnx::ObjectUtil
   
   attr_reader :commit

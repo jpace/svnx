@@ -6,13 +6,13 @@ require 'svnx/merge/args'
 require 'logue/loggable'
 require 'svnx/base/cmdline'
 
-class SvnMergeCmdLine < SVNx::CommandLine
+class Svnx::Merge::CmdLine < Svnx::CommandLine
   def uses_xml?
     false
   end
 end
 
-class SvnMergeCommand
+class Svnx::Merge::Command
   include Logue::Loggable
   
   attr_reader :output
@@ -28,13 +28,13 @@ class SvnMergeCommand
     # parser =>
     # entries
     
-    opts = SvnMergeOptions.new cmdopts
+    opts = Svnx::Merge::Options.new cmdopts
     info "opts: #{opts}"
-    args = SvnMergeArgs.new opts
+    args = Svnx::Merge::Args.new opts
     info "args: #{args}"
     cmdargs = args.to_svn_args
     info "cmdargs: #{cmdargs}"
-    cmdline = SvnMergeCmdLine.new "merge", cmdargs
+    cmdline = Svnx::Merge::CmdLine.new "merge", cmdargs
     info "cmdline: #{cmdline}"
     @output = cmdline.execute
   end

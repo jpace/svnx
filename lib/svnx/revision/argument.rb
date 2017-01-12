@@ -6,11 +6,11 @@ require 'svnx/revision/error'
 require 'logue/loggable'
 require 'svnx/revision/argfactory'
 
-module SVNx; module Revision; end; end
+module Svnx; module Revision; end; end
 
 # We represent what svn calls a revision (-r134:{2010-1-1}) as a Range,
 # consisting of a from and to (optional) Argument.
-module SVNx::Revision
+module Svnx::Revision
   RELATIVE_REVISION_RE = Regexp.new '^([\+\-])(\d+)$'
   
   # Returns the Nth revision from the given logging output.

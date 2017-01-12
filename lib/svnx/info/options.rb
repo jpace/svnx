@@ -3,7 +3,12 @@
 
 require 'svnx/util/objutil'
 
-class SvnInfoOptions
+module Svnx
+  module Info
+  end
+end
+
+class Svnx::Info::Options
   include Svnx::ObjectUtil
   
   attr_reader :revision

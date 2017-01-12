@@ -3,7 +3,12 @@
 
 require 'logue/loggable'
 
-class SvnDiffFile
+module Svnx
+  module Diff
+  end
+end
+
+class Svnx::Diff::File
   attr_reader :filename
   attr_reader :revision
 
@@ -13,7 +18,7 @@ class SvnDiffFile
   end
 end
 
-class SvnDiffHeader
+class Svnx::Diff::Header
   attr_reader :filename
   attr_reader :from
   attr_reader :to
@@ -25,7 +30,7 @@ class SvnDiffHeader
   end
 end
 
-class SvnDiffHunkRange
+class Svnx::Diff::HunkRange
   attr_reader :line
   attr_reader :length
 
@@ -35,7 +40,7 @@ class SvnDiffHunkRange
   end
 end
 
-class SvnDiffHunkRanges
+class Svnx::Diff::HunkRanges
   attr_reader :from
   attr_reader :to
 
@@ -47,7 +52,7 @@ end
 
 # unused; I prefer a two-element array: [ :added, "sometext" ]
 
-class SvnDiffLine
+class Svnx::Diff::Line
   attr_reader :type
   attr_reader :text
 
@@ -57,7 +62,7 @@ class SvnDiffLine
   end
 end
 
-class SvnDiffHunk
+class Svnx::Diff::Hunk
   attr_reader :ranges
   attr_reader :lines
 

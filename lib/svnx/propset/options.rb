@@ -3,7 +3,12 @@
 
 require 'svnx/util/objutil'
 
-class SvnPropsetOptions
+module Svnx
+  module Propset
+  end
+end
+
+class Svnx::Propset::Options
   include Svnx::ObjectUtil
   
   attr_reader :file

@@ -5,8 +5,8 @@ require 'integration/tc'
 require 'svnx/status/command'
 require 'svnx/status/entries'
 
-module SVNx::Status
-  class CommandTestCase < SVNx::IntegrationTestCase
+module Svnx::Status
+  class CommandTestCase < Svnx::IntegrationTestCase
     def assert_entry exp_cmt_rev, exp_path, exp_status, exp_st_rev, entries, idx
       entry = entries[idx]
       msg = "entry[#{idx}]: #{entry.path}"
@@ -18,7 +18,7 @@ module SVNx::Status
     end
 
     def test_specified_args
-      entries = SVNx::StatusExec.new(path: '/Programs/pvn/pvntestbed.pending', use_cache: false).entries
+      entries = Svnx::StatusExec.new(path: '/Programs/pvn/pvntestbed.pending', use_cache: false).entries
       
       assert_not_nil entries
       assert_equal 5, entries.size

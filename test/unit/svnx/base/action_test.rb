@@ -4,14 +4,11 @@
 require 'tc'
 require 'svnx/base/action'
 
-module SVNx
-end
-
-class SvnActionStatusTestCase < SVNx::TestCase
+class Svnx::ActionStatusTestCase < Svnx::TestCase
   include Logue::Loggable
 
   def assert_symbol_for expected, *args
-    sas = SvnActionStatus.instance
+    sas = Svnx::ActionStatus.instance
     args.each do |arg|
       sym = sas.symbol_for arg
       assert_equal expected, sym, "arg: #{arg}"
@@ -35,9 +32,9 @@ class SvnActionStatusTestCase < SVNx::TestCase
   end
 end
 
-class SVNx::ActionTestCase < SVNx::TestCase
+class Svnx::ActionTestCase < Svnx::TestCase
   def assert_action_equals expadd, expdel, expmod, expunver, val
-    action = SVNx::Action.new val
+    action = Svnx::Action.new val
     msg = "value: #{val}"
     
     assert_equal expadd,   action.added?,       msg
@@ -69,15 +66,15 @@ class SVNx::ActionTestCase < SVNx::TestCase
   end
 
   def test_constants
-    assert_equal SVNx::Action.new('added'), SVNx::Action::ADDED
-    assert_equal SVNx::Action.new('deleted'), SVNx::Action::DELETED
-    assert_equal SVNx::Action.new('modified'), SVNx::Action::MODIFIED
-    assert_equal SVNx::Action.new('unversioned'), SVNx::Action::UNVERSIONED 
+    assert_equal Svnx::Action.new('added'), Svnx::Action::ADDED
+    assert_equal Svnx::Action.new('deleted'), Svnx::Action::DELETED
+    assert_equal Svnx::Action.new('modified'), Svnx::Action::MODIFIED
+    assert_equal Svnx::Action.new('unversioned'), Svnx::Action::UNVERSIONED 
   end
   
   def test_invalid_type
     assert_raise(RuntimeError) do
-      SVNx::Action.new('dummy')
+      Svnx::Action.new('dummy')
     end
   end
 end

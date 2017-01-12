@@ -3,7 +3,7 @@
 
 require 'svnx/diff/options'
 
-class SvnDiffArgs
+class Svnx::Diff::Args
   def initialize options
     @options = options
   end

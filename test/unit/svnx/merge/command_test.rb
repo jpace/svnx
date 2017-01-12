@@ -6,7 +6,7 @@ require 'svnx/merge/command'
 
 Logue::Log.level = Logue::Log::DEBUG
 
-class SvnMergeCmdLine
+class Svnx::Merge::CmdLine
   class << self
     def executed
       @@executed
@@ -21,13 +21,13 @@ class SvnMergeCmdLine
   end
 end
 
-class SvnMergeCommandTest < Test::Unit::TestCase
+class Svnx::Merge::CommandTest < Test::Unit::TestCase
   include Logue::Loggable
 
   def assert_command cmdopts = Hash.new
-    cmd = SvnMergeCommand.new cmdopts
+    cmd = Svnx::Merge::Command.new cmdopts
     info "cmd: #{cmd}"
-    assert_equal true, SvnMergeCmdLine.executed, "cmdopts: #{cmdopts}"
+    assert_equal true, Svnx::Merge::CmdLine.executed, "cmdopts: #{cmdopts}"
     assert_empty cmd.output, "cmdopts: #{cmdopts}"
   end
   

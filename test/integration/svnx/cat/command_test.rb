@@ -4,8 +4,8 @@
 require 'tc'
 require 'svnx/cat/command'
 
-module SVNx::Cat
-  class CommandTestCase < SVNx::TestCase
+module Svnx::Cat
+  class CommandTestCase < Svnx::TestCase
     EXPROOT = 'file:///Programs/Subversion/Repositories/pvntestbed.from'
 
     def test_cat_default
@@ -19,7 +19,7 @@ module SVNx::Cat
       expected << 'line 7'
       expected.collect! { |x| x + "\n" }
       
-      cmd = SVNx::CatExec.new path: EXPROOT + "/SecondFile.txt"
+      cmd = Svnx::CatExec.new path: EXPROOT + "/SecondFile.txt"
 
       assert_equal expected, cmd.output
     end
@@ -33,7 +33,7 @@ module SVNx::Cat
       expected << 'line 7'
       expected.collect! { |x| x + "\n" }
       
-      cmd = SVNx::CatExec.new path: EXPROOT + "/SecondFile.txt", revision: '20'
+      cmd = Svnx::CatExec.new path: EXPROOT + "/SecondFile.txt", revision: '20'
 
       assert_equal expected, cmd.output
     end
@@ -48,7 +48,7 @@ module SVNx::Cat
       expected.collect! { |x| x + "\n" }
 
       assert_raises(RuntimeError) do
-        SVNx::CatExec.new path: EXPROOT + "/SecondFile.txt", revision: '28'
+        Svnx::CatExec.new path: EXPROOT + "/SecondFile.txt", revision: '28'
       end
     end
   end

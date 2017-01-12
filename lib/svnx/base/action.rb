@@ -4,10 +4,10 @@
 require 'logue/loggable'
 require 'singleton'
 
-module SVNx
+module Svnx
 end
 
-class SvnActionStatus
+class Svnx::ActionStatus
   include Singleton
 
   attr_reader :stati
@@ -36,19 +36,15 @@ class SvnActionStatus
   end  
 end
 
-class SVNx::Action
+class Svnx::Action
   include Logue::Loggable, Comparable
   
   attr_reader :type
   
   def initialize type, char = nil
-    if type.kind_of? self.class
-      @type = type.type
-    else
-      sas = SvnActionStatus.instance
-      unless @type = sas.symbol_for(type)
-        raise "not a valid action type: #{type}"
-      end
+    sas = Svnx::ActionStatus.instance
+    unless @type = sas.symbol_for(type)
+      raise "not a valid action type: #{type}"
     end
   end
 
@@ -60,15 +56,15 @@ class SVNx::Action
     @type.to_s
   end
   
-  sas = SvnActionStatus.instance
+  sas = Svnx::ActionStatus.instance
   sas.stati.each do |str|
-    action = SVNx::Action.new str
-    SVNx::Action.const_set str.upcase, action
+    action = Svnx::Action.new str
+    Svnx::Action.const_set str.upcase, action
     
     methname = str + '?'
     define_method methname do
       instance_eval do
-        sym = SvnActionStatus.instance.symbol_for str
+        sym = Svnx::ActionStatus.instance.symbol_for str
         @type.to_sym == sym
       end
     end      

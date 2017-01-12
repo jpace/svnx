@@ -7,13 +7,13 @@ require 'svnx/diff/parser'
 
 Logue::Log.level = Logue::Log::INFO
 
-class SvnDiffParserTest < Test::Unit::TestCase
+class Svnx::Diff::ParserTest < Test::Unit::TestCase
   include Logue::Loggable
 
   # header file
 
   def assert_parse_header_file exp_filename, exp_revision, lines
-    p = SvnDiffParser.new
+    p = Svnx::Diff::Parser.new
     f = p.parse_header_file lines
     assert_equal exp_filename, f.filename
     assert_equal exp_revision, f.revision
@@ -49,7 +49,7 @@ class SvnDiffParserTest < Test::Unit::TestCase
   # header section
 
   def assert_parse_header_section exp_filename, lines
-    p = SvnDiffParser.new
+    p = Svnx::Diff::Parser.new
     s = p.parse_header_section lines
     assert_equal exp_filename, s.filename
     assert_not_nil s.from
@@ -69,7 +69,7 @@ class SvnDiffParserTest < Test::Unit::TestCase
   # ranges
 
   def assert_parse_ranges exp_from_line, exp_from_length, exp_to_line, exp_to_length, line
-    p = SvnDiffParser.new
+    p = Svnx::Diff::Parser.new
     ranges = p.parse_ranges line
     
     assert_equal exp_from_line, ranges.from.line
@@ -99,7 +99,7 @@ class SvnDiffParserTest < Test::Unit::TestCase
   # hunks
 
   def assert_parse_hunk explines, lines
-    p = SvnDiffParser.new
+    p = Svnx::Diff::Parser.new
     hunk = p.parse_hunk lines
     assert_equal explines, hunk.lines
   end
@@ -173,7 +173,7 @@ class SvnDiffParserTest < Test::Unit::TestCase
   end
   
   def assert_parse_hunks exp_num_hunks, lines
-    p = SvnDiffParser.new
+    p = Svnx::Diff::Parser.new
     hunks = p.parse_hunks lines
     assert_equal exp_num_hunks, hunks.size
   end
@@ -210,7 +210,7 @@ class SvnDiffParserTest < Test::Unit::TestCase
   end
 
   def assert_parse_file_diff exp_num_hunks, lines
-    p = SvnDiffParser.new
+    p = Svnx::Diff::Parser.new
     diffs = p.parse_file_diff lines
     assert_equal exp_num_hunks, diffs.hunks.size
   end

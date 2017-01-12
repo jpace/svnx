@@ -1,7 +1,12 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-class SvnDiffOptions
+module Svnx
+  module Diff
+  end
+end
+
+class Svnx::Diff::Options
   attr_reader :commit
   attr_reader :ignoreproperties
   attr_reader :ignorewhitespace

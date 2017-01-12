@@ -4,9 +4,6 @@
 require 'system/command/line'
 require 'system/command/cachefile'
 
-module System
-end
-
 class System::CachingCommandLine < System::CommandLine
   # caches its input and values.
 

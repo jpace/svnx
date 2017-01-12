@@ -6,14 +6,14 @@ require 'svnx/log/entries'
 require 'svnx/revision/argument'
 require 'resources'
 
-module SVNx::Revision
-  class ArgumentTestCase < SVNx::TestCase
+module Svnx::Revision
+  class ArgumentTestCase < Svnx::TestCase
     def setup
       # This is the equivalent of "log" at revision 22, when this file was added
       # at revision 13. Using this instead of just "log" when regenerating the
       # resource files keeps the revisions from bouncing around.
       xmllines = Resources::PT_LOG_R22_13_SECONDFILE_TXT.readlines
-      @entries = SVNx::Log::Entries.new :xmllines => xmllines
+      @entries = Svnx::Log::Entries.new :xmllines => xmllines
     end
 
     def new_argument value
@@ -30,7 +30,7 @@ module SVNx::Revision
     end
 
     def assert_argument_value_raises value
-      assert_raises(SVNx::Revision::RevisionError) do 
+      assert_raises(Svnx::Revision::RevisionError) do 
         assert_argument_value nil, value
       end
     end

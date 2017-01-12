@@ -4,13 +4,13 @@
 require 'svnx/common/args_tc'
 require 'svnx/propset/args'
 
-class TestSvnPropsetArgs < SvnCommonArgsTestCase
+class Svnx::Propset::ArgsTest < Svnx::CommonArgsTestCase
   def create_options optargs = Hash.new
-    SvnPropsetOptions.new optargs
+    Svnx::Propset::Options.new optargs
   end
 
   def create_args options
-    SvnPropsetArgs.new options
+    Svnx::Propset::Args.new options
   end
   
   def test_default

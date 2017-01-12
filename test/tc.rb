@@ -17,7 +17,7 @@ Logue::Log.set_widths(-35, 4, -35)
 # produce colorized output, even when redirecting to a file:
 Rainbow.enabled = true
 
-module SVNx
+module Svnx
   class TestCase < Test::Unit::TestCase
     include Logue::Loggable
     

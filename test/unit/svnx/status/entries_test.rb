@@ -6,8 +6,8 @@ require 'svnx/status/entries'
 
 Logue::Log.level = Logue::Log::WARN
 
-module SVNx::Status
-  class EntriesTestCase < SVNx::Status::TestCase
+module Svnx::Status
+  class EntriesTestCase < Svnx::Status::TestCase
     def test_create_from_xml
       entries = Entries.new :xmllines => Resources::PTP_STATUS.readlines
       info "entries: #{entries}"

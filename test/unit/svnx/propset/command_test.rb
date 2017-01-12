@@ -6,7 +6,7 @@ require 'svnx/propset/command'
 
 Logue::Log.level = Logue::Log::DEBUG
 
-class SvnPropsetCmdLine
+class Svnx::Propset::CmdLine
   class << self
     def executed
       @@executed
@@ -21,13 +21,13 @@ class SvnPropsetCmdLine
   end
 end
 
-class SvnPropsetCommandTest < Test::Unit::TestCase
+class Svnx::Propset::CommandTest < Test::Unit::TestCase
   include Logue::Loggable
 
   def assert_command cmdopts = Hash.new
-    cmd = SvnPropsetCommand.new cmdopts
+    cmd = Svnx::Propset::Command.new cmdopts
     info "cmd: #{cmd}"
-    assert_equal true, SvnPropsetCmdLine.executed, "cmdopts: #{cmdopts}"
+    assert_equal true, Svnx::Propset::CmdLine.executed, "cmdopts: #{cmdopts}"
     assert_empty cmd.output, "cmdopts: #{cmdopts}"
   end
   

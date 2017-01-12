@@ -8,7 +8,7 @@ require 'svnx/log/exec'
 class ExecTest < Test::Unit::TestCase
   def test_equivalent_api
     a = SvnLog::Exec
-    b = SVNx::LogExec
+    b = Svnx::LogExec
     assert_equal b.superclass, a    
   end
 end

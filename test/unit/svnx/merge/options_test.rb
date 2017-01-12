@@ -4,9 +4,9 @@
 require 'svnx/common/options_tc'
 require 'svnx/merge/options'
 
-class SvnMergeOptionsTest < SvnCommonOptionsTestCase
+class Svnx::Merge::OptionsTest < Svnx::CommonOptionsTestCase
   def options_class
-    SvnMergeOptions
+    Svnx::Merge::Options
   end
   
   def test_default

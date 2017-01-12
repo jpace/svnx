@@ -4,8 +4,8 @@
 require 'integration/tc'
 require 'svnx/io/element'
 
-module SVNx::IO
-  class ElementTestCase < SVNx::IntegrationTestCase
+module Svnx::IO
+  class ElementTestCase < Svnx::IntegrationTestCase
     PENDING_PATH = '/Programs/pvn/pvntestbed.pending'
     
     def test_init

@@ -3,7 +3,7 @@
 
 require 'svnx/merge/options'
 
-class SvnMergeArgs
+class Svnx::Merge::Args
   def initialize options
     @options = options
   end

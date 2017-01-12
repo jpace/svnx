@@ -1,19 +1,17 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'svnx/info/options'
-require 'svnx/info/entries'
 require 'svnx/info/args'
 require 'logue/loggable'
 require 'svnx/base/cmdline'
 
-class SvnInfoCmdLine < SVNx::CommandLine
+class Svnx::Info::CmdLine < Svnx::CommandLine
   def uses_xml?
     true
   end
 end
 
-class SvnInfoCommand
+class Svnx::Info::Command
   include Logue::Loggable
   
   attr_reader :entry
@@ -29,20 +27,20 @@ class SvnInfoCommand
     # parser =>
     # entries
     
-    opts = SvnInfoOptions.new cmdopts
+    opts = Svnx::Info::Options.new cmdopts
     info "opts: #{opts}"
-    args = SvnInfoArgs.new opts
+    args = Svnx::Info::Args.new opts
     info "args: #{args}"
     cmdargs = args.to_svn_args
     info "cmdargs: #{cmdargs}"
-    cmdline = SvnInfoCmdLine.new "info", cmdargs
+    cmdline = Svnx::Info::CmdLine.new "info", cmdargs
     info "cmdline: #{cmdline}"
     output = cmdline.execute
     info "output: #{output}"
     
     # info has only one entry
     unless output.empty?
-      entries = SVNx::Info::Entries.new xmllines: output
+      entries = Svnx::Info::Entries.new xmllines: output
       @entry = entries[0]
     end
   end

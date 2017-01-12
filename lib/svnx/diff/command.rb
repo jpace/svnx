@@ -7,7 +7,7 @@ require 'logue/loggable'
 require 'svnx/base/cmdline'
 require 'svnx/diff/parser'
 
-class SvnDiffCmdLine < SVNx::CachingCommandLine
+class Svnx::Diff::CmdLine < Svnx::CachingCommandLine
   def uses_xml?
     false
   end
@@ -17,7 +17,7 @@ class SvnDiffCmdLine < SVNx::CachingCommandLine
   end
 end
 
-class SvnDiffCommand
+class Svnx::Diff::Command
   include Logue::Loggable
   
   attr_reader :entries
@@ -33,15 +33,15 @@ class SvnDiffCommand
     # parser =>
     # entries
     
-    opts = SvnDiffOptions.new cmdopts
+    opts = Svnx::Diff::Options.new cmdopts
     info "opts: #{opts}"
-    args = SvnDiffArgs.new opts
+    args = Svnx::Diff::Args.new opts
     info "args: #{args}"
     cmdargs = args.to_svn_args
     info "cmdargs: #{cmdargs}"
-    cmdline = SvnDiffCmdLine.new "diff", cmdargs
+    cmdline = Svnx::Diff::CmdLine.new "diff", cmdargs
     info "cmdline: #{cmdline}"
     output = cmdline.execute
-    @entries = SvnDiffParser.new.parse_all_output output
+    @entries = Svnx::Diff::Parser.new.parse_all_output output
   end
 end

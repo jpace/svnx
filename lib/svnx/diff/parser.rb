@@ -4,14 +4,14 @@
 require 'logue/loggable'
 require 'svnx/diff/elements'
 
-class SvnDiffParser
+class Svnx::Diff::Parser
   include Logue::Loggable
 
   def parse_header_file lines
     re = Regexp.new '^[\-\+]{3} (.*)\t\((?:nonexistent|revision (\d+))\)'
     if md = re.match(lines.first)
       lines.shift
-      SvnDiffFile.new filename: md[1], revision: md[2] && md[2].to_i
+      Svnx::Diff::File.new filename: md[1], revision: md[2] && md[2].to_i
     end
   end
   
@@ -27,7 +27,7 @@ class SvnDiffParser
       from = parse_header_file lines
       to = parse_header_file lines
       
-      SvnDiffHeader.new filename: filename, from: from, to: to
+      Svnx::Diff::Header.new filename: filename, from: from, to: to
     end
   end
 
@@ -37,16 +37,16 @@ class SvnDiffParser
       lines.shift
       
       from, to = [ 1, 3 ].collect do |idx|
-        SvnDiffHunkRange.new md[idx].to_i, (md[idx + 1] || 1).to_i
+        Svnx::Diff::HunkRange.new md[idx].to_i, (md[idx + 1] || 1).to_i
       end
       
-      SvnDiffHunkRanges.new from, to
+      Svnx::Diff::HunkRanges.new from, to
     end
   end
 
   def parse_hunk lines
     if ranges = parse_ranges(lines)
-      SvnDiffHunk.new(ranges, Array.new).tap do |hunk|
+      Svnx::Diff::Hunk.new(ranges, Array.new).tap do |hunk|
         char_to_type = { ' ' => :context, '+' => :added,  '-' => :deleted }
         
         while !lines.empty?

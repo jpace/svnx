@@ -4,8 +4,8 @@
 require 'svnx/log/tc'
 require 'svnx/log/entries'
 
-module SVNx::Log
-  class EntriesTestCase < SVNx::Log::TestCase
+module Svnx::Log
+  class EntriesTestCase < Svnx::Log::TestCase
     def assert_entry_fields_not_nil entry
       # these are occasionally missing or blank, which REXML considers nil:
       assert entry.message

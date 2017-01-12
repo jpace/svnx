@@ -3,7 +3,7 @@
 
 require 'svnx/propset/options'
 
-class SvnPropsetArgs
+class Svnx::Propset::Args
   def initialize options
     @options = options
   end

@@ -4,9 +4,9 @@
 require 'svnx/common/options_tc'
 require 'svnx/diff/options'
 
-class SvnDiffOptionsTest < SvnCommonOptionsTestCase
+class Svnx::Diff::OptionsTest < Svnx::CommonOptionsTestCase
   def options_class
-    SvnDiffOptions
+    Svnx::Diff::Options
   end
   
   def test_default

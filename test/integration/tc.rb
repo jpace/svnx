@@ -6,8 +6,8 @@ require 'svnx/log/command'
 require 'rexml/document'
 require 'logue/loggable'
 
-module SVNx
-  class IntegrationTestCase < SVNx::TestCase
+module Svnx
+  class IntegrationTestCase < Svnx::TestCase
     include Logue::Loggable
 
     PT_DIRNAME = '/Programs/pvn/pvntestbed.from'

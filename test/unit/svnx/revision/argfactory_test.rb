@@ -6,11 +6,11 @@ require 'svnx/log/entries'
 require 'svnx/revision/argument'
 require 'resources'
 
-module SVNx::Revision
-  class ArgumentFactoryTestCase < SVNx::TestCase
+module Svnx::Revision
+  class ArgumentFactoryTestCase < Svnx::TestCase
     def setup
       xmllines = Resources::PT_LOG_R22_13_SECONDFILE_TXT.readlines
-      @entries = SVNx::Log::Entries.new :xmllines => xmllines
+      @entries = Svnx::Log::Entries.new :xmllines => xmllines
     end
 
     def test_create

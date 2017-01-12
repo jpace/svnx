@@ -6,7 +6,7 @@ require 'zlib'
 require 'pathname'
 
 module System
-  class CommandTestCase < SVNx::TestCase
+  class CommandTestCase < Svnx::TestCase
     CACHE_DIR = Pathname.new '/tmp/pvn/testing'
 
     def setup

@@ -8,11 +8,11 @@ require 'svnx/revision/argument'
 require 'svnx/revision/argfactory'
 require 'resources'
 
-module SVNx::Revision
-  class RangeTestCase < SVNx::TestCase
+module Svnx::Revision
+  class RangeTestCase < Svnx::TestCase
     def setup
       xmllines = Resources::PT_LOG_R22_13_SECONDFILE_TXT.readlines
-      @entries = SVNx::Log::Entries.new :xmllines => xmllines
+      @entries = Svnx::Log::Entries.new :xmllines => xmllines
     end
 
     def assert_range expstr, expfrom, expto, argfrom, argto = nil

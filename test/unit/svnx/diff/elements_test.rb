@@ -5,9 +5,9 @@ require 'test/unit'
 require 'pathname'
 require 'svnx/diff/elements'
 
-class SvnDiffElementTest < Test::Unit::TestCase
+class Svnx::Diff::ElementTest < Test::Unit::TestCase
   def create_diff_file fname, rev
-    SvnDiffFile.new filename: fname, revision: rev
+    Svnx::Diff::File.new filename: fname, revision: rev
   end
     
   def test_diff_file
@@ -17,7 +17,7 @@ class SvnDiffElementTest < Test::Unit::TestCase
   end
 
   def create_header fname, from, to
-    SvnDiffHeader.new filename: fname, from: from, to: to    
+    Svnx::Diff::Header.new filename: fname, from: from, to: to    
   end
 
   def test_diff_header
@@ -32,7 +32,7 @@ class SvnDiffElementTest < Test::Unit::TestCase
   end
 
   def create_range line, length
-    SvnDiffHunkRange.new line, length
+    Svnx::Diff::HunkRange.new line, length
   end
 
   def test_diff_hunk_range
@@ -43,7 +43,7 @@ class SvnDiffElementTest < Test::Unit::TestCase
   end
 
   def create_ranges from, to
-    SvnDiffHunkRanges.new from, to
+    Svnx::Diff::HunkRanges.new from, to
   end
 
   def test_diff_hunk_ranges
@@ -56,7 +56,7 @@ class SvnDiffElementTest < Test::Unit::TestCase
   end
 
   def create_hunk ranges, lines
-    SvnDiffHunk.new ranges, lines
+    Svnx::Diff::Hunk.new ranges, lines
   end
 
   def test_diff_hunk

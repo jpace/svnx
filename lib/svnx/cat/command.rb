@@ -4,7 +4,7 @@
 require 'svnx/base/command'
 require 'system/command/caching'
 
-module SVNx
+module Svnx
   module CatCmdLine
     # this can be either an Array (for which to_a returns itself), or a
     # CommandArgs, which also has to_a.

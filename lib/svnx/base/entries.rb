@@ -4,7 +4,7 @@
 require 'rexml/document'
 require 'logue/loggable'
 
-module SVNx
+module Svnx
   # this is a parse/process on-demand list of entries, acting like an
   # Enumerable.
 
@@ -47,7 +47,7 @@ module SVNx
       if idx < 0 && idx >= size
         raise "error: index #{idx} is not in range(0 .. #{size})"
       end
-      @entries[idx] = create_entry(@elements[idx + 1])
+      @entries[idx] = create_entry @elements[idx + 1]
     end
 
     def each(&blk)

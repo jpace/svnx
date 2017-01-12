@@ -6,13 +6,13 @@ require 'svnx/propset/args'
 require 'logue/loggable'
 require 'svnx/base/cmdline'
 
-class SvnPropsetCmdLine < SVNx::CommandLine
+class Svnx::Propset::CmdLine < Svnx::CommandLine
   def uses_xml?
     false
   end
 end
 
-class SvnPropsetCommand
+class Svnx::Propset::Command
   include Logue::Loggable
   
   attr_reader :output
@@ -28,13 +28,13 @@ class SvnPropsetCommand
     # parser =>
     # entries
     
-    opts = SvnPropsetOptions.new cmdopts
+    opts = Svnx::Propset::Options.new cmdopts
     info "opts: #{opts}"
-    args = SvnPropsetArgs.new opts
+    args = Svnx::Propset::Args.new opts
     info "args: #{args}"
     cmdargs = args.to_svn_args
     info "cmdargs: #{cmdargs}"
-    cmdline = SvnPropsetCmdLine.new "propset", cmdargs
+    cmdline = Svnx::Propset::CmdLine.new "propset", cmdargs
     info "cmdline: #{cmdline}"
     @output = cmdline.execute
   end

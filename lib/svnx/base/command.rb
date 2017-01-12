@@ -8,10 +8,7 @@ require 'svnx/base/cmdline'
 
 # this replaces svnx/lib/command/svncommand.
 
-class SvnCommand
-end
-
-module SVNx
+module Svnx
   class Command
     include Logue::Loggable
 

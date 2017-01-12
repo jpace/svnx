@@ -4,13 +4,13 @@
 require 'svnx/common/args_tc'
 require 'svnx/merge/args'
 
-class TestSvnMergeArgs < SvnCommonArgsTestCase
+class Svnx::Merge::ArgsTest < Svnx::CommonArgsTestCase
   def create_options optargs = Hash.new
-    SvnMergeOptions.new optargs
+    Svnx::Merge::Options.new optargs
   end
 
   def create_args options
-    SvnMergeArgs.new options
+    Svnx::Merge::Args.new options
   end
   
   def test_default

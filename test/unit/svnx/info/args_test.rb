@@ -4,13 +4,13 @@
 require 'svnx/common/args_tc'
 require 'svnx/info/args'
 
-class TestSvnInfoArgs < SvnCommonArgsTestCase
+class Svnx::Info::ArgsTest < Svnx::CommonArgsTestCase
   def create_options optargs = Hash.new
-    SvnInfoOptions.new optargs
+    Svnx::Info::Options.new optargs
   end
 
   def create_args options
-    SvnInfoArgs.new options
+    Svnx::Info::Args.new options
   end
   
   def test_default

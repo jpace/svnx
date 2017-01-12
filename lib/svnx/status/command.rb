@@ -4,7 +4,7 @@
 require 'svnx/base/command'
 require 'svnx/info/command'
 
-module SVNx
+module Svnx
   class StatusCommandLine < CommandLine
     def initialize args
       super "status", args.to_a
@@ -42,7 +42,7 @@ module SVNx
       end
 
       cmd = StatusCommand.new StatusCommandArgs.new(args)
-      @entries = SVNx::Status::Entries.new(xmllines: cmd.execute, rootpath: rootpath)
+      @entries = Svnx::Status::Entries.new(xmllines: cmd.execute, rootpath: rootpath)
     end
   end
 end

@@ -4,9 +4,9 @@
 require 'svnx/propset/options'
 require 'svnx/common/options_tc'
 
-class SvnPropsetOptionsTest < SvnCommonOptionsTestCase
+class Svnx::Propset::OptionsTest < Svnx::CommonOptionsTestCase
   def options_class
-    SvnPropsetOptions
+    Svnx::Propset::Options
   end
     
   def test_default

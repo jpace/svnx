@@ -7,7 +7,7 @@ require 'system/command/line'
 Logue::Log.level = Logue::Log::WARN
 
 module System
-  class CommandLineTestCase < SVNx::TestCase
+  class CommandLineTestCase < Svnx::TestCase
     # init
 
     def assert_init expecetd, initargs

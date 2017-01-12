@@ -6,7 +6,7 @@ require 'svnx/info/command'
 
 Logue::Log.level = Logue::Log::DEBUG
 
-class SvnInfoCmdLine
+class Svnx::Info::CmdLine
   class << self
     def executed
       @@executed
@@ -22,13 +22,13 @@ class SvnInfoCmdLine
   end
 end
 
-class SvnInfoCommandTest < Test::Unit::TestCase
+class Svnx::Info::CommandTest < Test::Unit::TestCase
   include Logue::Loggable
 
   def assert_command cmdopts = Hash.new
-    cmd = SvnInfoCommand.new cmdopts
+    cmd = Svnx::Info::Command.new cmdopts
     info "cmd: #{cmd}"
-    assert_equal true, SvnInfoCmdLine.executed, "cmdopts: #{cmdopts}"
+    assert_equal true, Svnx::Info::CmdLine.executed, "cmdopts: #{cmdopts}"
     assert_nil cmd.entry, "cmdopts: #{cmdopts}"
   end
   

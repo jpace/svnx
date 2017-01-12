@@ -3,7 +3,7 @@
 
 require 'test/unit'
 
-class SvnCommonOptionsTestCase < Test::Unit::TestCase
+class Svnx::CommonOptionsTestCase < Test::Unit::TestCase
   def assert_options expvals, optvals = Hash.new
     cls = options_class
     opts = cls.new optvals

@@ -9,7 +9,7 @@ Dir['tasks/**/*.rake'].each { |t| load t }
 
 task :default => 'test:all'
 
-class SVNXTestTask < Rake::TestTask
+class SvnxTestTask < Rake::TestTask
   def initialize name, pattern
     super name do |t|
       t.libs << 'lib'
@@ -23,17 +23,17 @@ class SVNXTestTask < Rake::TestTask
   end
 end
 
-SVNXTestTask.new 'test:unit', 'unit/**/*_test.rb'
-SVNXTestTask.new 'test:integration', 'integration/**/*_test.rb'
-SVNXTestTask.new 'test:all', '**/*_test.rb'
+SvnxTestTask.new 'test:unit', 'unit/**/*_test.rb'
+SvnxTestTask.new 'test:integration', 'integration/**/*_test.rb'
+SvnxTestTask.new 'test:all', '**/*_test.rb'
 
 task :build_fixtures do
   Resources.instance.generate
 end
 
 spec = Gem::Specification.new do |s| 
-  s.name               = SVNx::NAME
-  s.version            = SVNx::VERSION
+  s.name               = Svnx::NAME
+  s.version            = Svnx::VERSION
   s.author             = "Jeff Pace"
   s.email              = "jeugenepace@gmail.com"
   s.homepage           = "http://github.com/jpace/svnx"

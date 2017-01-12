@@ -3,7 +3,7 @@
 
 require 'svnx/info/options'
 
-class SvnInfoArgs
+class Svnx::Info::Args
   def initialize options
     @options = options
   end

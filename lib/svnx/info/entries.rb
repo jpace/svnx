@@ -4,14 +4,17 @@
 require 'svnx/info/entry'
 require 'svnx/base/entries'
 
-module SVNx::Info
-  class Entries < SVNx::Entries
-    def get_elements doc
-      doc.elements['info'].elements
-    end
+module Svnx
+  module Info
+  end
+end
 
-    def create_entry xmlelement
-      Entry.new :xmlelement => xmlelement
-    end
+class Svnx::Info::Entries < Svnx::Entries
+  def get_elements doc
+    doc.elements['info'].elements
+  end
+
+  def create_entry xmlelement
+    Svnx::Info::Entry.new :xmlelement => xmlelement
   end
 end
