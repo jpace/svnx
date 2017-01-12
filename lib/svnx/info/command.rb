@@ -1,53 +1,49 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'svnx/base/command'
+require 'svnx/info/options'
 require 'svnx/info/entries'
+require 'svnx/info/args'
+require 'logue/loggable'
+require 'svnx/base/cmdline'
 
-module SVNx
-  class InfoCommandLine < CommandLine
-    def initialize args = Array.new
-      super "info", args.to_a
-    end
+class SvnInfoCmdLine < SVNx::CommandLine
+  def uses_xml?
+    true
   end
+end
 
-  class InfoCommandArgs < CommandArgs
-    attr_reader :revision
+class SvnInfoCommand
+  include Logue::Loggable
+  
+  attr_reader :entry
+  
+  def initialize cmdopts = Hash.new
+    # the pattern:
 
-    def initialize args = Hash.new
-      @revision = args[:revision]
-      super
-    end
-
-    def to_a
-      ary = Array.new
-
-      if @revision
-        [ @revision ].flatten.each do |rev|
-          ary << "-r#{rev}"
-        end
-      end
-
-      if @path
-        ary << @path
-      end
-      ary
-    end
-  end  
-
-  class InfoCommand < Command
-    def command_line
-      InfoCommandLine.new @args
-    end
-  end
-
-  class InfoExec
-    attr_reader :entry
+    # rawargs =>
+    # options =>
+    # svn args =>
+    # command line =>
+    # output =>
+    # parser =>
+    # entries
     
-    def initialize args
-      cmd = InfoCommand.new InfoCommandArgs.new(args)
-      # info has only one entry
-      @entry = SVNx::Info::Entries.new(:xmllines => cmd.execute)[0]
+    opts = SvnInfoOptions.new cmdopts
+    info "opts: #{opts}"
+    args = SvnInfoArgs.new opts
+    info "args: #{args}"
+    cmdargs = args.to_svn_args
+    info "cmdargs: #{cmdargs}"
+    cmdline = SvnInfoCmdLine.new "info", cmdargs
+    info "cmdline: #{cmdline}"
+    output = cmdline.execute
+    info "output: #{output}"
+    
+    # info has only one entry
+    unless output.empty?
+      entries = SVNx::Info::Entries.new xmllines: output
+      @entry = entries[0]
     end
   end
 end

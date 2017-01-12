@@ -6,7 +6,6 @@ require 'logue/loggable'
 require 'svnx/log/entries'
 require 'svnx/status/entries'
 require 'svnx/status/command'
-require 'svnx/info/entries'
 require 'svnx/info/command'
 require 'svnx/cat/command'
 require 'pathname'
@@ -54,7 +53,7 @@ module SVNx::IO
       return nil unless in_svn?
       
       usepath = @local ? @local.to_path : @path
-      inf = SVNx::InfoExec.new path: usepath, revision: revision
+      inf = SvnInfoCommand.new url: usepath, revision: revision
       inf.entry
     end
 
