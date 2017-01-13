@@ -21,6 +21,8 @@ class Svnx::ActionStatus
     add_type 'modified',    'M'
     add_type 'replaced',    'R'
     add_type 'unversioned', '?'
+    add_type 'external',    'X'
+    add_type 'normal',      'q' # actually, X, but in a different column than X for external
   end
 
   def symbol_for arg

@@ -2,47 +2,50 @@
 # -*- ruby -*-
 
 require 'svnx/base/command'
-require 'svnx/info/command'
+require 'svnx/status/args'
+require 'svnx/status/entries'
+require 'pp'
 
-module Svnx
-  class StatusCommandLine < CommandLine
-    def initialize args
-      super "status", args.to_a
-    end
+class Svnx::Status::CmdLine < Svnx::CommandLine
+  def uses_xml?
+    true
   end
 
-  class StatusCommandArgs < CommandArgs
-    def to_a
-      [ @path ].compact
-    end
-  end  
-
-  class StatusCommand < Command
-    def command_line
-      StatusCommandLine.new @args
-    end
+  def caching?
+    false
   end
+end
 
-  class StatusExec
-    attr_reader :entries
+class Svnx::Status::Command
+  include Logue::Loggable
+  
+  attr_reader :entries
+  
+  def initialize cmdopts = Hash.new
+    # the pattern:
+
+    # rawargs =>
+    # options =>
+    # svn args =>
+    # command line =>
+    # output =>
+    # parser =>
+    # entries
     
-    def initialize args
-      path = args[:path]
-      rootpath = nil
-      
-      while true
-        begin
-          inf = InfoExec.new(path: path).entry
-          rootpath = inf.wc_root
-          break
-        rescue
-          path = Pathname.new(path).dirname.to_s
-          break if path == '/'
-        end
-      end
-
-      cmd = StatusCommand.new StatusCommandArgs.new(args)
-      @entries = Svnx::Status::Entries.new(xmllines: cmd.execute, rootpath: rootpath)
+    opts = Svnx::Status::Options.new cmdopts
+    info "opts: #{opts}"
+    args = Svnx::Status::Args.new opts
+    info "args: #{args}"
+    cmdargs = args.to_svn_args
+    info "cmdargs: #{cmdargs}"
+    cmdline = Svnx::Status::CmdLine.new "status", cmdargs
+    info "cmdline: #{cmdline}"
+    output = cmdline.execute
+    
+    # pp output
+    
+    unless output.empty?
+      @entries = Svnx::Status::Entries.new xmllines: output
     end
   end
 end

@@ -20,7 +20,7 @@ class Svnx::Status::Entry < Svnx::Entry
   attr_reader :name
 
   def initialize args
-    @rootpath = args[:rootpath]
+    @rootpath = nil # args[:rootpath]
     super
     # @status is an Svnx::Action
     @action = @status
