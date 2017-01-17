@@ -9,7 +9,7 @@ class Svnx::Status::OptionsTest < Svnx::CommonOptionsTestCase
     Svnx::Status::Options
   end
   
-  def test_default
+  def test_assign_default
     defexpected = {
       paths: nil,
       url: nil
@@ -17,11 +17,11 @@ class Svnx::Status::OptionsTest < Svnx::CommonOptionsTestCase
     assert_options defexpected
   end
   
-  def test_paths
+  def test_assign_paths
     assert_assign paths: [ "a/b", "c/d" ]
   end 
   
-  def test_url
+  def test_assign_url
     assert_assign url: "p://a/b"
   end
 
