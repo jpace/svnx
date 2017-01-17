@@ -29,3 +29,52 @@ module Svnx
     end
   end
 end
+
+# the new command class:
+
+module Svnx
+  module Base
+  end
+end
+
+class Svnx::Base::Command
+  include Logue::Loggable
+  
+  def initialize cmdopts = Hash.new
+    # the pattern:
+
+    # rawargs =>
+    # options =>
+    # svn args =>
+    # command line =>
+    # output =>
+    # parser =>
+    # entries
+
+    info "cmdopts: #{cmdopts}"
+    
+    mods = self.class.name.split "::"
+    info "mods: #{mods}"
+    
+    mod = mods[0 .. -2].join "::"
+    info "mod: #{mod}"
+
+    modl = Kernel.const_get mod
+    info "modl: #{modl.class}"
+    
+    opts = modl::Options.new cmdopts
+    info "opts: #{opts.inspect}"
+
+    args = modl::Args.new opts
+    info "args: #{args}"
+    
+    cmdargs = args.to_svn_args
+    info "cmdargs: #{cmdargs}"
+
+    subcommand = mods[-2].downcase
+    info "subcommand: #{subcommand}"
+    
+    @cmdline = modl::CommandLine.new subcommand, cmdargs
+    info "@cmdline: #{@cmdline}"    
+  end
+end

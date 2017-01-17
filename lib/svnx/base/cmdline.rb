@@ -57,3 +57,11 @@ class Svnx::CommandLine
     false
   end
 end
+
+module Svnx
+  module Base
+  end
+end
+
+class Svnx::Base::CommandLine < Svnx::CommandLine
+end

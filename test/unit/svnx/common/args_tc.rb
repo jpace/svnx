@@ -3,6 +3,9 @@
 
 require 'test/unit'
 
+module Svnx
+end
+
 class Svnx::CommonArgsTestCase < Test::Unit::TestCase
   def assert_to_svn_args expected, optargs = Hash.new
     opts = create_options optargs
