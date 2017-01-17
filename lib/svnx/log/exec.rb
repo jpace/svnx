@@ -8,6 +8,8 @@ require 'logue/loggable'
 require 'svnx/log/args'
 require 'svnx/log/entries'
 require 'svnx/log/line'
+require 'svnx/base/cmdline'
+
 
 module SvnLog
   class Exec

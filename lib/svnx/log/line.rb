@@ -21,11 +21,10 @@ class Svnx::Log::CmdLineCaching < Svnx::CachingCommandLine
   include Svnx::Log::CommonCmdLine
 end
 
-
 class Svnx::Log::CmdLine < Svnx::CommandLine
   def initialize caching, args
     @caching = caching
-    super "log", args
+    super args
   end
   
   def caching?
@@ -37,7 +36,6 @@ class Svnx::Log::CmdLine < Svnx::CommandLine
   end
 end
 
-
 class Svnx::Log::CommandLine < Svnx::Command
   def initialize args
     @use_cache = args.use_cache
@@ -46,6 +44,6 @@ class Svnx::Log::CommandLine < Svnx::Command
   
   def command_line
     cls = Svnx::Log::CmdLine
-    cls.new @args
+    cls.new @use_cache, @args
   end
 end
