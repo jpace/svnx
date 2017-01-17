@@ -26,8 +26,7 @@ class Svnx::Merge::CommandTest < Test::Unit::TestCase
 
   def assert_command cmdopts = Hash.new
     cmd = Svnx::Merge::Command.new cmdopts
-    info "cmd: #{cmd}"
-    assert_equal true, Svnx::Merge::CmdLine.executed, "cmdopts: #{cmdopts}"
+    assert_equal true, Svnx::Merge::CmdLine.executed, "cmdopts: #{cmdopts}"    
     assert_empty cmd.output, "cmdopts: #{cmdopts}"
   end
   
