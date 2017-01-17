@@ -21,30 +21,30 @@ class Svnx::Propset::OptionsTest < Svnx::CommonOptionsTestCase
   end
   
   def test_file
-    assert_options({ file: "abc" }, file: "abc")
+    assert_assign file: "abc"
   end
   
   def test_revision
-    assert_options({ revision: "123:456" }, revision: "123:456")
+    assert_assign revision: "123:456"
   end
   
   def test_revprop
-    assert_options({ revprop: true }, revprop: true)
+    assert_assign revprop: true
   end 
   
   def test_name
-    assert_options({ name: "abc" }, name: "abc")
+    assert_assign name: "abc"
   end 
   
   def test_value
-    assert_options({ value: "def" }, value: "def")
+    assert_assign value: "def"
   end 
   
   def test_path
-    assert_options({ path: "a/b" }, path: "a/b")
+    assert_assign path: "a/b"
   end 
   
   def test_url
-    assert_options({ url: "p://a/b" }, url: "p://a/b")
+    assert_assign url: "p://a/b"
   end 
 end

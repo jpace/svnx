@@ -2,25 +2,20 @@
 # -*- ruby -*-
 
 require 'svnx/common/options_tc'
-require 'svnx/update/options'
+require 'svnx/status/options'
 
-class Svnx::Update::OptionsTest < Svnx::CommonOptionsTestCase
+class Svnx::Status::OptionsTest < Svnx::CommonOptionsTestCase
   def options_class
-    Svnx::Update::Options
+    Svnx::Status::Options
   end
   
   def test_default
     defexpected = {
-      revision: nil,
       paths: nil,
       url: nil
     }
     assert_options defexpected
   end
-  
-  def test_revision
-    assert_assign revision: 123
-  end 
   
   def test_paths
     assert_assign paths: [ "a/b", "c/d" ]
@@ -28,5 +23,5 @@ class Svnx::Update::OptionsTest < Svnx::CommonOptionsTestCase
   
   def test_url
     assert_assign url: "p://a/b"
-  end
+  end 
 end

@@ -19,14 +19,14 @@ class Svnx::Commit::OptionsTest < Svnx::CommonOptionsTestCase
   end
   
   def test_file
-    assert_options({ file: "x/y" }, file: "x/y")
+    assert_assign file: "x/y"
   end 
   
   def test_paths
-    assert_options({ paths: [ "a/b", "c/d" ] }, paths: [ "a/b", "c/d" ])
+    assert_assign paths: [ "a/b", "c/d" ]
   end 
   
   def test_url
-    assert_options({ url: "p://a/b" }, url: "p://a/b")
+    assert_assign url: "p://a/b"
   end 
 end

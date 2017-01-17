@@ -19,23 +19,23 @@ class Svnx::Diff::OptionsTest < Svnx::CommonOptionsTestCase
   end
   
   def test_commit
-    assert_options({ commit: 123 }, commit: 123)
+    assert_assign commit: 123
   end
   
   def test_ignoreproperties_true
-    assert_options({ ignoreproperties: true }, ignoreproperties: true)
+    assert_assign ignoreproperties: true
   end
   
   def test_ignoreproperties_false
-    assert_options({ ignoreproperties: false }, ignoreproperties: false)
+    assert_assign ignoreproperties: false
   end
   
   def test_ignorewhitespace_true
-    assert_options({ ignorewhitespace: true }, ignorewhitespace: true)
+    assert_assign ignorewhitespace: true
   end
   
   def test_ignorewhitespace_false
-    assert_options({ ignorewhitespace: false }, ignorewhitespace: false);
+    assert_assign ignorewhitespace: false
   end 
 
   def test_url

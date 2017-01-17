@@ -15,4 +15,8 @@ class Svnx::CommonOptionsTestCase < Test::Unit::TestCase
       assert_equal expval, val, "method: #{methname}"
     end
   end
+
+  def assert_assign input
+    assert_options input, input
+  end
 end

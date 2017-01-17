@@ -13,9 +13,9 @@ class Svnx::Status::Options
   
   attr_reader :revision
   attr_reader :url
-  attr_reader :path
+  attr_reader :paths
   
   def initialize args
-    assign args, :revision, :url, :path
+    assign args, :revision, :url, :paths
   end
 end
