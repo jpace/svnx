@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'svnx/info/args'
+require 'svnx/info/options'
 require 'logue/loggable'
 require 'svnx/base/cmdline'
 
@@ -29,9 +29,7 @@ class Svnx::Info::Command
     
     opts = Svnx::Info::Options.new cmdopts
     info "opts: #{opts}"
-    args = Svnx::Info::Args.new opts
-    info "args: #{args}"
-    cmdargs = args.to_svn_args
+    cmdargs = opts.to_args
     info "cmdargs: #{cmdargs}"
     cmdline = Svnx::Info::CmdLine.new "info", cmdargs
     info "cmdline: #{cmdline}"

@@ -28,5 +28,25 @@ class Svnx::Commit::OptionsTest < Svnx::CommonOptionsTestCase
   
   def test_url
     assert_assign url: "p://a/b"
-  end 
+  end
+  
+  def test_to_args_default
+    assert_to_args Array.new
+  end
+  
+  def test_to_args_file
+    assert_to_args [ "-F", "a/b" ], file: "a/b"
+  end
+  
+  def test_to_args_url
+    assert_to_args [ "p://abc" ], url: "p://abc"
+  end
+
+  def test_to_args_paths_single
+    assert_to_args [ "a/b" ], paths: [ "a/b" ]
+  end
+
+  def test_to_args_paths_multiple
+    assert_to_args [ "a/b", "c/d" ], paths: [ "a/b", "c/d" ]
+  end
 end

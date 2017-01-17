@@ -2,7 +2,7 @@
 # -*- ruby -*-
 
 require 'svnx/base/command'
-require 'svnx/status/args'
+require 'svnx/status/options'
 require 'svnx/status/entries'
 require 'svnx/base/command'
 require 'pp'

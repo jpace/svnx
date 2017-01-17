@@ -8,8 +8,10 @@ class Svnx::Update::OptionsTest < Svnx::CommonOptionsTestCase
   def options_class
     Svnx::Update::Options
   end
+
+  # assign
   
-  def test_default
+  def test_assign_default
     defexpected = {
       revision: nil,
       paths: nil,
@@ -18,15 +20,37 @@ class Svnx::Update::OptionsTest < Svnx::CommonOptionsTestCase
     assert_options defexpected
   end
   
-  def test_revision
+  def test_assign_revision
     assert_assign revision: 123
   end 
   
-  def test_paths
+  def test_assign_paths
     assert_assign paths: [ "a/b", "c/d" ]
   end 
   
-  def test_url
+  def test_assign_url
     assert_assign url: "p://a/b"
+  end
+
+  # to_args
+  
+  def test_to_args_default
+    assert_to_args Array.new
+  end
+  
+  def test_to_args_revision
+    assert_to_args [ "-r", 123 ], revision: 123
+  end
+  
+  def test_to_args_url
+    assert_to_args [ "p://abc" ], url: "p://abc"
+  end
+
+  def test_to_args_paths_single
+    assert_to_args [ "a/b" ], paths: [ "a/b" ]
+  end
+
+  def test_to_args_paths_multiple
+    assert_to_args [ "a/b", "c/d" ], paths: [ "a/b", "c/d" ]
   end
 end

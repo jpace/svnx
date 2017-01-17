@@ -65,10 +65,7 @@ class Svnx::Base::Command
     opts = modl::Options.new cmdopts
     info "opts: #{opts.inspect}"
 
-    args = modl::Args.new opts
-    info "args: #{args}"
-    
-    cmdargs = args.to_svn_args
+    cmdargs = opts.to_args
     info "cmdargs: #{cmdargs}"
 
     subcommand = mods[-2].downcase

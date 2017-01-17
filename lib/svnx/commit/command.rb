@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'svnx/commit/args'
+require 'svnx/commit/options'
 require 'svnx/base/cmdline'
 require 'svnx/base/command'
 

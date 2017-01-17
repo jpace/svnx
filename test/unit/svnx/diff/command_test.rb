@@ -6,7 +6,7 @@ require 'svnx/diff/command'
 
 Logue::Log.level = Logue::Log::DEBUG
 
-class Svnx::Diff::CmdLine
+class Svnx::Diff::CommandLine
   class << self
     def executed
       @@executed
@@ -28,7 +28,7 @@ class Svnx::Diff::CommandTest < Test::Unit::TestCase
     cmd = Svnx::Diff::Command.new cmdopts
     info "cmd: #{cmd}"
     entries = cmd.entries
-    assert_equal true, Svnx::Diff::CmdLine.executed, "cmdopts: #{cmdopts}"
+    assert_equal true, Svnx::Diff::CommandLine.executed, "cmdopts: #{cmdopts}"
     assert_equal 0, entries.size, "cmdopts: #{cmdopts}"
   end
   
