@@ -34,12 +34,16 @@ class Svnx::Status::Command
     
     opts = Svnx::Status::Options.new cmdopts
     info "opts: #{opts}"
+    
     args = Svnx::Status::Args.new opts
     info "args: #{args}"
+    
     cmdargs = args.to_svn_args
     info "cmdargs: #{cmdargs}"
+    
     cmdline = Svnx::Status::CmdLine.new "status", cmdargs
     info "cmdline: #{cmdline}"
+    
     output = cmdline.execute
     
     # pp output
