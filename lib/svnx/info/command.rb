@@ -2,7 +2,7 @@
 # -*- ruby -*-
 
 require 'svnx/info/options'
-require 'svnx/base/cmdline'
+require 'svnx/info/entries'
 require 'svnx/base/command'
 
 class Svnx::Info::CommandLine < Svnx::CommandLine
@@ -12,8 +12,8 @@ class Svnx::Info::CommandLine < Svnx::CommandLine
 end
 
 class Svnx::Info::Command < Svnx::Base::Command
-  attr_reader :entry
   attr_reader :output
+  attr_reader :entry
   
   def initialize cmdopts = Hash.new
     super

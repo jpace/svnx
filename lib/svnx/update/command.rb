@@ -1,9 +1,9 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'svnx/update/args'
 require 'svnx/base/cmdline'
 require 'svnx/base/command'
+require 'svnx/update/options'
 
 module Svnx
   module Update
@@ -17,7 +17,6 @@ class Svnx::Update::CommandLine < Svnx::Base::CommandLine
 end
 
 class Svnx::Update::Command < Svnx::Base::Command
-  include Logue::Loggable
   
   attr_reader :output
 

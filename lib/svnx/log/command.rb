@@ -4,7 +4,6 @@
 require 'svnx/log/options'
 require 'svnx/log/entries'
 require 'svnx/base/command'
-require 'svnx/base/cmdline'
 
 class Svnx::Log::CommandLine < Svnx::Base::CommandLine
   def uses_xml?

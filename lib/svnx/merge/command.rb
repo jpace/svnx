@@ -2,7 +2,6 @@
 # -*- ruby -*-
 
 require 'svnx/merge/options'
-require 'svnx/base/cmdline'
 require 'svnx/base/command'
 
 class Svnx::Merge::CommandLine < Svnx::CommandLine

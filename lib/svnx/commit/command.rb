@@ -2,13 +2,7 @@
 # -*- ruby -*-
 
 require 'svnx/commit/options'
-require 'svnx/base/cmdline'
 require 'svnx/base/command'
-
-module Svnx
-  module Commit
-  end
-end
 
 class Svnx::Commit::CommandLine < Svnx::Base::CommandLine
   def uses_xml?

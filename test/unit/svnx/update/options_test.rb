@@ -15,7 +15,6 @@ class Svnx::Update::OptionsTest < Svnx::CommonOptionsTestCase
     defexpected = {
       revision: nil,
       paths: nil,
-      url: nil
     }
     assert_options defexpected
   end
@@ -27,10 +26,6 @@ class Svnx::Update::OptionsTest < Svnx::CommonOptionsTestCase
   def test_assign_paths
     assert_assign paths: [ "a/b", "c/d" ]
   end 
-  
-  def test_assign_url
-    assert_assign url: "p://a/b"
-  end
 
   # to_args
   
@@ -42,10 +37,6 @@ class Svnx::Update::OptionsTest < Svnx::CommonOptionsTestCase
     assert_to_args [ "-r", 123 ], revision: 123
   end
   
-  def test_to_args_url
-    assert_to_args [ "p://abc" ], url: "p://abc"
-  end
-
   def test_to_args_paths_single
     assert_to_args [ "a/b" ], paths: [ "a/b" ]
   end
@@ -54,3 +45,4 @@ class Svnx::Update::OptionsTest < Svnx::CommonOptionsTestCase
     assert_to_args [ "a/b", "c/d" ], paths: [ "a/b", "c/d" ]
   end
 end
+

@@ -1,32 +1,16 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'test/unit'
 require 'svnx/diff/command'
+require 'svnx/tc'
 
 Logue::Log.level = Logue::Log::DEBUG
 
-class Svnx::Diff::CommandLine
-  class << self
-    def executed
-      @@executed
-    end
-    
-    @@executed = false
-  end
+class Svnx::Diff::CommandTest < Svnx::Common::TestCase
+  add_execute_methods Svnx::Diff::CommandLine
   
-  def execute
-    @@executed = true
-    Array.new
-  end
-end
-
-class Svnx::Diff::CommandTest < Test::Unit::TestCase
-  include Logue::Loggable
-
   def assert_command cmdopts = Hash.new
     cmd = Svnx::Diff::Command.new cmdopts
-    info "cmd: #{cmd}"
     entries = cmd.entries
     assert_equal true, Svnx::Diff::CommandLine.executed, "cmdopts: #{cmdopts}"
     assert_equal 0, entries.size, "cmdopts: #{cmdopts}"

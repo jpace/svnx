@@ -1,28 +1,13 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'test/unit'
 require 'svnx/propset/command'
+require 'svnx/tc'
 
 Logue::Log.level = Logue::Log::DEBUG
 
-class Svnx::Propset::CommandLine
-  class << self
-    def executed
-      @@executed
-    end
-    
-    @@executed = false
-  end
-  
-  def execute
-    @@executed = true
-    Array.new
-  end
-end
-
-class Svnx::Propset::CommandTest < Test::Unit::TestCase
-  include Logue::Loggable
+class Svnx::Propset::CommandTest < Svnx::Common::TestCase
+  add_execute_methods Svnx::Propset::CommandLine
 
   def assert_command cmdopts = Hash.new
     cmd = Svnx::Propset::Command.new cmdopts
