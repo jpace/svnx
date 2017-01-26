@@ -5,7 +5,7 @@ require 'svnx/info/options'
 require 'svnx/info/entries'
 require 'svnx/base/command'
 
-class Svnx::Info::CommandLine < Svnx::CommandLine
+class Svnx::Info::CommandLine < Svnx::Base::CommandLine
   def uses_xml?
     true
   end

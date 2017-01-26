@@ -4,7 +4,7 @@
 require 'svnx/merge/options'
 require 'svnx/base/command'
 
-class Svnx::Merge::CommandLine < Svnx::CommandLine
+class Svnx::Merge::CommandLine < Svnx::Base::CommandLine
   def uses_xml?
     false
   end

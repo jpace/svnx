@@ -17,7 +17,7 @@ module Svnx
     end
   end
   
-  class CatCommandLine < CommandLine
+  class CatCommandLine < Svnx::Base::CommandLine
     include CatCmdLine
   end
 
