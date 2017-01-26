@@ -54,17 +54,10 @@ class Svnx::Base::Command
     info "cmdopts: #{cmdopts}"
     
     mods = self.class.name.split "::"
-    info "mods: #{mods}"
-    
     mod = mods[0 .. -2].join "::"
-    info "mod: #{mod}"
-
     modl = Kernel.const_get mod
-    info "modl: #{modl.class}"
-    
     opts = modl::Options.new cmdopts
-    info "opts: #{opts.inspect}"
-
+    
     cmdargs = opts.to_args
     info "cmdargs: #{cmdargs}"
 
