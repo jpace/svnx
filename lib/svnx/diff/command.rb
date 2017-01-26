@@ -6,7 +6,7 @@ require 'svnx/base/cmdline'
 require 'svnx/base/command'
 require 'svnx/diff/parser'
 
-class Svnx::Diff::CommandLine < Svnx::CommandLine
+class Svnx::Diff::CommandLine < Svnx::Base::CommandLine
   def uses_xml?
     false
   end

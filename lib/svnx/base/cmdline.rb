@@ -6,6 +6,11 @@ require 'system/command/line'
 require 'system/command/caching'
 require 'svnx/base/env'
 
+module Svnx
+  module Base
+  end
+end
+
 class Svnx::CachingCommandLine < System::CachingCommandLine
   def caching?
     true
@@ -16,7 +21,7 @@ class Svnx::CachingCommandLine < System::CachingCommandLine
   end
 end
 
-class Svnx::CommandLine
+class Svnx::Base::CommandLine
   include Logue::Loggable
 
   attr_reader :output
@@ -56,12 +61,4 @@ class Svnx::CommandLine
   def caching?
     false
   end
-end
-
-module Svnx
-  module Base
-  end
-end
-
-class Svnx::Base::CommandLine < Svnx::CommandLine
 end

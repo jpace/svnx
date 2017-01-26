@@ -5,7 +5,7 @@ require 'svnx/propset/options'
 require 'svnx/base/cmdline'
 require 'svnx/base/command'
 
-class Svnx::Propset::CommandLine < Svnx::CommandLine
+class Svnx::Propset::CommandLine < Svnx::Base::CommandLine
   def uses_xml?
     false
   end
