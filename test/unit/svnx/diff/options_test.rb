@@ -13,7 +13,7 @@ class Svnx::Diff::OptionsTest < Svnx::CommonOptionsTestCase
     defexpected = { commit: nil,
                     ignoreproperties: nil,
                     ignorewhitespace: nil,
-                    path: nil,
+                    paths: nil,
                     url: nil }
     assert_options defexpected
   end
@@ -39,11 +39,11 @@ class Svnx::Diff::OptionsTest < Svnx::CommonOptionsTestCase
   end 
 
   def test_assign_url
-    assert_options({ url: "p://xyz", path: nil }, url: "p://xyz")
+    assert_options({ url: "p://xyz", paths: nil }, url: "p://xyz")
   end
 
-  def test_assign_path
-    assert_options({ path: "a/b", url: nil }, path: "a/b")
+  def test_assign_paths
+    assert_options({ paths: [ "a/b" ], url: nil }, paths: [ "a/b" ])
   end
 
   # to_args
@@ -76,7 +76,11 @@ class Svnx::Diff::OptionsTest < Svnx::CommonOptionsTestCase
     assert_to_args [ "p://xyz" ], url: "p://xyz"
   end
 
-  def test_to_args_path
-    assert_to_args [ "a/b" ], path: "a/b"
+  def test_to_args_paths_one
+    assert_to_args [ "a/b" ], paths: [ "a/b" ]
+  end
+  
+  def test_to_args_paths_two
+    assert_to_args [ "a/b", "c/d" ], paths: [ "a/b", "c/d" ]
   end
 end

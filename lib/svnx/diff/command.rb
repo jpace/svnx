@@ -25,7 +25,7 @@ class Svnx::Diff::Command < Svnx::Base::Command
     @output = @cmdline.execute
     debug "output: #{@output}"
     if @output
-      @entries = Svnx::Diff::Parser.new.parse_all_output @output
+      @entries = Svnx::Diff::Parser.new.parse_all_output @output.dup
     end
   end
 end

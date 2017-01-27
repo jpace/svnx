@@ -12,14 +12,14 @@ class Svnx::Diff::Options < Svnx::Base::Options
   attr_reader :commit
   attr_reader :ignoreproperties
   attr_reader :ignorewhitespace
-  attr_reader :path
+  attr_reader :paths
   attr_reader :url
   
   def initialize args = Hash.new
     @commit = args[:commit]
     @ignoreproperties = args[:ignoreproperties]
     @ignorewhitespace = args[:ignorewhitespace]
-    @path = args[:path]
+    @paths = args[:paths]
     @url = args[:url]
   end
 
@@ -29,7 +29,7 @@ class Svnx::Diff::Options < Svnx::Base::Options
       optargs << [ :ignoreproperties, "--ignore-properties" ] 
       optargs << [ :ignorewhitespace, [ "-x", "-bw" ] ]
       optargs << [ :url, url ]
-      optargs << [ :path, path ]
+      optargs << [ :paths, paths ]
     end
   end
 end
