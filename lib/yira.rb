@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'pathname'
+require 'json'
 
 class Yira
   def initialize
@@ -31,7 +31,32 @@ class Yira
     puts "contents"
     puts contents
 
-    json = JSON.parse contents
+    JSON.parse contents
+  end
+
+  def post_url data, url
+    args = Array.new
+    args << "curl"
+    args << "-k"
+    args << "-u"
+    args << qq(my_credentials)
+    args << "-X"
+    args << "POST"
+    args << "-H"
+    args << qq("Content-Type: application/json")
+    args << "--data"
+    args << q(data)
+    args << qq(url)
+    # puts "args: #{args}"
+    cmd = args.join " "
+    puts "cmd: #{cmd}"
+
+    contents = IO.popen(cmd).readlines.join ""
+
+    puts "contents"
+    puts contents
+
+    JSON.parse contents
   end
 
   def q str
