@@ -11,52 +11,34 @@ class Yira
     "jpace:H@ll0w3dB3Thy"
   end
 
-  def get_url url
+  def run_curl type, *params
     args = Array.new
     args << "curl"
     args << "-k"
     args << "-u"
     args << qq(my_credentials)
     args << "-X"
-    args << "GET"
+    args << type
     args << "-H"
     args << qq("Content-Type: application/json")
-    args << qq(url)
-    puts "args: #{args}"
+    args.concat params
     cmd = args.join " "
     puts "cmd: #{cmd}"
 
     contents = IO.popen(cmd).readlines.join ""
 
     puts "contents"
-    puts contents
+    # puts contents
 
     JSON.parse contents
   end
 
+  def get_url url
+    run_curl "GET", url
+  end
+
   def post_url data, url
-    args = Array.new
-    args << "curl"
-    args << "-k"
-    args << "-u"
-    args << qq(my_credentials)
-    args << "-X"
-    args << "POST"
-    args << "-H"
-    args << qq("Content-Type: application/json")
-    args << "--data"
-    args << q(data)
-    args << qq(url)
-    # puts "args: #{args}"
-    cmd = args.join " "
-    puts "cmd: #{cmd}"
-
-    contents = IO.popen(cmd).readlines.join ""
-
-    puts "contents"
-    puts contents
-
-    JSON.parse contents
+    run_curl "POST", "--data", q(data), url
   end
 
   def q str
