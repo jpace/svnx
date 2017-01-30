@@ -9,125 +9,113 @@ libpath = dir + "/lib"
 $:.unshift libpath
 
 require 'yira'
+require 'yira/defect'
+require 'yira/fix'
 require 'yira/util'
 
 class String
   include StringUtil
 end
 
-module ObjectUtil
-  def assign args, *symbols
-    symbols.each do |symbol|
-      # @var = args[:var]
-      code = "@" + symbol.to_s + " = args[:" + symbol.to_s + "]"
-      instance_eval code
+module HashUtil
+  def join kstr, vstr
+    keys.collect do |key|
+      key.to_s + kstr + self[key].to_s
+    end.join vstr
+  end
+
+  def compact
+    Hash.new.tap do |hsh|
+      keys.each do |key|
+        if key && self[key]
+          hsh[key] = self[key]
+        end
+      end
     end
   end
 end
 
-class Fix
-  include ObjectUtil
-  
-  attr_reader :key
-  attr_reader :name
-  attr_reader :status
-  attr_reader :build_date
-  attr_reader :release_date
-  attr_reader :resolves
-  attr_reader :version
-
-  def initialize args = Hash.new
-    assign args, :key, :name, :status, :build_date, :release_date, :resolves, :version
-  end
-
-
-  def ymd str
-    str && Time.parse(str).strftime("%Y-%m-%d")
-  end
-
-  def println field, value
-    printf "%-12s: %s\n", field, value
-  end
-
-  def print
-    println "name", @name
-    println "key", @key
-    println "version", @version
-    println "status", @status
-    println "build date", ymd(@build_date)
-    println "release date", ymd(@release_date)
-    println "resolves", @resolves.keys.length.to_s + " issues"
-
-    @resolves.sort.each do |okey, issue|
-      println "", okey + " - " + issue["fields"]["summary"]
-    end
-    puts
-  end
+class Hash
+  include HashUtil
 end
 
 class FetchFixItracs
   def initialize args
-    filter = nil
-    if args.first == "-n"
-      args.shift
-      filter = Regexp.new args.shift
+    name = nil
+    status = "Open, Scheduled"
+    key = nil
+    project = "PIE"
+    issuetype = "Fix"
+    version = nil
+
+    while arg = args.shift
+      case arg
+      when "--name", "-n"
+        name = Regexp.new args.shift
+      when "--status", "-s"
+        status = args.shift
+      when "--key", "-k"
+        key = args.shift
+      when "--version", "-v"
+        version = args.shift
+      end
     end
 
-    # https://itrac.eur.ad.sag/secure/IssueNavigator.jspa?mode=hide&requestId=153486"
+    json = run_query key: key, status: status, project: project, issuetype: issuetype
     
-    # fields
-    query = "project = PIE and issuetype = Fix and status in (Open, Scheduled)"
-    limit = '"startAt":0,"maxResults":1152'
-    fields = %w{ id key summary status created updated customfield_10251 customfield_10260 issuelinks fixVersions }
+    issues = json["issues"]
+    puts "issues.size: #{issues.size}"
+    
+    tickets = issues.collect do |issue|
+      # pp issue
+
+      type = issue["fields"]["issuetype"]["name"]
+      cls = Object::const_get type.to_sym
+      cls.new issue
+    end
+
+    if name
+      tickets = tickets.select do |ticket|
+        name.match ticket.name
+      end
+    end
+    
+    if version
+      tickets = tickets.select do |ticket|
+        version == ticket.version
+      end
+    end
+    
+    tickets.sort_by { |ticket| ticket.version }.each do |ticket|
+      ticket.print
+    end
+  end
+
+  def run_query args = Hash.new
+    query = if args[:key]
+              "key = " + args[:key]
+            else
+              elements = Array.new.tap do |ary|
+                if args[:project]
+                  ary << "project = " + args[:project]
+                end
+                if args[:issuetype]
+                  ary << "issuetype = " + args[:issuetype]
+                end
+                if args[:status]
+                  ary << "status in (" + args[:status] + ")"
+                end
+              end
+              elements.join " and "
+            end
+    
+    limit = '"startAt":0,"maxResults":99'
+    fields =  %w{ id key summary status created updated customfield_10251 customfield_10260 issuelinks fixVersions issuetype customfield_10299 }
     
     dstr = build_data query, limit, fields
     puts "dstr: #{dstr}"
     
-    json = Yira.new.post_url dstr, "https://itrac.eur.ad.sag/rest/api/2/search"
-    
-    puts "json.keys: #{json.keys}"
-    # pp json
-
-    issues = json["issues"]
-    puts "issues.size: #{issues.size}"
-    
-    fixes = Array.new
-
-    issues.each do |issue|
-      # pp issue
-      
-      resolves = Hash.new
-
-      issue["fields"]["issuelinks"].each do |ilink|
-        if outissue = ilink["outwardIssue"]
-          resolves[outissue["key"]] = outissue
-        end
-      end
-
-      fix = Fix.new(key:          issue["key"],
-                    name:         issue["fields"]["summary"],
-                    version:      issue["fields"]["fixVersions"][0]["name"],
-                    status:       issue["fields"]["status"]["name"],
-                    build_date:   issue["fields"]["customfield_10251"],
-                    release_date: issue["fields"]["customfield_10260"],
-                    resolves:     resolves)
-
-      if filter.nil? || filter.match(fix.name)
-        fixes << fix
-      end
-    end
-
-    fixes.sort_by { |fix| fix.version }.each do |fix|
-      fix.print
-    end
-  end
-
-  def ymd str
-    str && Time.parse(str).strftime("%Y-%m-%d")
-  end
-
-  def println field, value
-    printf "%-12s: %s\n", field, value
+    Yira.new.post_url dstr, "https://itrac.eur.ad.sag/rest/api/2/search"
   end
 
   def build_data query, limit, fields
