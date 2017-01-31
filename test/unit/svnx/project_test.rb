@@ -53,7 +53,7 @@ class Svnx::ProjectTest < Svnx::Common::TestCase
     msg = "initargs: #{initargs}; cmdargs: #{cmdargs}"
     proj = Svnx::Project.new initargs
     assert_false cmdlinecls.executed, msg
-    result = proj.send projmeth, cmdargs
+    proj.send projmeth, cmdargs
     assert_true cmdlinecls.executed, msg
   end
 

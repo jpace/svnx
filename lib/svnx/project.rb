@@ -51,7 +51,7 @@ class Svnx::Project
   def info args = Hash.new
     cmdargs = { path: @dir, url: @url }.merge args
     infcmd = Svnx::Info::Command.new cmdargs
-    infcmd.entry
+    infcmd.entries && infcmd.entries[0]
   end
 
   def update args = Hash.new

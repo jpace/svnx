@@ -12,7 +12,8 @@ class Svnx::Info::CommandTest < Svnx::Common::TestCase
   def assert_command cmdopts = Hash.new
     cmd = Svnx::Info::Command.new cmdopts
     assert_equal true, Svnx::Info::CommandLine.executed, "cmdopts: #{cmdopts}"
-    assert_nil cmd.entry, "cmdopts: #{cmdopts}"
+    assert_empty cmd.output, "cmdopts: #{cmdopts}"
+    assert_nil cmd.entries, "cmdopts: #{cmdopts}"
   end
   
   def test_revision

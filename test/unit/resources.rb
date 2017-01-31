@@ -76,13 +76,7 @@ class Resources
 
   # pt.pending needs to be checked out from pt.from, then
   # bin/change.rb should be executed.
-
-  PTP_STATUS = PtPendingSvnResource.new 'status'
-  PTP_STATUS_DOG_RB = PtPendingSvnResource.new 'status', 'src/ruby/dog.rb'
-  PTP_INFO_SIXTH_TXT_DOG_RB_FIRST_TXT = PtPendingSvnResource.new 'info', 'dirzero/SixthFile.txt', 'src/ruby/dog.rb', 'FirstFile.txt'
-  PTP_INFO_SIXTH_TXT = PtPendingSvnResource.new 'info', 'dirzero/SixthFile.txt'
-  PTP_DIFF = PtPendingSvnResource.new 'diff'
-
+  
   def generate
     puts "this: #{self.class.constants}"
     self.class.constants.each do |con|

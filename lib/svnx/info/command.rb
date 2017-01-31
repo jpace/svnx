@@ -13,17 +13,15 @@ end
 
 class Svnx::Info::Command < Svnx::Base::Command
   attr_reader :output
-  attr_reader :entry
+  attr_reader :entries
   
   def initialize cmdopts = Hash.new
     super
     @output = @cmdline.execute
     info "@output: #{@output}"
     
-    # info has only one entry
     unless @output.empty?
-      entries = Svnx::Info::Entries.new xmllines: @output
-      @entry = entries[0]
+      @entries = Svnx::Info::Entries.new xmllines: @output
     end
   end
 end
