@@ -3,39 +3,7 @@
 
 require 'logue/loggable'
 require 'system/command/caching'
-require 'svnx/base/args'
 require 'svnx/base/cmdline'
-
-# this replaces svnx/lib/command/svncommand.
-
-module Svnx
-  class Command
-    include Logue::Loggable
-
-    attr_reader :output
-    
-    def initialize args
-      @args = args
-    end
-
-    def command_line
-      raise "must be implemented"
-    end
-    
-    def execute
-      cmdline = command_line
-      cmdline.execute
-      @output = cmdline.output
-    end
-  end
-end
-
-# the new command class:
-
-module Svnx
-  module Base
-  end
-end
 
 class Svnx::Base::Command
   include Logue::Loggable
@@ -64,7 +32,15 @@ class Svnx::Base::Command
     subcommand = mods[-2].downcase
     info "subcommand: #{subcommand}"
     
-    @cmdline = modl::CommandLine.new subcommand, cmdargs
-    info "@cmdline: #{@cmdline}"    
+    @cmdline = Svnx::Base::CommandLine.new subcommand, uses_xml?, caching?, cmdargs
+    info "@cmdline: #{@cmdline}"
+  end
+
+  def uses_xml?
+    false
+  end
+
+  def caching?
+    false
   end
 end

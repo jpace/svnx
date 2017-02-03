@@ -5,17 +5,10 @@ require 'svnx/log/options'
 require 'svnx/log/entries'
 require 'svnx/base/command'
 
-class Svnx::Log::CommandLine < Svnx::Base::CommandLine
-  def uses_xml?
-    true
-  end
-
-  def caching?
-    @caching ||= false
-  end
-end
-
 class Svnx::Log::Command < Svnx::Base::Command
+  include Svnx::Base::NonCaching
+  include Svnx::Base::XmlOutput
+  
   attr_reader :output
   attr_reader :entries
   
@@ -23,8 +16,7 @@ class Svnx::Log::Command < Svnx::Base::Command
     super
     @output = @cmdline.execute
 
-    cl = Svnx::Log::CommandLine.new nil, nil
-    if cl.uses_xml? and not @output.empty? 
+    if not @output.empty? 
       @entries = Svnx::Log::Entries.new xmllines: @output
     end
   end

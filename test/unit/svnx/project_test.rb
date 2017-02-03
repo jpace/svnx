@@ -5,6 +5,8 @@ require 'svnx/project'
 require 'svnx/tc'
 
 class Svnx::ProjectTest < Svnx::Common::TestCase
+  add_execute_methods Svnx::Base::CommandLine
+  
   # init
   
   def assert_init expdir, expurl, args
@@ -57,11 +59,9 @@ class Svnx::ProjectTest < Svnx::Common::TestCase
   end
 
   # info
-
-  add_execute_methods Svnx::Info::CommandLine
   
   def assert_info initargs, infoargs
-    assert_execute_command Svnx::Info::CommandLine, :info, initargs, infoargs
+    assert_execute_command Svnx::Base::CommandLine, :info, initargs, infoargs
   end  
   
   def test_info_dir
@@ -77,11 +77,9 @@ class Svnx::ProjectTest < Svnx::Common::TestCase
   end
 
   # update
-
-  add_execute_methods Svnx::Update::CommandLine
   
   def assert_update initargs, updateargs
-    assert_execute_command Svnx::Update::CommandLine, :update, initargs, updateargs
+    assert_execute_command Svnx::Base::CommandLine, :update, initargs, updateargs
   end  
   
   def test_update_dir
@@ -97,11 +95,9 @@ class Svnx::ProjectTest < Svnx::Common::TestCase
   end  
 
   # merge
-
-  add_execute_methods Svnx::Merge::CommandLine
   
   def assert_merge initargs, mergeargs
-    assert_execute_command Svnx::Merge::CommandLine, :merge, initargs, mergeargs
+    assert_execute_command Svnx::Base::CommandLine, :merge, initargs, mergeargs
   end  
   
   def test_merge_dir
@@ -117,11 +113,9 @@ class Svnx::ProjectTest < Svnx::Common::TestCase
   end  
 
   # commit
-
-  add_execute_methods Svnx::Commit::CommandLine
   
   def assert_commit initargs, commitargs
-    assert_execute_command Svnx::Commit::CommandLine, :commit, initargs, commitargs
+    assert_execute_command Svnx::Base::CommandLine, :commit, initargs, commitargs
   end  
   
   def test_commit_dir
@@ -137,11 +131,9 @@ class Svnx::ProjectTest < Svnx::Common::TestCase
   end  
 
   # log
-
-  add_execute_methods Svnx::Log::CommandLine
   
   def assert_log initargs, logargs
-    assert_execute_command Svnx::Log::CommandLine, :log, initargs, logargs
+    assert_execute_command Svnx::Base::CommandLine, :log, initargs, logargs
   end  
   
   def test_log_dir
@@ -157,11 +149,9 @@ class Svnx::ProjectTest < Svnx::Common::TestCase
   end
 
   # diff
-
-  add_execute_methods Svnx::Diff::CommandLine
   
   def assert_diff initargs, diffargs
-    assert_execute_command Svnx::Diff::CommandLine, :diff, initargs, diffargs
+    assert_execute_command Svnx::Base::CommandLine, :diff, initargs, diffargs
   end  
   
   def test_diff_dir
@@ -177,11 +167,9 @@ class Svnx::ProjectTest < Svnx::Common::TestCase
   end  
   
   # propset
-
-  add_execute_methods Svnx::Propset::CommandLine
   
   def assert_propset initargs, propsetargs
-    assert_execute_command Svnx::Propset::CommandLine, :propset, initargs, propsetargs
+    assert_execute_command Svnx::Base::CommandLine, :propset, initargs, propsetargs
   end  
   
   def test_propset_dir
@@ -197,11 +185,9 @@ class Svnx::ProjectTest < Svnx::Common::TestCase
   end  
   
   # propget
-
-  add_execute_methods Svnx::Propget::CommandLine
   
   def assert_propget initargs, propgetargs
-    assert_execute_command Svnx::Propget::CommandLine, :propget, initargs, propgetargs
+    assert_execute_command Svnx::Base::CommandLine, :propget, initargs, propgetargs
   end  
   
   def test_propget_dir

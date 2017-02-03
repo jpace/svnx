@@ -5,13 +5,10 @@ require 'svnx/info/options'
 require 'svnx/info/entries'
 require 'svnx/base/command'
 
-class Svnx::Info::CommandLine < Svnx::Base::CommandLine
-  def uses_xml?
-    true
-  end
-end
-
 class Svnx::Info::Command < Svnx::Base::Command
+  include Svnx::Base::NonCaching
+  include Svnx::Base::XmlOutput
+  
   attr_reader :output
   attr_reader :entries
   

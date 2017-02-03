@@ -4,13 +4,10 @@
 require 'svnx/merge/options'
 require 'svnx/base/command'
 
-class Svnx::Merge::CommandLine < Svnx::Base::CommandLine
-  def uses_xml?
-    false
-  end
-end
-
 class Svnx::Merge::Command < Svnx::Base::Command
+  include Svnx::Base::NonCaching
+  include Svnx::Base::TextOutput
+  
   attr_reader :output
   
   def initialize cmdopts = Hash.new

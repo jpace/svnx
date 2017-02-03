@@ -28,18 +28,20 @@ class Svnx::Base::CommandLine
   attr_reader :error
   attr_reader :status  
 
-  def initialize subcmd, args
+  def initialize subcmd, usexml, caching, args
     @subcmd = subcmd
+    @usexml = usexml
+    @caching = caching
     @args = args
   end
 
   def execute
     cmdargs = [ 'svn', @subcmd ]
-    cmdargs << '--xml' if uses_xml?
+    cmdargs << '--xml' if @usexml
     cmdargs.concat @args
     debug "cmdargs: #{cmdargs}"
     
-    cmdline = if caching?
+    cmdline = if @caching
                 Svnx::CachingCommandLine.new cmdargs
               else
                 System::CommandLine.new cmdargs
@@ -53,12 +55,28 @@ class Svnx::Base::CommandLine
 
     @output
   end
+end
 
+module Svnx::Base::Caching
+  def caching?
+    true
+  end  
+end
+
+module Svnx::Base::NonCaching
+  def caching?
+    false
+  end  
+end
+
+module Svnx::Base::XmlOutput
   def uses_xml?
     true
   end
+end
 
-  def caching?
+module Svnx::Base::TextOutput
+  def uses_xml?
     false
   end
 end

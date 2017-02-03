@@ -4,19 +4,11 @@
 require 'svnx/base/command'
 require 'svnx/status/options'
 require 'svnx/status/entries'
-require 'svnx/base/command'
-
-class Svnx::Status::CommandLine < Svnx::Base::CommandLine
-  def uses_xml?
-    true
-  end
-
-  def caching?
-    false
-  end
-end
 
 class Svnx::Status::Command < Svnx::Base::Command
+  include Svnx::Base::NonCaching
+  include Svnx::Base::XmlOutput
+  
   attr_reader :output
   attr_reader :entries
   
@@ -24,8 +16,7 @@ class Svnx::Status::Command < Svnx::Base::Command
     super
     @output = @cmdline.execute
 
-    cl = Svnx::Status::CommandLine.new nil, nil
-    if cl.uses_xml? and not @output.empty? 
+    if not @output.empty? 
       @entries = Svnx::Status::Entries.new xmllines: @output
     end
   end

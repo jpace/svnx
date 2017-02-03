@@ -2,21 +2,13 @@
 # -*- ruby -*-
 
 require 'svnx/diff/options'
-require 'svnx/base/cmdline'
 require 'svnx/base/command'
 require 'svnx/diff/parser'
 
-class Svnx::Diff::CommandLine < Svnx::Base::CommandLine
-  def uses_xml?
-    false
-  end
-
-  def caching?
-    true
-  end
-end
-
 class Svnx::Diff::Command < Svnx::Base::Command
+  include Svnx::Base::Caching
+  include Svnx::Base::XmlOutput
+  
   attr_reader :output
   attr_reader :entries
   
