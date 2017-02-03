@@ -5,7 +5,6 @@ require 'svnx/base/command'
 require 'svnx/status/options'
 require 'svnx/status/entries'
 require 'svnx/base/command'
-require 'pp'
 
 class Svnx::Status::CommandLine < Svnx::Base::CommandLine
   def uses_xml?

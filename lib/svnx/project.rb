@@ -6,6 +6,9 @@ require 'svnx/update/command'
 require 'svnx/merge/command'
 require 'svnx/commit/command'
 require 'svnx/log/command'
+require 'svnx/propget/command'
+require 'svnx/propset/command'
+require 'svnx/diff/command'
 
 module Svnx
 end
@@ -15,7 +18,6 @@ end
 
 class Svnx::Project
   attr_reader :dir
-  attr_reader :url
   
   def initialize args
     @dir = args[:dir]
@@ -26,16 +28,14 @@ class Svnx::Project
     @url || @dir
   end
   
-  def svn_command cmd
-    runcmd = cmd + " " + where
-    IO.popen(runcmd).readlines
-  end
-
-  def svn_url
-    svn_info.url
+  def url
+    @url ||= begin
+               entries = info path: @dir
+               entries && entries[0].url
+             end
   end
   
-  def svn_mergeinfo args
+  def mergeinfo args
     cargs = Array.new
     if args[:recurse]
       cargs << "-R"
@@ -44,14 +44,14 @@ class Svnx::Project
     SWN::Commands.new.pg_mergeinfo cargs
   end
 
-  def svn_path
-    svn_info.path
+  def path
+    info.path
   end
 
   def info args = Hash.new
     cmdargs = { path: @dir, url: @url }.merge args
-    infcmd = Svnx::Info::Command.new cmdargs
-    infcmd.entries && infcmd.entries[0]
+    cmd = Svnx::Info::Command.new cmdargs
+    cmd.entries
   end
 
   def update args = Hash.new
@@ -78,11 +78,22 @@ class Svnx::Project
     cmd.entries
   end
 
-  def svn_diff(*args)
-    cargs = args.dup
-    cargs << where if where
-    debug "cargs: #{cargs}"
-    SWN::Commands.new.diff cargs
+  def diff args = Hash.new
+    cmdargs = { path: @dir, url: @url }.merge args
+    cmd = Svnx::Diff::Command.new cmdargs
+    cmd.entries
+  end
+
+  def propset args = Hash.new
+    cmdargs = { path: @dir, url: @url }.merge args
+    cmd = Svnx::Propset::Command.new cmdargs
+    cmd.output
+  end
+
+  def propget args = Hash.new
+    cmdargs = { path: @dir, url: @url }.merge args
+    cmd = Svnx::Propget::Command.new cmdargs
+    cmd.entries
   end
 
   def to_s

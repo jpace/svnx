@@ -4,7 +4,6 @@
 require 'svnx/project'
 require 'svnx/tc'
 
-
 class Svnx::ProjectTest < Svnx::Common::TestCase
   # init
   
@@ -155,5 +154,65 @@ class Svnx::ProjectTest < Svnx::Common::TestCase
   
   def test_log_url_and_dir
     assert_log({dir: "/tmp/svnx-test", url: "p://svnx/abc" }, Hash.new)
+  end
+
+  # diff
+
+  add_execute_methods Svnx::Diff::CommandLine
+  
+  def assert_diff initargs, diffargs
+    assert_execute_command Svnx::Diff::CommandLine, :diff, initargs, diffargs
   end  
+  
+  def test_diff_dir
+    assert_diff({ dir: "/tmp/svnx-test" }, Hash.new)
+  end
+
+  def test_diff_url
+    assert_diff({url: "p://svnx/abc" }, Hash.new)
+  end
+  
+  def test_diff_url_and_dir
+    assert_diff({dir: "/tmp/svnx-test", url: "p://svnx/abc" }, Hash.new)
+  end  
+  
+  # propset
+
+  add_execute_methods Svnx::Propset::CommandLine
+  
+  def assert_propset initargs, propsetargs
+    assert_execute_command Svnx::Propset::CommandLine, :propset, initargs, propsetargs
+  end  
+  
+  def test_propset_dir
+    assert_propset({ dir: "/tmp/svnx-test" }, Hash.new)
+  end
+
+  def test_propset_url
+    assert_propset({url: "p://svnx/abc" }, Hash.new)
+  end
+  
+  def test_propset_url_and_dir
+    assert_propset({dir: "/tmp/svnx-test", url: "p://svnx/abc" }, Hash.new)
+  end  
+  
+  # propget
+
+  add_execute_methods Svnx::Propget::CommandLine
+  
+  def assert_propget initargs, propgetargs
+    assert_execute_command Svnx::Propget::CommandLine, :propget, initargs, propgetargs
+  end  
+  
+  def test_propget_dir
+    assert_propget({ dir: "/tmp/svnx-test" }, Hash.new)
+  end
+
+  def test_propget_url
+    assert_propget({url: "p://svnx/abc" }, Hash.new)
+  end
+  
+  def test_propget_url_and_dir
+    assert_propget({dir: "/tmp/svnx-test", url: "p://svnx/abc" }, Hash.new)
+  end    
 end
