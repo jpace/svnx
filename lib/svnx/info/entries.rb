@@ -4,7 +4,7 @@
 require 'svnx/info/entry'
 require 'svnx/base/entries'
 
-class Svnx::Info::Entries < Svnx::Entries
+class Svnx::Info::Entries < Svnx::Base::Entries
   def get_elements doc
     doc.elements['info'].elements
   end

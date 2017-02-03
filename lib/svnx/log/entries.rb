@@ -9,7 +9,7 @@ module Svnx
   end
 end
 
-class Svnx::Log::Entries < Svnx::Entries
+class Svnx::Log::Entries < Svnx::Base::Entries
   def get_elements doc
     doc.elements['log'].elements
   end

@@ -8,7 +8,7 @@ module Svnx
   end
 end
 
-class Svnx::Info::Entry < Svnx::Entry
+class Svnx::Info::Entry < Svnx::Base::Entry
   attr_reader :url
   attr_reader :root
   attr_reader :kind

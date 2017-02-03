@@ -9,7 +9,7 @@ module Svnx
   end
 end
 
-class Svnx::Status::Entry < Svnx::Entry
+class Svnx::Status::Entry < Svnx::Base::Entry
   include Comparable, Logue::Loggable
   
   attr_reader :status

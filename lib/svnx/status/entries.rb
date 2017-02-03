@@ -4,12 +4,7 @@
 require 'svnx/status/entry'
 require 'svnx/base/entries'
 
-module Svnx
-  module Status
-  end
-end
-
-class Svnx::Status::Entries < Svnx::Entries
+class Svnx::Status::Entries < Svnx::Base::Entries
   def initialize args = Hash.new
     @rootpath = args[:rootpath]
     super

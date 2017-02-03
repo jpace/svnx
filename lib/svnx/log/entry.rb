@@ -34,7 +34,7 @@ class Svnx::Log::EntryPath
   end
 end
 
-class Svnx::Log::Entry < Svnx::Entry
+class Svnx::Log::Entry < Svnx::Base::Entry
   attr_reader :revision, :author, :date, :paths, :msg
 
   def set_from_element elmt

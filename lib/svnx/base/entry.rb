@@ -5,9 +5,11 @@ require 'rexml/document'
 require 'logue/loggable'
 
 module Svnx
+  module Base
+  end
 end
 
-class Svnx::Entry
+class Svnx::Base::Entry
   include Logue::Loggable
 
   def initialize args
