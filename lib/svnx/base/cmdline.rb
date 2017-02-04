@@ -56,27 +56,3 @@ class Svnx::Base::CommandLine
     @output
   end
 end
-
-module Svnx::Base::Caching
-  def caching?
-    true
-  end  
-end
-
-module Svnx::Base::NonCaching
-  def caching?
-    false
-  end  
-end
-
-module Svnx::Base::XmlOutput
-  def uses_xml?
-    true
-  end
-end
-
-module Svnx::Base::TextOutput
-  def uses_xml?
-    false
-  end
-end

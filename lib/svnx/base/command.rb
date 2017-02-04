@@ -7,8 +7,10 @@ require 'svnx/base/cmdline'
 
 class Svnx::Base::Command
   include Logue::Loggable
+
+  attr_reader :output
   
-  def initialize cmdopts = Hash.new
+  def initialize cls: Svnx::Base::CommandLine, xml: true, caching: false, options: Hash.new
     # the pattern:
 
     # rawargs =>
@@ -19,28 +21,24 @@ class Svnx::Base::Command
     # parser =>
     # entries
 
-    info "cmdopts: #{cmdopts}"
+    info "options: #{options}"
     
     mods = self.class.name.split "::"
     mod = mods[0 .. -2].join "::"
     modl = Kernel.const_get mod
-    opts = modl::Options.new cmdopts
+    opts = modl::Options.new options
     
     cmdargs = opts.to_args
     info "cmdargs: #{cmdargs}"
 
     subcommand = mods[-2].downcase
     info "subcommand: #{subcommand}"
-    
-    @cmdline = Svnx::Base::CommandLine.new subcommand, uses_xml?, caching?, cmdargs
+
+    info "cls: #{cls}"
+
+    @cmdline = cls.new subcommand, xml, caching, cmdargs
     info "@cmdline: #{@cmdline}"
-  end
 
-  def uses_xml?
-    false
-  end
-
-  def caching?
-    false
+    @output = @cmdline.execute
   end
 end
