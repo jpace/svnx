@@ -21,18 +21,16 @@ class Svnx::Base::Entries
     # it's a hash, but indexed with integers, for non-sequential access:
     @entries = Hash.new
 
-    if xmllines = args[:xmllines]
-      if xmllines.kind_of? Array
-        xmllines = xmllines.join ''
-      end
+    lines = args[:xmllines] || args[:lines]
 
-      doc = REXML::Document.new xmllines
-
-      @elements = get_elements doc
-      @size = @elements.size
-    elsif args[:xmlentries]
-      raise "argument xmlentries is no longer supported"
+    if lines.kind_of? Array
+      lines = lines.join ''
     end
+
+    doc = REXML::Document.new lines
+    
+    @elements = get_elements doc
+    @size = @elements.size
   end
 
   def get_elements doc

@@ -5,7 +5,9 @@ require 'svnx/base/command'
 require 'svnx/update/options'
 
 class Svnx::Update::Command < Svnx::Base::Command
+  noncaching
+  
   def initialize cmdopts = Hash.new
-    super cls: Svnx::Base::CommandLine, xml: false, caching: false, options: cmdopts
+    super cls: Svnx::Base::CommandLine, options: cmdopts
   end
 end

@@ -4,13 +4,10 @@
 require 'svnx/propget/options'
 require 'svnx/base/command'
 
-class Svnx::Propget::Command < Svnx::Base::Command
-  attr_reader :entries
+class Svnx::Propget::Command < Svnx::Base::EntriesCommand
+  noncaching
   
   def initialize cmdopts = Hash.new
-    super cls: Svnx::Base::CommandLine, xml: true, caching: false, options: cmdopts
-    unless @output.empty? 
-      @entries = Svnx::Propget::Entries.new xmllines: @output
-    end
+    super cls: Svnx::Base::CommandLine, options: cmdopts
   end
 end

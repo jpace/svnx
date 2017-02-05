@@ -28,16 +28,16 @@ class Svnx::Base::CommandLine
   attr_reader :error
   attr_reader :status  
 
-  def initialize subcmd, usexml, caching, args
-    @subcmd = subcmd
-    @usexml = usexml
+  def initialize subcommand: nil, xml: true, caching: false, args: Array.new
+    @subcommand = subcommand
+    @xml = xml
     @caching = caching
     @args = args
   end
 
   def execute
-    cmdargs = [ 'svn', @subcmd ]
-    cmdargs << '--xml' if @usexml
+    cmdargs = [ 'svn', @subcommand ]
+    cmdargs << '--xml' if @xml
     cmdargs.concat @args
     debug "cmdargs: #{cmdargs}"
     
