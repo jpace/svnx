@@ -7,7 +7,7 @@ require 'svnx/base/cmdline'
 
 class Svnx::Base::Command
   include Logue::Loggable
-
+  
   class << self
     def caching
       define_method :caching? do
@@ -39,14 +39,8 @@ class Svnx::Base::Command
 
     cmdargs = nil
 
-    mods = self.class.name.split "::"
-    info "mods: #{mods}"
-    
-    mod = mods[0 .. -2].join "::"
-    info "mod: #{mod}"
-    
-    modl = Kernel.const_get mod
-    info "modl: #{modl}"
+    melements = module_elements
+    modl = find_module melements
     
     opts = modl::Options.new options
     info "opts: #{opts}"
@@ -54,7 +48,7 @@ class Svnx::Base::Command
     cmdargs = opts.to_args
     info "cmdargs: #{cmdargs}"
 
-    subcommand = mods[-2].downcase
+    subcommand = melements[-1].downcase
     info "subcommand: #{subcommand}"
     
     info "cls: #{cls}"
@@ -63,6 +57,23 @@ class Svnx::Base::Command
     info "@cmdline: #{@cmdline}"
 
     @output = @cmdline.execute
+  end
+
+  def module_elements
+    mods = self.class.name.split "::"
+    puts "mods: #{mods}"
+
+    mods[0 .. -2]
+  end
+
+  def find_module elements = module_elements
+    mod = elements * "::"
+    info "mod: #{mod}"
+    
+    modl = Kernel.const_get mod
+    info "modl: #{modl}"
+
+    modl
   end
 end
 
@@ -76,6 +87,11 @@ class Svnx::Base::EntriesCommand < Svnx::Base::Command
       if entries_class
         @entries = entries_class.new lines: @output
       else
+        modl = find_module
+        
+        opts = modl::Options.new options
+        info "opts: #{opts}"
+
         @entries = modl::Entries.new lines: @output
       end
     end
