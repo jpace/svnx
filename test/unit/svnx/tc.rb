@@ -1,8 +1,8 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'test/unit'
 require 'logue/loggable'
+require 'test/unit'
 
 class Object
   def metaclass
@@ -11,8 +11,6 @@ class Object
     end
   end
 end
-
-# for commands:
 
 module Svnx
   module Common

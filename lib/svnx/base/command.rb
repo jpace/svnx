@@ -26,17 +26,7 @@ class Svnx::Base::Command
   attr_reader :error
   attr_reader :status
   
-  def initialize cls: Svnx::Base::CommandLine, xml: false, caching: caching?, entries_class: nil, options: Hash.new
-    # the pattern:
-
-    # rawargs =>
-    # options =>
-    # svn args =>
-    # command line =>
-    # output =>
-    # parser =>
-    # entries
-
+  def initialize cls: Svnx::Base::CommandLine, xml: false, caching: caching?, options: Hash.new
     info "options: #{options}"
 
     cmdargs = nil
@@ -81,16 +71,14 @@ class Svnx::Base::EntriesCommand < Svnx::Base::Command
     super cls: cls, xml: xml, caching: caching, options: options
     
     if not @output.empty?
-      if entries_class
-        @entries = entries_class.new lines: @output
-      else
-        modl = find_module
-        
-        opts = modl::Options.new options
-        info "opts: #{opts}"
-
-        @entries = modl::Entries.new lines: @output
-      end
+      entries_class ||= begin
+                          modl = find_module
+                          opts = modl::Options.new options
+                          info "opts: #{opts}"
+                          modl::Entries
+                        end
+      
+      @entries = entries_class.new lines: @output
     end
   end
 end
