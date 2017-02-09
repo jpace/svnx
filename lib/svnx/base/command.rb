@@ -23,6 +23,8 @@ class Svnx::Base::Command
   end
 
   attr_reader :output
+  attr_reader :error
+  attr_reader :status
   
   def initialize cls: Svnx::Base::CommandLine, xml: false, caching: caching?, entries_class: nil, options: Hash.new
     # the pattern:
@@ -57,23 +59,18 @@ class Svnx::Base::Command
     info "@cmdline: #{@cmdline}"
 
     @output = @cmdline.execute
+    @error = @cmdline.error
+    @status = @cmdline.status
   end
 
   def module_elements
     mods = self.class.name.split "::"
-    puts "mods: #{mods}"
-
     mods[0 .. -2]
   end
 
   def find_module elements = module_elements
     mod = elements * "::"
-    info "mod: #{mod}"
-    
-    modl = Kernel.const_get mod
-    info "modl: #{modl}"
-
-    modl
+    Kernel.const_get mod
   end
 end
 
