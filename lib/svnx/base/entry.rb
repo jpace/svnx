@@ -45,11 +45,11 @@ class Svnx::Base::Entry
   end
 
   def get_attribute xmlelement, attrname
-    xmlelement.attributes[attrname]
+    xmlelement.attributes[attrname.to_s]
   end
 
   def get_element_text xmlelement, elmtname
-    elmt = xmlelement.elements[elmtname]
+    elmt = xmlelement.elements[elmtname.to_s]
     # some elements don't have text:
     (elmt && elmt.text) || ""
   end
@@ -75,6 +75,6 @@ class Svnx::Base::Entry
   end
 
   def set_var varname, value
-    instance_variable_set '@' + varname, value
+    instance_variable_set '@' + varname.to_s, value
   end
 end
