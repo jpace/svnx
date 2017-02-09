@@ -11,7 +11,7 @@ module Svnx
   end
 end
 
-class Svnx::CachingCommandLine < System::CachingCommandLine
+class Svnx::Base::CachingCommandLine < System::CachingCommandLine
   def caching?
     true
   end
@@ -42,7 +42,7 @@ class Svnx::Base::CommandLine
     debug "cmdargs: #{cmdargs}"
     
     cmdline = if @caching
-                Svnx::CachingCommandLine.new cmdargs
+                Svnx::Base::CachingCommandLine.new cmdargs
               else
                 System::CommandLine.new cmdargs
               end
