@@ -17,9 +17,7 @@ class Svnx::Base::Entry
       if xmllines.kind_of? Array
         xmllines = xmllines.join ''
       end
-
       doc = REXML::Document.new xmllines
-
       set_from_xml doc
     elsif xmlelement
       set_from_element xmlelement
@@ -36,18 +34,8 @@ class Svnx::Base::Entry
     raise "must be implemented"
   end
 
-  def get_attribute xmlelement, attrname
-    xmlelement.attributes[attrname.to_s]
-  end
-
-  def get_element_text xmlelement, elmtname
-    elmt = xmlelement.elements[elmtname.to_s]
-    # some elements don't have text:
-    (elmt && elmt.text) || ""
-  end
-
   def set_attr_var xmlelement, varname
-    set_var varname, get_attribute(xmlelement, varname)
+    set_var varname, attribute_value(xmlelement, varname)
   end
 
   def set_attr_vars xmlelement, *varnames
@@ -57,7 +45,7 @@ class Svnx::Base::Entry
   end
 
   def set_elmt_var xmlelement, varname
-    set_var varname, get_element_text(xmlelement, varname)
+    set_var varname, element_text(xmlelement, varname)
   end
 
   def set_elmt_vars xmlelement, *varnames
@@ -69,4 +57,14 @@ class Svnx::Base::Entry
   def set_var varname, value
     instance_variable_set '@' + varname.to_s, value
   end
+
+  def attribute_value xmlelement, attrname
+    xmlelement.attributes[attrname.to_s]
+  end
+
+  def element_text xmlelement, elmtname
+    elmt = xmlelement.elements[elmtname.to_s]
+    # some elements don't have text:
+    (elmt && elmt.text) || ""
+  end  
 end

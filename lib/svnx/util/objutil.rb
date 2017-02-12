@@ -5,11 +5,10 @@ module Svnx
 end
 
 module Svnx::ObjectUtil
+  # shortcut for "@var = args[:var]", for multiple variable names, which are symbols.
   def assign args, *symbols
     symbols.each do |symbol|
-      # @var = args[:var]
-      code = "@" + symbol.to_s + " = args[:" + symbol.to_s + "]"
-      instance_eval code
+      instance_variable_set "@" + symbol.to_s, args[symbol]
     end
   end
 end
