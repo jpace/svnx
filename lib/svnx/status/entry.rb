@@ -19,9 +19,9 @@ class Svnx::Status::Entry < Svnx::Base::Entry
   attr_reader :commit_revision
   attr_reader :name
 
-  def initialize args
-    @rootpath = nil # args[:rootpath]
-    super
+  def initialize xmlelement: nil, rootpath: nil
+    @rootpath = rootpath
+    super xmlelement: xmlelement
     # @status is an Svnx::Action
     @action = @status
   end

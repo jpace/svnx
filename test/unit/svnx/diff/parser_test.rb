@@ -1,11 +1,10 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'test/unit'
-require 'logue/loggable'
 require 'svnx/diff/parser'
-
-Logue::Log.level = Logue::Log::INFO
+require 'logue/loggable'
+require 'svnx/tc'
+require 'test/unit'
 
 class Svnx::Diff::ParserTest < Test::Unit::TestCase
   include Logue::Loggable

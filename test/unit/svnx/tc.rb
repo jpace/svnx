@@ -1,8 +1,22 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'logue/loggable'
 require 'test/unit'
+require 'logue/log'
+require 'resources'
+require 'rainbow'
+
+# no verbose if running all tests:
+level = ARGV.size > 1 ? Logue::Log::WARN : Logue::Log::DEBUG
+
+puts "ARGV: #{ARGV}"
+puts "level: #{level}"
+
+Logue::Log.level = Logue::Log::DEBUG
+Logue::Log.set_widths(-35, 4, -35)
+
+# produce colorized output, even when redirecting to a file:
+Rainbow.enabled = true
 
 class Object
   def metaclass

@@ -4,8 +4,6 @@
 require 'svnx/update/command'
 require 'svnx/tc'
 
-Logue::Log.level = Logue::Log::DEBUG
-
 class Svnx::Update::CommandTest < Svnx::Common::TestCase
   add_execute_methods Svnx::Base::CommandLine
   

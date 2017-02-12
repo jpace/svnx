@@ -4,8 +4,6 @@
 require 'svnx/propget/entries'
 require 'svnx/tc'
 
-Logue::Log.level = Logue::Log::DEBUG
-
 class Svnx::Propget::EntriesTestCase < Svnx::Common::TestCase
   def assert_entry exppath, expname, expvalue, entry
     assert_equal exppath, entry.path

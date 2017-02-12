@@ -4,8 +4,6 @@
 require 'svnx/merge/command'
 require 'svnx/tc'
 
-Logue::Log.level = Logue::Log::DEBUG
-
 class Svnx::Merge::CommandTest < Svnx::Common::TestCase
   add_execute_methods Svnx::Base::CommandLine
   

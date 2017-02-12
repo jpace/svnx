@@ -1,9 +1,8 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'test/unit'
-require 'time'
 require 'svnx/util/dateutil'
+require 'test/unit'
 
 class DateUtilTest < Test::Unit::TestCase
   def assert_to_time_units expected, seconds

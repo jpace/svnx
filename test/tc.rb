@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'logue/log'
 require 'stringio'
 require 'test/unit'

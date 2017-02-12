@@ -12,27 +12,19 @@ end
 class Svnx::Base::Entry
   include Logue::Loggable
 
-  def initialize args
-    if args.has_key? :xmllines
-      if xmllines = args[:xmllines]
-        if xmllines.kind_of? Array
-          xmllines = xmllines.join ''
-        end
-
-        doc = REXML::Document.new xmllines
-
-        set_from_xml doc
-      else
-        raise "xmllines should not be nil"
+  def initialize xmllines: nil, xmlelement: nil
+    if xmllines
+      if xmllines.kind_of? Array
+        xmllines = xmllines.join ''
       end
-    elsif args.has_key? :xmlelement
-      if elmt = args[:xmlelement]
-        set_from_element elmt
-      else
-        raise "xmlelement should not be nil"
-      end
+
+      doc = REXML::Document.new xmllines
+
+      set_from_xml doc
+    elsif xmlelement
+      set_from_element xmlelement
     else
-      raise "must be initialized with xmllines or xmlelement (args.keys: #{args.keys.sort})"
+      raise "must be initialized with xmllines or xmlelement"
     end
   end
 

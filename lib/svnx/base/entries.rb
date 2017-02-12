@@ -17,11 +17,11 @@ class Svnx::Base::Entries
 
   attr_reader :size
 
-  def initialize args = Hash.new
+  def initialize xmllines: nil, lines: nil
     # it's a hash, but indexed with integers, for non-sequential access:
     @entries = Hash.new
 
-    lines = args[:xmllines] || args[:lines]
+    lines ||= xmllines
 
     if lines.kind_of? Array
       lines = lines.join ''
