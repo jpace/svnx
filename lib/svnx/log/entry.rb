@@ -44,8 +44,8 @@ class Svnx::Log::Entry < Svnx::Base::Entry
     @paths = Array.new
 
     elmt.elements.each('paths/path') do |pe|
-      kind = get_attribute pe, 'kind'
-      action = get_attribute pe, 'action'
+      kind = attribute_value pe, 'kind'
+      action = attribute_value pe, 'action'
       name = pe.text
 
       @paths << Svnx::Log::EntryPath.new(kind: kind, action: Svnx::Action.new(action), name: name)

@@ -15,7 +15,8 @@ class Svnx::Log::Entries < Svnx::Base::Entries
   end
 
   def create_entry xmlelement
-    Svnx::Log::Entry.new :xmlelement => xmlelement
+    info "xmlelement: #{xmlelement}"
+    Svnx::Log::Entry.new xmlelement: xmlelement
   end
 
   def match action, filter

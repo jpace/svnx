@@ -22,7 +22,7 @@ class Svnx::Base::Entry
     elsif xmlelement
       set_from_element xmlelement
     else
-      raise "must be initialized with xmllines or xmlelement"
+      raise "must be initialized with xmllines (received: #{xmllines.inspect}) or xmlelement (received: #{xmlelement.inspect})"
     end
   end
 
