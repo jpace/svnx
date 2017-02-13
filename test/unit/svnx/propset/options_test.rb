@@ -15,7 +15,6 @@ class Svnx::Propset::OptionsTest < Svnx::CommonOptionsTestCase
     defexpected = {
       file: nil,
       revision: nil,
-      revprop: nil,
       url: nil,
       path: nil,
     }
@@ -29,10 +28,6 @@ class Svnx::Propset::OptionsTest < Svnx::CommonOptionsTestCase
   def test_assign_revision
     assert_assign revision: "123:456"
   end
-  
-  def test_assign_revprop
-    assert_assign revprop: true
-  end 
   
   def test_assign_name
     assert_assign name: "abc"
@@ -57,11 +52,11 @@ class Svnx::Propset::OptionsTest < Svnx::CommonOptionsTestCase
   end
   
   def test_to_args_revision_commit
-    assert_to_args [ "-r", "123" ], revision: "123"
+    assert_to_args [ "--revprop", "-r", "123" ], revision: "123"
   end
   
   def test_to_args_revision_range
-    assert_to_args [ "-r", "123:456" ], revision: "123:456"
+    assert_to_args [ "--revprop", "-r", "123:456" ], revision: "123:456"
   end
   
   def test_to_args_name_value
@@ -79,4 +74,9 @@ class Svnx::Propset::OptionsTest < Svnx::CommonOptionsTestCase
   def test_to_args_path
     assert_to_args [ "a/b" ], path: "a/b"
   end
+  
+  def test_to_args_value_name_file
+    assert_to_args [ "abc", "--file", "ghi", "def", ], value: "def", name: "abc", file: "ghi"
+  end 
+  
 end
