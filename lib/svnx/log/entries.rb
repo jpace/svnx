@@ -15,7 +15,6 @@ class Svnx::Log::Entries < Svnx::Base::Entries
   end
 
   def create_entry xmlelement
-    info "xmlelement: #{xmlelement}"
     Svnx::Log::Entry.new xmlelement: xmlelement
   end
 

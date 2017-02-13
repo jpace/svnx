@@ -35,15 +35,10 @@ class Svnx::Base::Command
     modl = find_module melements
     
     opts = modl::Options.new options
-    info "opts: #{opts}"
     
     cmdargs = opts.to_args
-    info "cmdargs: #{cmdargs}"
 
     subcommand = melements[-1].downcase
-    info "subcommand: #{subcommand}"
-    
-    info "cls: #{cls}"
 
     @cmdline = cls.new subcommand: subcommand, xml: xml, caching: caching, args: cmdargs
     info "@cmdline: #{@cmdline}"
