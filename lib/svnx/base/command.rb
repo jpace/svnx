@@ -27,22 +27,14 @@ class Svnx::Base::Command
   attr_reader :status
   
   def initialize cls: Svnx::Base::CommandLine, xml: false, caching: caching?, options: Hash.new
-    info "options: #{options}"
-
-    cmdargs = nil
-
     melements = module_elements
-    modl = find_module melements
-    
+    modl = find_module melements    
     opts = modl::Options.new options
-    
     cmdargs = opts.to_args
-
     subcommand = melements[-1].downcase
 
     @cmdline = cls.new subcommand: subcommand, xml: xml, caching: caching, args: cmdargs
-    info "@cmdline: #{@cmdline}"
-
+    
     @output = @cmdline.execute
     @error = @cmdline.error
     @status = @cmdline.status
@@ -69,7 +61,6 @@ class Svnx::Base::EntriesCommand < Svnx::Base::Command
       entries_class ||= begin
                           modl = find_module
                           opts = modl::Options.new options
-                          info "opts: #{opts}"
                           modl::Entries
                         end
       

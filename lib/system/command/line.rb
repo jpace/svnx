@@ -34,8 +34,18 @@ class System::CommandLine
       @status = wthr.value
     end
 
-    debug "@output: #{@output}"
-    debug "@error: #{@error}"
+    if @output
+      @output.each_with_index do |line, idx|
+        debug "output[#{idx}]: #{line}"
+      end
+    end
+    
+    if @error
+      @error.each_with_index do |line, idx|
+        debug "error[#{idx}]: #{line}"
+      end
+    end
+
     debug "@status: #{@status}"
     
     @output

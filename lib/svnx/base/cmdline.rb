@@ -47,7 +47,7 @@ class Svnx::Base::CommandLine
                 System::CommandLine.new cmdargs
               end
     cmdline.execute
-    info "cmdline: #{cmdline}"
+    debug "cmdline: #{cmdline}"
       
     @output = cmdline.output
     @error = cmdline.error

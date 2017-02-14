@@ -43,13 +43,9 @@ class Svnx::Base::Entries
 
   # this doesn't handle negative indices
   def [] idx
-    info "idx: #{idx}"
-    info "@elements: #{@elements}"
-    info "@size: #{@size}"
     if entry = @entries[idx]
       return entry
     end
-    info "#{idx} <=> #{@size}"
     if idx < 0 || idx >= size
       raise "error: index #{idx} is not in range(0 .. #{size})"
     end
