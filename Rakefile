@@ -2,30 +2,20 @@ require 'rubygems'
 require 'rake/testtask'
 require 'rubygems/package_task'
 require 'fileutils'
-require './test/unit/resources'
+require './test/resources'
 require './lib/svnx'
 
 Dir['tasks/**/*.rake'].each { |t| load t }
 
-task :default => 'test:all'
+task :default => :test
 
-class SvnxTestTask < Rake::TestTask
-  def initialize name, pattern
-    super name do |t|
-      t.libs << 'lib'
-      t.libs << 'test'
-      t.libs << 'test/unit'
-      t.pattern = 'test/' + pattern
-      puts "t.pattern: #{t.pattern}"
-      t.warning = true
-      t.verbose = true
-    end
-  end
+Rake::TestTask.new('test') do |t|
+  t.libs << 'lib'
+  t.libs << 'test'
+  t.pattern = 'test/**/*_test.rb'
+  t.warning = true
+  t.verbose = true
 end
-
-SvnxTestTask.new 'test:unit', 'unit/**/*_test.rb'
-SvnxTestTask.new 'test:integration', 'integration/**/*_test.rb'
-SvnxTestTask.new 'test:all', '**/*_test.rb'
 
 task :build_fixtures do
   Resources.instance.generate
