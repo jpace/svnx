@@ -8,8 +8,8 @@ require 'svnx/diff/parser'
 class Svnx::Diff::Command < Svnx::Base::Command
   attr_reader :entries
   
-  def initialize cmdopts = Hash.new
-    super cls: Svnx::Base::CommandLine, xml: false, caching: true, options: cmdopts
+  def initialize cmdopts, cls: Svnx::Base::CommandLine, exec: nil
+    super cmdopts, cls: cls, exec: exec, xml: false, caching: true
     if @output
       @entries = Svnx::Diff::Parser.new.parse_all_output @output.dup
     end

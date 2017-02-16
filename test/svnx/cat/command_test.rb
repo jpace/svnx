@@ -2,15 +2,11 @@
 # -*- ruby -*-
 
 require 'svnx/cat/command'
-require 'svnx/tc'
+require 'svnx/command/tc'
 
-class Svnx::Cat::CommandTest < Svnx::Common::TestCase
-  add_execute_methods Svnx::Base::CommandLine
-  
+class Svnx::Cat::CommandTest < Svnx::Command::TestCase
   def assert_command cmdopts = Hash.new
-    cmd = Svnx::Cat::Command.new cmdopts
-    assert_equal true, Svnx::Base::CommandLine.executed, "cmdopts: #{cmdopts}"
-    assert_empty cmd.output, "cmdopts: #{cmdopts}"
+    super Svnx::Cat::Command, cmdopts
   end
   
   def test_revision

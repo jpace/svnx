@@ -2,16 +2,11 @@
 # -*- ruby -*-
 
 require 'svnx/diff/command'
-require 'svnx/tc'
+require 'svnx/command/tc'
 
-class Svnx::Diff::CommandTest < Svnx::Common::TestCase
-  add_execute_methods Svnx::Base::CommandLine
-  
+class Svnx::Diff::CommandTest < Svnx::Command::TestCase
   def assert_command cmdopts = Hash.new
-    cmd = Svnx::Diff::Command.new cmdopts
-    entries = cmd.entries
-    assert_equal true, Svnx::Base::CommandLine.executed, "cmdopts: #{cmdopts}"
-    assert_equal 0, entries.size, "cmdopts: #{cmdopts}"
+    super Svnx::Diff::Command, cmdopts
   end
   
   def test_default

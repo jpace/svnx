@@ -26,14 +26,18 @@ class Svnx::Base::Command
   attr_reader :error
   attr_reader :status
   
-  def initialize cls: Svnx::Base::CommandLine, xml: false, caching: caching?, options: Hash.new
+  def initialize options, cls: Svnx::Base::CommandLine, exec: nil, xml: false, caching: caching?
+    info "options:: #{options}"
     melements = module_elements
     modl = find_module melements    
     opts = modl::Options.new options
     cmdargs = opts.to_args
+    info "cmdargs: #{cmdargs}"
     subcommand = melements[-1].downcase
 
-    @cmdline = cls.new subcommand: subcommand, xml: xml, caching: caching, args: cmdargs
+    info "exec: #{exec}"
+
+    @cmdline = exec || cls.new(subcommand: subcommand, xml: xml, caching: caching, args: cmdargs)
     
     @output = @cmdline.execute
     @error = @cmdline.error
@@ -54,13 +58,16 @@ end
 class Svnx::Base::EntriesCommand < Svnx::Base::Command
   attr_reader :entries
   
-  def initialize cls: Svnx::Base::CommandLine, caching: caching?, xml: true, entries_class: nil, options: Hash.new
-    super cls: cls, xml: xml, caching: caching, options: options
+  def initialize options, cls: Svnx::Base::CommandLine, exec: nil, caching: caching?, xml: true, entries_class: nil
+    info "cls: #{cls}"
+    info "self: #{self}"
+    info "options: #{options}"
+    
+    super options, cls: cls, exec: exec, xml: xml, caching: caching
     
     if not @output.empty?
       entries_class ||= begin
                           modl = find_module
-                          opts = modl::Options.new options
                           modl::Entries
                         end
       

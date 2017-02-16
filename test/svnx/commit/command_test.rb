@@ -2,17 +2,11 @@
 # -*- ruby -*-
 
 require 'svnx/commit/command'
-require 'svnx/tc'
+require 'svnx/command/tc'
 
-Logue::Log.level = Logue::Log::DEBUG
-
-class Svnx::Commit::CommandTest < Svnx::Common::TestCase
-  add_execute_methods Svnx::Base::CommandLine
-  
+class Svnx::Commit::CommandTest < Svnx::Command::TestCase
   def assert_command cmdopts = Hash.new
-    cmd = Svnx::Commit::Command.new cmdopts
-    assert_equal true, Svnx::Base::CommandLine.executed, "cmdopts: #{cmdopts}"    
-    assert_empty cmd.output, "cmdopts: #{cmdopts}"
+    super Svnx::Commit::Command, cmdopts
   end
   
   def test_commit

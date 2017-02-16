@@ -5,6 +5,7 @@ require 'test/unit'
 require 'logue/log'
 require 'resources'
 require 'rainbow'
+require 'svnx/base/cmdline'
 
 # no verbose if running all tests:
 level = ARGV.size > 1 ? Logue::Log::WARN : Logue::Log::DEBUG
@@ -59,5 +60,16 @@ class Svnx::Common::TestCase < Test::Unit::TestCase
         end
       end
     end
+  end
+end
+
+class Svnx::Base::MockCommandLine < Svnx::Base::CommandLine
+  attr_reader :executed
+  
+  def execute
+    info ":::::::::::::::::::::::::::::::::::::::::::::::::::::::"
+    info "self: #{self}"
+    @executed = true
+    Array.new
   end
 end

@@ -2,16 +2,11 @@
 # -*- ruby -*-
 
 require 'svnx/propset/command'
-require 'svnx/tc'
+require 'svnx/command/tc'
 
-class Svnx::Propset::CommandTest < Svnx::Common::TestCase
-  add_execute_methods Svnx::Base::CommandLine
-
+class Svnx::Propset::CommandTest < Svnx::Command::TestCase
   def assert_command cmdopts = Hash.new
-    cmd = Svnx::Propset::Command.new cmdopts
-    info "cmd: #{cmd}"
-    assert_equal true, Svnx::Base::CommandLine.executed, "cmdopts: #{cmdopts}"
-    assert_empty cmd.output, "cmdopts: #{cmdopts}"
+    super Svnx::Propset::Command, cmdopts
   end
   
   def test_revision
