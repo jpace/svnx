@@ -19,9 +19,10 @@ end
 class Svnx::Project
   attr_reader :dir
   
-  def initialize args
-    @dir = args[:dir]
-    @url = args[:url]
+  def initialize dir: nil, url: nil, exec: nil
+    @dir = dir
+    @url = url
+    @exec = exec
   end
 
   def where
@@ -30,7 +31,7 @@ class Svnx::Project
   
   def url
     @url ||= begin
-               entries = info path: @dir
+               entries = info
                entries && entries[0].url
              end
   end
@@ -48,52 +49,50 @@ class Svnx::Project
     info.path
   end
 
-  def info args = Hash.new
-    cmdargs = { path: @dir, url: @url }.merge args
-    cmd = Svnx::Info::Command.new cmdargs
-    cmd.entries
+  def run_command cmdcls, cmdargs, args, exec: nil
+    cmdargs = cmdargs.merge args
+    cmd = cmdcls.new cmdargs, exec: exec
+    cmd.respond_to?(:entries) ? cmd.entries : cmd.output
   end
 
-  def update args = Hash.new
-    cmdargs = { paths: [ @dir ], url: @url }.merge args
-    cmd = Svnx::Update::Command.new cmdargs
-    cmd.output
+  def path_url
+    { path: @dir, url: @url }
+  end
+
+  def paths_url
+    { paths: [ @dir ], url: @url }
   end
   
-  def merge args = Hash.new
-    cmdargs = { paths: [ @dir ], url: @url }.merge args
-    cmd = Svnx::Merge::Command.new cmdargs
-    cmd.output
+  def info args = Hash.new, exec: @exec
+    run_command Svnx::Info::Command, path_url, args, exec: exec
+  end
+
+  def update args = Hash.new, exec: @exec
+    run_command Svnx::Update::Command, paths_url, args, exec: exec
   end
   
-  def commit args = Hash.new
-    cmdargs = { paths: [ @dir ], url: @url }.merge args
-    cmd = Svnx::Commit::Command.new cmdargs
-    cmd.output
+  def merge args = Hash.new, exec: @exec
+    run_command Svnx::Merge::Command, paths_url, args, exec: exec
   end
   
-  def log args = Hash.new
-    cmdargs = { path: @dir, url: @url }.merge args
-    cmd = Svnx::Log::Command.new cmdargs
-    cmd.entries
+  def commit args = Hash.new, exec: @exec
+    run_command Svnx::Commit::Command, paths_url, args, exec: exec
+  end
+  
+  def log args = Hash.new, exec: @exec
+    run_command Svnx::Log::Command, path_url, args, exec: exec
   end
 
-  def diff args = Hash.new
-    cmdargs = { path: @dir, url: @url }.merge args
-    cmd = Svnx::Diff::Command.new cmdargs
-    cmd.entries
+  def diff args = Hash.new, exec: @exec
+    run_command Svnx::Diff::Command, path_url, args, exec: exec
   end
 
-  def propset args = Hash.new
-    cmdargs = { path: @dir, url: @url }.merge args
-    cmd = Svnx::Propset::Command.new cmdargs
-    cmd.output
+  def propset args = Hash.new, exec: @exec
+    run_command Svnx::Propset::Command, path_url, args, exec: exec
   end
 
-  def propget args = Hash.new
-    cmdargs = { path: @dir, url: @url }.merge args
-    cmd = Svnx::Propget::Command.new cmdargs
-    cmd.entries
+  def propget args = Hash.new, exec: @exec
+    run_command Svnx::Propget::Command, path_url, args, exec: exec
   end
 
   def to_s

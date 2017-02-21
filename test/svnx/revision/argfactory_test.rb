@@ -4,7 +4,6 @@
 require 'tc'
 require 'svnx/log/entries'
 require 'svnx/revision/argument'
-require 'resources'
 
 module Svnx::Revision
   class ArgumentFactoryTestCase < Svnx::TestCase

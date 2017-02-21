@@ -27,16 +27,12 @@ class Svnx::Base::Command
   attr_reader :status
   
   def initialize options, cls: Svnx::Base::CommandLine, exec: nil, xml: false, caching: caching?
-    info "options:: #{options}"
     melements = module_elements
     modl = find_module melements    
     opts = modl::Options.new options
     cmdargs = opts.to_args
-    info "cmdargs: #{cmdargs}"
     subcommand = melements[-1].downcase
-
-    info "exec: #{exec}"
-
+    
     @cmdline = exec || cls.new(subcommand: subcommand, xml: xml, caching: caching, args: cmdargs)
     
     @output = @cmdline.execute
@@ -59,10 +55,6 @@ class Svnx::Base::EntriesCommand < Svnx::Base::Command
   attr_reader :entries
   
   def initialize options, cls: Svnx::Base::CommandLine, exec: nil, caching: caching?, xml: true, entries_class: nil
-    info "cls: #{cls}"
-    info "self: #{self}"
-    info "options: #{options}"
-    
     super options, cls: cls, exec: exec, xml: xml, caching: caching
     
     if not @output.empty?

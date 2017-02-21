@@ -67,8 +67,6 @@ class Svnx::Base::MockCommandLine < Svnx::Base::CommandLine
   attr_reader :executed
   
   def execute
-    info ":::::::::::::::::::::::::::::::::::::::::::::::::::::::"
-    info "self: #{self}"
     @executed = true
     Array.new
   end

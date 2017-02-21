@@ -6,7 +6,6 @@ require 'svnx/log/entries'
 require 'svnx/revision/range'
 require 'svnx/revision/argument'
 require 'svnx/revision/argfactory'
-require 'resources'
 
 module Svnx::Revision
   class RangeTestCase < Svnx::TestCase

@@ -5,30 +5,29 @@ require 'svnx/project'
 require 'svnx/tc'
 
 class Svnx::ProjectTest < Svnx::Common::TestCase
-  add_execute_methods Svnx::Base::CommandLine
   
   # init
   
-  def assert_init expdir, expurl, args
+  def assert_init args, expdir: nil, expurl: nil
     proj = Svnx::Project.new args
     assert_equal expdir, proj.dir, "args: #{args}"
     assert_equal expurl, proj.url, "args: #{args}"
   end
   
   def test_init_dir
-    assert_init "/tmp/svnx-test", nil, dir: "/tmp/svnx-test"
+    assert_init({ exec: Svnx::Base::MockCommandLine.new, dir: "/tmp/svnx-test" }, expdir: "/tmp/svnx-test")
   end
 
   def test_init_url
-    assert_init nil, "p://svnx/abc", url: "p://svnx/abc"
+    assert_init({ url: "p://svnx/abc", exec: Svnx::Base::MockCommandLine.new }, expurl: "p://svnx/abc")
   end
   
   def test_init_url_and_dir
-    assert_init "/tmp/svnx-test", "p://svnx/abc", dir: "/tmp/svnx-test", url: "p://svnx/abc"
+    assert_init({ dir: "/tmp/svnx-test", url: "p://svnx/abc", exec: Svnx::Base::MockCommandLine.new }, expdir: "/tmp/svnx-test", expurl: "p://svnx/abc")
   end
-
-  # where
   
+  # where
+ 
   def assert_where exp, args
     proj = Svnx::Project.new args
     assert_equal exp, proj.where, "args: #{args}"
@@ -49,19 +48,19 @@ class Svnx::ProjectTest < Svnx::Common::TestCase
 
   # command delegation
 
-  def assert_execute_command cmdlinecls, projmeth, initargs, cmdargs
-    cmdlinecls.executed = false
+  def assert_execute_command projmeth, initargs, cmdargs
     msg = "initargs: #{initargs}; cmdargs: #{cmdargs}"
+    exec = Svnx::Base::MockCommandLine.new
     proj = Svnx::Project.new initargs
-    assert_false cmdlinecls.executed, msg
-    proj.send projmeth, cmdargs
-    assert_true cmdlinecls.executed, msg
+    assert_nil exec.executed, msg
+    proj.send projmeth, cmdargs, exec: exec
+    assert_true exec.executed, msg
   end
 
   # info
   
   def assert_info initargs, infoargs
-    assert_execute_command Svnx::Base::CommandLine, :info, initargs, infoargs
+    assert_execute_command :info, initargs, infoargs
   end  
   
   def test_info_dir
@@ -79,7 +78,7 @@ class Svnx::ProjectTest < Svnx::Common::TestCase
   # update
   
   def assert_update initargs, updateargs
-    assert_execute_command Svnx::Base::CommandLine, :update, initargs, updateargs
+    assert_execute_command :update, initargs, updateargs
   end  
   
   def test_update_dir
@@ -97,7 +96,7 @@ class Svnx::ProjectTest < Svnx::Common::TestCase
   # merge
   
   def assert_merge initargs, mergeargs
-    assert_execute_command Svnx::Base::CommandLine, :merge, initargs, mergeargs
+    assert_execute_command :merge, initargs, mergeargs
   end  
   
   def test_merge_dir
@@ -115,7 +114,7 @@ class Svnx::ProjectTest < Svnx::Common::TestCase
   # commit
   
   def assert_commit initargs, commitargs
-    assert_execute_command Svnx::Base::CommandLine, :commit, initargs, commitargs
+    assert_execute_command :commit, initargs, commitargs
   end  
   
   def test_commit_dir
@@ -133,7 +132,7 @@ class Svnx::ProjectTest < Svnx::Common::TestCase
   # log
   
   def assert_log initargs, logargs
-    assert_execute_command Svnx::Base::CommandLine, :log, initargs, logargs
+    assert_execute_command :log, initargs, logargs
   end  
   
   def test_log_dir
@@ -151,7 +150,7 @@ class Svnx::ProjectTest < Svnx::Common::TestCase
   # diff
   
   def assert_diff initargs, diffargs
-    assert_execute_command Svnx::Base::CommandLine, :diff, initargs, diffargs
+    assert_execute_command :diff, initargs, diffargs
   end  
   
   def test_diff_dir
@@ -169,7 +168,7 @@ class Svnx::ProjectTest < Svnx::Common::TestCase
   # propset
   
   def assert_propset initargs, propsetargs
-    assert_execute_command Svnx::Base::CommandLine, :propset, initargs, propsetargs
+    assert_execute_command :propset, initargs, propsetargs
   end  
   
   def test_propset_dir
@@ -187,7 +186,7 @@ class Svnx::ProjectTest < Svnx::Common::TestCase
   # propget
   
   def assert_propget initargs, propgetargs
-    assert_execute_command Svnx::Base::CommandLine, :propget, initargs, propgetargs
+    assert_execute_command :propget, initargs, propgetargs
   end  
   
   def test_propget_dir

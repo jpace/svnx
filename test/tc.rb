@@ -17,11 +17,11 @@ Logue::Log.set_widths(-35, 4, -35)
 Rainbow.enabled = true
 
 module Svnx
-  class TestCase < Test::Unit::TestCase
-    include Logue::Loggable
-    
-    def setup
-      info "self: #{self}"
-    end
+end
+
+class Svnx::TestCase < Test::Unit::TestCase
+  include Logue::Loggable
+  
+  def setup
   end
 end
