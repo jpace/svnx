@@ -26,7 +26,7 @@ class System::CommandLine
 
   def execute
     cmd = to_command
-    debug "cmd: #{cmd}".color("8A8A43")
+    puts "cmd: #{cmd}"
     
     Open3.popen3(cmd) do |stdin, stdout, stderr, wthr|
       @output = stdout.readlines
@@ -34,13 +34,15 @@ class System::CommandLine
       @status = wthr.value
     end
 
-    if @output
+    if false && @output
+      puts "output"
       @output.each_with_index do |line, idx|
         debug "output[#{idx}]: #{line}"
       end
     end
     
-    if @error
+    if false && @error
+      puts "error"
       @error.each_with_index do |line, idx|
         debug "error[#{idx}]: #{line}"
       end
