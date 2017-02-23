@@ -79,8 +79,8 @@ class Svnx::Project
     run_command Svnx::Commit::Command, paths_url, args, exec: exec
   end
   
-  def log args = Hash.new, options: nil, exec: @exec
-    run_command Svnx::Log::Command, path_url, options || args, exec: exec
+  def log args, exec: @exec
+    run_command Svnx::Log::Command, path_url, args, exec: exec
   end
 
   def diff args = Hash.new, exec: @exec
