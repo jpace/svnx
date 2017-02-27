@@ -83,7 +83,7 @@ class Svnx::Project
     run_command Svnx::Log::Command, path_url, args, exec: exec
   end
 
-  def diff args = Hash.new, exec: @exec
+  def diff args, exec: @exec
     run_command Svnx::Diff::Command, path_url, args, exec: exec
   end
 
