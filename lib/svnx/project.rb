@@ -63,35 +63,35 @@ class Svnx::Project
     { paths: [ @dir ], url: @url }
   end
   
-  def info args = Hash.new, exec: @exec
+  def info exec: @exec, **args
     run_command Svnx::Info::Command, path_url, args, exec: exec
   end
 
-  def update args = Hash.new, exec: @exec
+  def update exec: @exec, **args
     run_command Svnx::Update::Command, paths_url, args, exec: exec
   end
   
-  def merge args = Hash.new, exec: @exec
+  def merge exec: @exec, **args
     run_command Svnx::Merge::Command, paths_url, args, exec: exec
   end
   
-  def commit args = Hash.new, exec: @exec
+  def commit exec: @exec, **args
     run_command Svnx::Commit::Command, paths_url, args, exec: exec
   end
   
-  def log args, exec: @exec
+  def log exec: @exec, **args
     run_command Svnx::Log::Command, path_url, args, exec: exec
   end
 
-  def diff args, exec: @exec
+  def diff exec: @exec, **args
     run_command Svnx::Diff::Command, path_url, args, exec: exec
   end
 
-  def propset args = Hash.new, exec: @exec
+  def propset exec: @exec, **args
     run_command Svnx::Propset::Command, path_url, args, exec: exec
   end
 
-  def propget args = Hash.new, exec: @exec
+  def propget exec: @exec, **args
     run_command Svnx::Propget::Command, path_url, args, exec: exec
   end
 

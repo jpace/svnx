@@ -53,7 +53,7 @@ class Svnx::ProjectTest < Svnx::Common::TestCase
     exec = Svnx::Base::MockCommandLine.new
     proj = Svnx::Project.new initargs
     assert_nil exec.executed, msg
-    proj.send projmeth, cmdargs, exec: exec
+    proj.send(projmeth, { exec: exec }.merge(cmdargs))
     assert_true exec.executed, msg
   end
 

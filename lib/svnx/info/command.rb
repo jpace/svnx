@@ -6,5 +6,5 @@ require 'svnx/info/entries'
 require 'svnx/base/command'
 
 class Svnx::Info::Command < Svnx::Base::EntriesCommand
-  caching
+  noncaching
 end
