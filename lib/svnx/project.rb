@@ -1,15 +1,6 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'svnx/info/command'
-require 'svnx/update/command'
-require 'svnx/merge/command'
-require 'svnx/commit/command'
-require 'svnx/log/command'
-require 'svnx/propget/command'
-require 'svnx/propset/command'
-require 'svnx/diff/command'
-
 module Svnx
 end
 
@@ -36,15 +27,6 @@ class Svnx::Project
              end
   end
   
-  def mergeinfo args
-    cargs = Array.new
-    if args[:recurse]
-      cargs << "-R"
-    end
-    cargs << where if where
-    SWN::Commands.new.pg_mergeinfo cargs
-  end
-
   def path
     info.path
   end
@@ -55,45 +37,36 @@ class Svnx::Project
     cmd.respond_to?(:entries) ? cmd.entries : cmd.output
   end
 
-  def path_url
-    { path: @dir, url: @url }
+  def self.add_command_delegator name, takes_multiple_paths
+    require "svnx/#{name}/command"
+
+    pathargs = (takes_multiple_paths ? "{ paths: [ @dir ], url: @url }" : "{ path: @dir, url: @url }")
+    
+    args = [
+      "Svnx::#{name.to_s.capitalize}::Command",
+      pathargs,
+      "args",
+      "exec: exec"
+    ]
+    
+    src = [
+      "def #{name} exec: @exec, **args",
+      "  run_command " + args.join(", "),
+      "end"
+    ].join("\n")
+    module_eval src
   end
 
-  def paths_url
-    { paths: [ @dir ], url: @url }
-  end
+  add_command_delegator :info,    false
   
-  def info exec: @exec, **args
-    run_command Svnx::Info::Command, path_url, args, exec: exec
-  end
-
-  def update exec: @exec, **args
-    run_command Svnx::Update::Command, paths_url, args, exec: exec
-  end
+  add_command_delegator :update,  true
+  add_command_delegator :merge,   true
+  add_command_delegator :commit,  true
   
-  def merge exec: @exec, **args
-    run_command Svnx::Merge::Command, paths_url, args, exec: exec
-  end
-  
-  def commit exec: @exec, **args
-    run_command Svnx::Commit::Command, paths_url, args, exec: exec
-  end
-  
-  def log exec: @exec, **args
-    run_command Svnx::Log::Command, path_url, args, exec: exec
-  end
-
-  def diff exec: @exec, **args
-    run_command Svnx::Diff::Command, path_url, args, exec: exec
-  end
-
-  def propset exec: @exec, **args
-    run_command Svnx::Propset::Command, path_url, args, exec: exec
-  end
-
-  def propget exec: @exec, **args
-    run_command Svnx::Propget::Command, path_url, args, exec: exec
-  end
+  add_command_delegator :log,     false
+  add_command_delegator :diff,    false
+  add_command_delegator :propset, false
+  add_command_delegator :propget, false
 
   def to_s
     where.to_s
