@@ -3,7 +3,6 @@
 
 require 'logue/loggable'
 require 'open3'
-require 'rainbow/ext/string'
 
 module System
 end
