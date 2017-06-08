@@ -1,5 +1,6 @@
 require "bundler/gem_tasks"
 require 'rake/testtask'
+require 'rubygems/package_task'
 
 task :default => :test
 

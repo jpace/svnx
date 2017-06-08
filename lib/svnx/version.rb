@@ -1,8 +1,7 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'pathname'
-
 module Svnx
-  VERSION = "1.1.0"
+  NAME = 'svnx'
+  VERSION = '2.0.6'
 end
