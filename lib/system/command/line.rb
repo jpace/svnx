@@ -25,7 +25,7 @@ class System::CommandLine
 
   def execute
     cmd = to_command
-    $stderr.puts "cmd: #{cmd}"
+    debug "cmd: #{cmd}"
     
     Open3.popen3(cmd) do |stdin, stdout, stderr, wthr|
       @output = stdout.readlines
