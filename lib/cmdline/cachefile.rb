@@ -1,11 +1,11 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'system/command/line'
+require 'cmdline/line'
 require 'zlib'
 require 'logue/loggable'
 
-module System
+module CmdLine
   class GzipPathname < Pathname
     include Logue::Loggable
     

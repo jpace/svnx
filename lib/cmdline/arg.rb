@@ -1,10 +1,10 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-module System
+module CmdLine
 end
 
-class System::Argument < String
+class CmdLine::Argument < String
   # just a string, but quotes itself
 
   def to_s

@@ -2,7 +2,7 @@
 # -*- ruby -*-
 
 require 'logue/loggable'
-require 'system/command/caching'
+require 'cmdline/caching'
 require 'svnx/base/cmdline'
 
 class Svnx::Base::Command

@@ -4,10 +4,10 @@
 require 'logue/loggable'
 require 'open3'
 
-module System
+module CmdLine
 end
 
-class System::CommandLine
+class CmdLine::CommandLine
   include Logue::Loggable
 
   attr_reader :args

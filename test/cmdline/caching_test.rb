@@ -1,31 +1,31 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'system/command/caching'
-require 'system/command/tc'
+require 'cmdline/caching'
+require 'cmdline/tc'
 
 # Ruby 2 changes this to "file: Class#method", so we've got to cache it (ironic, no?)
 $curfile = $0
 
 Logue::Log.level = Logue::Log::WARN
 
-class System::CachingCommandLineTestCase < System::CommandTestCase
+class CmdLine::CachingCommandLineTestCase < CmdLine::CommandTestCase
   def create_ls_tmp
-    System::CachingCommandLine.new [ "ls", "/bin" ]
+    CmdLine::CachingCommandLine.new [ "ls", "/bin" ]
   end
 
   def test_ctor_no_args
-    cl = System::CachingCommandLine.new [ "ls" ]
+    cl = CmdLine::CachingCommandLine.new [ "ls" ]
     assert_equal "ls", cl.to_command
   end
 
   def test_ctor_with_args
-    cl = System::CachingCommandLine.new [ "ls", "/bin" ]
+    cl = CmdLine::CachingCommandLine.new [ "ls", "/bin" ]
     assert_equal "ls /bin", cl.to_command
   end
 
   def test_lshift
-    cl = System::CachingCommandLine.new [ "ls" ]
+    cl = CmdLine::CachingCommandLine.new [ "ls" ]
     cl << "/bin"
     assert_equal "ls /bin", cl.to_command
   end
@@ -71,7 +71,7 @@ class System::CachingCommandLineTestCase < System::CommandTestCase
 
   def test_cache_file_matches_results
     dir = "/usr/local/bin"
-    cl = System::CachingCommandLine.new [ "ls", dir ]
+    cl = CmdLine::CachingCommandLine.new [ "ls", dir ]
     def cl.cache_dir; CACHE_DIR.to_s; end
 
     cachefile = cl.cache_file

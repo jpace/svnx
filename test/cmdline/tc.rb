@@ -5,7 +5,10 @@ require 'tc'
 require 'zlib'
 require 'pathname'
 
-class System::CommandTestCase < Svnx::TestCase
+module CmdLine
+end
+
+class CmdLine::CommandTestCase < Svnx::TestCase
   CACHE_DIR = Pathname.new '/tmp/pvn/testing'
 
   def rm_cache_dir

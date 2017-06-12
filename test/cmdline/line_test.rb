@@ -2,15 +2,15 @@
 # -*- ruby -*-
 
 require 'tc'
-require 'system/command/line'
+require 'cmdline/line'
 
 Logue::Log.level = Logue::Log::WARN
 
-class System::CommandLineTestCase < Svnx::TestCase
+class CmdLine::CommandLineTestCase < Svnx::TestCase
   # init
 
   def assert_init expecetd, initargs
-    cl = System::CommandLine.new initargs
+    cl = CmdLine::CommandLine.new initargs
     assert_equal expected, cl.args
     
     def test_init
@@ -21,7 +21,7 @@ class System::CommandLineTestCase < Svnx::TestCase
   # <<
 
   def assert_lshift expected, initargs, add
-    cl = System::CommandLine.new initargs
+    cl = CmdLine::CommandLine.new initargs
     cl << add
     assert_equal expected, cl.args
   end
@@ -33,7 +33,7 @@ class System::CommandLineTestCase < Svnx::TestCase
   # to_command
 
   def assert_to_command expect, args
-    cl = System::CommandLine.new args
+    cl = CmdLine::CommandLine.new args
     assert_equal expect, cl.to_command
   end
 
@@ -44,7 +44,7 @@ class System::CommandLineTestCase < Svnx::TestCase
   # execute/status
 
   def assert_execute_status expect_success, args
-    cl = System::CommandLine.new args
+    cl = CmdLine::CommandLine.new args
     cl.execute
     assert_equal expect_success, cl.status.success?, "args: #{args}"
   end

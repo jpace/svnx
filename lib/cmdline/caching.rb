@@ -1,10 +1,10 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'system/command/line'
-require 'system/command/cachefile'
+require 'cmdline/line'
+require 'cmdline/cachefile'
 
-class System::CachingCommandLine < System::CommandLine
+class CmdLine::CachingCommandLine < CmdLine::CommandLine
   # caches its input and values.
 
   def cache_dir
@@ -13,7 +13,7 @@ class System::CachingCommandLine < System::CommandLine
   end
 
   def cache_file
-    System::CacheFile.new cache_dir, @args
+    CmdLine::CacheFile.new cache_dir, @args
   end
 
   def execute

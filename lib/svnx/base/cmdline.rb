@@ -2,8 +2,8 @@
 # -*- ruby -*-
 
 require 'logue/loggable'
-require 'system/command/line'
-require 'system/command/caching'
+require 'cmdline/line'
+require 'cmdline/caching'
 require 'svnx/base/env'
 
 module Svnx
@@ -11,7 +11,7 @@ module Svnx
   end
 end
 
-class Svnx::Base::CachingCommandLine < System::CachingCommandLine
+class Svnx::Base::CachingCommandLine < CmdLine::CachingCommandLine
   def caching?
     true
   end
@@ -44,7 +44,7 @@ class Svnx::Base::CommandLine
     cmdline = if @caching
                 Svnx::Base::CachingCommandLine.new cmdargs
               else
-                System::CommandLine.new cmdargs
+                CmdLine::CommandLine.new cmdargs
               end
     cmdline.execute
     debug "cmdline: #{cmdline}"

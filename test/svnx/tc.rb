@@ -8,12 +8,12 @@ require 'rainbow'
 require 'svnx/base/cmdline'
 
 # no verbose if running all tests:
-level = ARGV.size > 1 ? Logue::Log::WARN : Logue::Log::DEBUG
+level = ARGV.size == 0 ? Logue::Log::DEBUG : Logue::Log::WARN
 
 puts "ARGV: #{ARGV}"
 puts "level: #{level}"
 
-Logue::Log.level = Logue::Log::DEBUG
+Logue::Log.level = level
 Logue::Log.set_widths(-35, 4, -35)
 
 # produce colorized output, even when redirecting to a file:

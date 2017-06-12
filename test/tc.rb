@@ -7,11 +7,17 @@ require 'rainbow'
 # no verbose if running all tests:
 level = ARGV.detect { |x| x.index '**' } ? Logue::Log::WARN : Logue::Log::DEBUG
 
-puts "ARGV: #{ARGV}"
-puts "level: #{level}"
+puts "1 ARGV: #{ARGV}"
+puts "1 level: #{level}"
+puts "Logue::Log::WARN: #{Logue::Log::WARN}"
 
-Logue::Log.level = Logue::Log::DEBUG
+Logue::Log.level = level
 Logue::Log.set_widths(-35, 4, -35)
+
+Logue::Log.stack "3 ARGV: #{ARGV}"
+
+puts "2 ARGV: #{ARGV}"
+puts "2 level: #{level}"
 
 # produce colorized output, even when redirecting to a file:
 Rainbow.enabled = true

@@ -5,8 +5,6 @@ require 'test/unit'
 require 'pathname'
 require 'logue/loggable'
 
-Logue::Log.level = Logue::Log::INFO
-
 class DiffTest # < Test::Unit::TestCase
   include Logue::Loggable
   
@@ -38,31 +36,31 @@ class DiffTest # < Test::Unit::TestCase
       puts
     end
 
-    brfn = "src/main/java/com/softwareag/is/grace/is/Branches.java"
-    tbfn = "src/test/java/com/softwareag/is/grace/is/TestBranches.java"
+    brfn = "src/main/java/org/incava/grace/is/Branches.java"
+    tbfn = "src/test/java/org/incava/grace/is/TestBranches.java"
 
     assert_equal [ brfn, tbfn ], result.diffs.keys.sort
 
     assert_diff_record(brfn,
-                       "--- src/main/java/com/softwareag/is/grace/is/Branches.java\t(revision 1501157)",
-                       "+++ src/main/java/com/softwareag/is/grace/is/Branches.java\t(revision 1501158)",
+                       "--- src/main/java/org/incava/grace/is/Branches.java\t(revision 1501157)",
+                       "+++ src/main/java/org/incava/grace/is/Branches.java\t(revision 1501158)",
                        result.diffs[brfn])
     
     assert_diff_record(tbfn,
-                       "--- src/test/java/com/softwareag/is/grace/is/TestBranches.java\t(nonexistent)",
-                       "+++ src/test/java/com/softwareag/is/grace/is/TestBranches.java\t(revision 1501158)",
+                       "--- src/test/java/org/incava/grace/is/TestBranches.java\t(nonexistent)",
+                       "+++ src/test/java/org/incava/grace/is/TestBranches.java\t(revision 1501158)",
                        result.diffs[tbfn])
   end
 end
 
 
 __END__
-Index: src/test/java/com/softwareag/is/grace/is/TestBranches.java
+Index: src/test/java/org/incava/grace/is/TestBranches.java
 ===================================================================
---- src/test/java/com/softwareag/is/grace/is/TestBranches.java	(nonexistent)
-+++ src/test/java/com/softwareag/is/grace/is/TestBranches.java	(revision 1501158)
+--- src/test/java/org/incava/grace/is/TestBranches.java	(nonexistent)
++++ src/test/java/org/incava/grace/is/TestBranches.java	(revision 1501158)
 @@ -0,0 +1,38 @@
-+package com.softwareag.is.grace.is;
++package org.incava.grace.is;
 +
 +import java.util.List;
 +import junit.framework.TestCase;
@@ -100,10 +98,10 @@ Index: src/test/java/com/softwareag/is/grace/is/TestBranches.java
 +        assertFindBranch(false, \"83\");
 +    }
 +}
-Index: src/main/java/com/softwareag/is/grace/is/Branches.java
+Index: src/main/java/org/incava/grace/is/Branches.java
 ===================================================================
---- src/main/java/com/softwareag/is/grace/is/Branches.java	(revision 1501157)
-+++ src/main/java/com/softwareag/is/grace/is/Branches.java	(revision 1501158)
+--- src/main/java/org/incava/grace/is/Branches.java	(revision 1501157)
++++ src/main/java/org/incava/grace/is/Branches.java	(revision 1501158)
 @@ -28,7 +28,10 @@
      public static List<Branch> getAll() {
          return branches;

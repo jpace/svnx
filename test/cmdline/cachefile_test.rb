@@ -1,16 +1,16 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'system/command/tc'
-require 'system/command/cachefile'
+require 'cmdline/tc'
+require 'cmdline/cachefile'
 
 Logue::Log.level = Logue::Log::WARN
 
-class System::CacheFileTestCase < System::CommandTestCase
+class CmdLine::CacheFileTestCase < CmdLine::CommandTestCase
   include Logue::Loggable
 
   def get_cache_file command
-    System::CacheFile.new CACHE_DIR, command
+    CmdLine::CacheFile.new CACHE_DIR, command
   end
 
   def rm_cached_file cachefile
