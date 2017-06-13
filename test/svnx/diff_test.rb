@@ -2,7 +2,6 @@
 # -*- ruby -*-
 
 require 'test/unit'
-require 'pathname'
 require 'logue/loggable'
 
 class DiffTest # < Test::Unit::TestCase

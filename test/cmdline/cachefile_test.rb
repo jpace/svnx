@@ -3,11 +3,13 @@
 
 require 'cmdline/tc'
 require 'cmdline/cachefile'
+require 'pathname_assertions'
 
 Logue::Log.level = Logue::Log::WARN
 
 class CmdLine::CacheFileTestCase < CmdLine::CommandTestCase
   include Logue::Loggable
+  include PathnameAssertions
 
   def get_cache_file command
     CmdLine::CacheFile.new CACHE_DIR, command
@@ -21,10 +23,10 @@ class CmdLine::CacheFileTestCase < CmdLine::CommandTestCase
   def test_creates_gzfile
     cf = get_cache_file [ "ls", "/var/tmp" ]
     rm_cached_file cf
-    assert_false cf.pathname.exist?
+    refute_exists cf.pathname
     
     output = cf.readlines
-    assert cf.pathname.exist?
+    assert_exists cf.pathname
 
     fromgz = read_gzfile cf.pathname
     assert_equal output, fromgz
@@ -33,10 +35,10 @@ class CmdLine::CacheFileTestCase < CmdLine::CommandTestCase
   def test_reads_gzfile
     cf = get_cache_file [ "ls", "-l", "/var/tmp" ]
     rm_cached_file cf
-    assert_false cf.pathname.exist?
+    refute_exists cf.pathname
 
     execlines = cf.readlines
-    assert cf.pathname.exist?
+    assert_exists cf.pathname
 
     # same as above
     cf2 = get_cache_file [ "ls", "-l", "/var/tmp" ]

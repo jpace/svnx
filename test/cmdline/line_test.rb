@@ -3,19 +3,22 @@
 
 require 'tc'
 require 'cmdline/line'
+require 'paramesan'
 
 Logue::Log.level = Logue::Log::WARN
 
 class CmdLine::CommandLineTestCase < Svnx::TestCase
+  extend Paramesan
+  
   # init
 
-  def assert_init expecetd, initargs
+  def assert_init expected, initargs
     cl = CmdLine::CommandLine.new initargs
     assert_equal expected, cl.args
+  end
     
-    def test_init
-      assert_init [ "ls" ], [ "ls" ]
-    end
+  def test_init
+    assert_init [ "ls" ], [ "ls" ]
   end
 
   # <<
@@ -32,9 +35,9 @@ class CmdLine::CommandLineTestCase < Svnx::TestCase
 
   # to_command
 
-  def assert_to_command expect, args
+  def assert_to_command expected, args
     cl = CmdLine::CommandLine.new args
-    assert_equal expect, cl.to_command
+    assert_equal expected, cl.to_command
   end
 
   def test_to_command_init
@@ -43,17 +46,16 @@ class CmdLine::CommandLineTestCase < Svnx::TestCase
 
   # execute/status
 
-  def assert_execute_status expect_success, args
+  def assert_execute expected, args
     cl = CmdLine::CommandLine.new args
     cl.execute
-    assert_equal expect_success, cl.status.success?, "args: #{args}"
+    assert_equal expected, cl.status.success?, "args: #{args}"
   end
 
-  def test_execute_status_success
-    assert_execute_status true, [ "ls", "/tmp" ]
-  end
-
-  def test_execute_status_failure
-    assert_execute_status false, [ "ls", "/tmpx" ]
+  param_test [
+    [ true,  [ "ls", "/tmp" ] ],
+    [ false, [ "ls", "/doesntexist" ] ]
+  ] do |exp, args|
+    assert_execute exp, args
   end
 end

@@ -2,7 +2,6 @@
 # -*- ruby -*-
 
 require 'test/unit'
-require 'pathname'
 require 'svnx/diff/elements'
 
 class Svnx::Diff::ElementTest < Test::Unit::TestCase

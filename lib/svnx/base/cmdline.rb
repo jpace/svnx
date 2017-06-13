@@ -41,11 +41,7 @@ class Svnx::Base::CommandLine
     cmdargs.concat @args
     debug "cmdargs: #{cmdargs}"
     
-    cmdline = if @caching
-                Svnx::Base::CachingCommandLine.new cmdargs
-              else
-                CmdLine::CommandLine.new cmdargs
-              end
+    cmdline = command_line cmdargs
     cmdline.execute
     debug "cmdline: #{cmdline}"
       
@@ -54,5 +50,10 @@ class Svnx::Base::CommandLine
     @status = cmdline.status
 
     @output
+  end
+
+  def command_line cmdargs
+    cls = @caching ? Svnx::Base::CachingCommandLine : CmdLine::CommandLine
+    cls.new cmdargs
   end
 end
