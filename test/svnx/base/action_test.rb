@@ -3,37 +3,35 @@
 
 require 'tc'
 require 'svnx/base/action'
+require 'paramesan'
 
 class Svnx::ActionStatusTestCase < Svnx::TestCase
   include Logue::Loggable
+  extend Paramesan
 
-  def assert_symbol_for expected, *args
+  param_test [
+    [ :added, [ 'A', :added, 'added' ] ],
+    [ :deleted, [ 'D', :deleted, 'deleted' ] ],
+    [ :modified, [ 'M', :modified, 'modified' ] ],
+    [ :unversioned, [ '?', :unversioned, 'unversioned' ] ],
+  ] do |exp, args|
     sas = Svnx::ActionStatus.instance
     args.each do |arg|
       sym = sas.symbol_for arg
-      assert_equal expected, sym, "arg: #{arg}"
+      assert_equal exp, sym, "arg: #{arg}"
     end
-  end    
-  
-  def test_added
-    assert_symbol_for :added, 'A', :added, 'added'
-  end
-  
-  def test_deleted
-    assert_symbol_for :deleted, 'D', :deleted, 'deleted'
-  end
-  
-  def test_modified
-    assert_symbol_for :modified, 'M', :modified, 'modified'
-  end
-  
-  def test_unversioned
-    assert_symbol_for :unversioned, '?', :unversioned, 'unversioned'
   end
 end
 
 class Svnx::ActionTestCase < Svnx::TestCase
-  def assert_action_equals expadd, expdel, expmod, expunver, val
+  extend Paramesan
+
+  param_test [
+    [ true,  false, false, false, 'added',       'A', :added ],
+    [ false, true,  false, false, 'deleted',     'D', :deleted ],
+    [ false, false, true,  false, 'modified',    'M', :modified ],
+    [ false, false, false, true,  'unversioned', '?', :unversioned ],
+  ].each do |expadd, expdel, expmod, expunver, val|
     action = Svnx::Action.new val
     msg = "value: #{val}"
     
@@ -41,35 +39,15 @@ class Svnx::ActionTestCase < Svnx::TestCase
     assert_equal expdel,   action.deleted?,     msg
     assert_equal expmod,   action.modified?,    msg
     assert_equal expunver, action.unversioned?, msg
-  end    
-  
-  def assert_actions_equals expadd, expdel, expmod, expunver, *vals
-    vals.each do |val|
-      assert_action_equals expadd, expdel, expmod, expunver, val
-    end
-  end
-  
-  def test_added
-    assert_actions_equals true, false, false, false, 'added', 'A', :added
-  end
-  
-  def test_deleted
-    assert_actions_equals false, true, false, false, 'deleted', 'D', :deleted
-  end
-  
-  def test_modified
-    assert_actions_equals false, false, true, false, 'modified', 'M', :modified
-  end    
-  
-  def test_unversioned
-    assert_actions_equals false, false, false, true, 'unversioned', '?', :unversioned
   end
 
-  def test_constants
-    assert_equal Svnx::Action.new('added'), Svnx::Action::ADDED
-    assert_equal Svnx::Action.new('deleted'), Svnx::Action::DELETED
-    assert_equal Svnx::Action.new('modified'), Svnx::Action::MODIFIED
-    assert_equal Svnx::Action.new('unversioned'), Svnx::Action::UNVERSIONED 
+  param_test [
+    [ Svnx::Action.new('added'),       Svnx::Action::ADDED ],
+    [ Svnx::Action.new('deleted'),     Svnx::Action::DELETED ],
+    [ Svnx::Action.new('modified'),    Svnx::Action::MODIFIED ],
+    [ Svnx::Action.new('unversioned'), Svnx::Action::UNVERSIONED ],
+  ].each do |exp, action|
+    assert_equal exp, action
   end
   
   def test_invalid_type
