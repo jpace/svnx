@@ -2,9 +2,9 @@
 # -*- ruby -*-
 
 require 'svnx/propget/options'
-require 'svnx/common/options_tc'
+require 'svnx/options/tc'
 
-class Svnx::Propget::OptionsTest < Svnx::CommonOptionsTestCase
+class Svnx::Propget::OptionsTest < Svnx::Options::TestCase
   def options_class
     Svnx::Propget::Options
   end

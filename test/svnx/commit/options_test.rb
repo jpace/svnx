@@ -1,10 +1,10 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'svnx/common/options_tc'
 require 'svnx/commit/options'
+require 'svnx/options/tc'
 
-class Svnx::Commit::OptionsTest < Svnx::CommonOptionsTestCase
+class Svnx::Commit::OptionsTest < Svnx::Options::TestCase
   def options_class
     Svnx::Commit::Options
   end

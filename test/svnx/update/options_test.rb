@@ -1,10 +1,10 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'svnx/common/options_tc'
 require 'svnx/update/options'
+require 'svnx/options/tc'
 
-class Svnx::Update::OptionsTest < Svnx::CommonOptionsTestCase
+class Svnx::Update::OptionsTest < Svnx::Options::TestCase
   def options_class
     Svnx::Update::Options
   end

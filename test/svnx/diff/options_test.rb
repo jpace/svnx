@@ -1,10 +1,10 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'svnx/common/options_tc'
 require 'svnx/diff/options'
+require 'svnx/options/tc'
 
-class Svnx::Diff::OptionsTest < Svnx::CommonOptionsTestCase
+class Svnx::Diff::OptionsTest < Svnx::Options::TestCase
   def options_class
     Svnx::Diff::Options
   end

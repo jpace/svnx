@@ -1,15 +1,16 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'svnx/common/options_tc'
 require 'svnx/merge/options'
+require 'svnx/options/tc'
+require 'paramesan'
 
-class Svnx::Merge::OptionsTest < Svnx::CommonOptionsTestCase
+class Svnx::Merge::OptionsTest < Svnx::Options::TestCase
+  extend Paramesan
+  
   def options_class
     Svnx::Merge::Options
   end
-
-  # assign
   
   def test_assign_default
     defexpected = {
@@ -21,58 +22,29 @@ class Svnx::Merge::OptionsTest < Svnx::CommonOptionsTestCase
     }
     assert_options defexpected
   end
-  
-  def test_assign_commit
-    assert_assign commit: 123
-  end
-  
-  def test_assign_range
-    assert_assign range: "123:456"
-  end
-  
-  def test_assign_accept
-    assert_assign accept: "postpone"
-  end 
-  
-  def test_assign_path
-    assert_assign path: "a/b"
-  end 
-  
-  def test_assign_url
-    assert_assign url: "p://a/b"
-  end
 
+  param_test [
+    { commit: 123 },
+    { range: "123:456" },
+    { accept: "postpone" },
+    { path: "a/b" },
+    { url: "p://a/b" }
+  ].each do |vals|
+    assert_assign vals
+  end
+  
   # to_args
-  
-  def test_to_args_default
-    assert_to_args Array.new
-  end
-  
-  def test_to_args_commit
-    assert_to_args [ "-c", 123 ], commit: 123
-  end
-  
-  def test_to_args_range
-    assert_to_args [ "-r", "123:456" ], range: "123:456"
-  end
-  
-  def test_to_args_accept
-    assert_to_args [ "--accept", "postpone" ], accept: "postpone"
-  end
-  
-  def test_to_args_from
-    assert_to_args [ "p://abc" ], from: "p://abc"
-  end
 
-  def test_to_args_from_url
-    assert_to_args [ "p://abc", "q://def" ], from: "p://abc", url: "q://def"
-  end
-  
-  def test_to_args_url
-    assert_to_args [ "p://abc" ], url: "p://abc"
-  end
-
-  def test_to_args_path
-    assert_to_args [ "a/b" ], path: "a/b"
+  param_test [
+    [ Array.new, Hash.new ],
+    [ [ "-c", 123 ], commit: 123 ],
+    [ [ "-r", "123:456" ], range: "123:456" ],
+    [ [ "--accept", "postpone" ], accept: "postpone" ],
+    [ [ "p://abc" ], from: "p://abc" ],
+    [ [ "p://abc", "q://def" ], from: "p://abc", url: "q://def" ],
+    [ [ "p://abc" ], url: "p://abc" ],
+    [ [ "a/b" ], path: "a/b" ],
+  ].each do |exp, vals|
+    assert_to_args exp, vals
   end
 end
