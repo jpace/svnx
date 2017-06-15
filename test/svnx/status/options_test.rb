@@ -3,11 +3,8 @@
 
 require 'svnx/status/options'
 require 'svnx/options/tc'
-require 'paramesan'
 
 class Svnx::Status::OptionsTest < Svnx::Options::TestCase
-  extend Paramesan
-  
   def options_class
     Svnx::Status::Options
   end

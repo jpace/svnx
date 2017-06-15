@@ -8,50 +8,27 @@ class Svnx::Cat::OptionsTest < Svnx::Options::TestCase
   def options_class
     Svnx::Cat::Options
   end
-
-  # assign
     
   def test_assign_default
-    defexpected = {
-      revision: nil,
-      url: nil,
-      path: nil,
-    }
-    assert_options defexpected
-  end
-  
-  def test_assign_revision
-    assert_assign revision: "123"
-  end
-  
-  def test_assign_path
-    assert_assign path: "a/b"
-  end 
-  
-  def test_assign_url
-    assert_assign url: "p://a/b"
+    assert_options revision: nil, url: nil, path: nil
   end
 
-  # to_args
-  
-  def test_to_args_default
-    assert_to_args Array.new
+  param_test [
+    { revision: "123" },
+    { path: "a/b" },
+    { url: "p://a/b" }
+  ].each do |vals|
+    assert_assign vals
   end
-  
-  def test_to_args_revision_commit
-    assert_to_args [ "-r", "123" ], revision: "123"
-  end
-  
-  def test_to_args_revision_range
+
+  param_test [
+    [ Array.new, Hash.new ],
+    [ [ "-r", "123" ], revision: "123" ],
     # should raise an error here -- cat can't take revision "M:N"
-    # assert_to_args [ "-r", "123:456" ], revision: "123:456"
-  end
-  
-  def test_to_args_url
-    assert_to_args [ "p://abc" ], url: "p://abc"
-  end
-
-  def test_to_args_path
-    assert_to_args [ "a/b" ], path: "a/b"
+    # [ [ "-r", "123:456" ], revision: "123:456" ],
+    [ [ "p://abc" ], url: "p://abc" ],
+    [ [ "a/b" ], path: "a/b" ]
+  ].each do |exp, vals|
+    assert_to_args exp, vals
   end
 end

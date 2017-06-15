@@ -3,24 +3,14 @@
 
 require 'svnx/merge/options'
 require 'svnx/options/tc'
-require 'paramesan'
 
 class Svnx::Merge::OptionsTest < Svnx::Options::TestCase
-  extend Paramesan
-  
   def options_class
     Svnx::Merge::Options
   end
   
   def test_assign_default
-    defexpected = {
-      commit: nil,
-      range: nil,
-      accept: nil,
-      path: nil,
-      url: nil
-    }
-    assert_options defexpected
+    assert_options commit: nil, range: nil, accept: nil, path: nil, url: nil
   end
 
   param_test [

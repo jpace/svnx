@@ -10,61 +10,27 @@ class Svnx::Log::OptionsTest < Svnx::Options::TestCase
   end
   
   def test_assign_default
-    defexpected = {
-      verbose: nil,
-      limit: nil,
-      revision: nil,
-      path: nil,
-      url: nil
-    }
-    assert_options defexpected
+    assert_options verbose: nil, limit: nil, revision: nil, path: nil, url: nil
   end
 
-  def test_assign_verbose
-    assert_assign verbose: true
-  end
-  
-  def test_assign_limit
-    assert_assign limit: 17
-  end
-  
-  def test_assign_revision
-    assert_assign revision: 123
-  end
-  
-  def test_assign_paths
-    assert_assign path: "a/b"
-  end 
-  
-  def test_assign_url
-    assert_assign url: "p://a/b"
+  param_test [
+    { verbose: true },
+    { limit: 17 },
+    { revision: 123 },
+    { path: "a/b" },
+    { url: "p://a/b" },
+  ].each do |vals|
+    assert_assign vals
   end
 
-  def create_options optargs = Hash.new
-    Svnx::Log::Options.new optargs
-  end
-
-  def test_to_args_default
-    assert_to_args Array.new
-  end
-  
-  def test_to_args_verbose
-    assert_to_args [ "-v" ], verbose: true
-  end
-
-  def test_to_args_limit
-    assert_to_args [ "--limit", 17 ], limit: 17
-  end
-  
-  def test_to_args_revision
-    assert_to_args [ "-r123" ], revision: 123
-  end
-  
-  def test_to_args_url
-    assert_to_args [ "p://abc" ], url: "p://abc"
-  end
-
-  def test_to_args_path
-    assert_to_args [ "a/b" ], path: [ "a/b" ]
-  end
+  param_test [
+    [ Array.new, Hash.new ],
+    [ [ "-v" ], verbose: true ],
+    [ [ "--limit", 17 ], limit: 17 ],
+    [ [ "-r123" ], revision: 123 ],
+    [ [ "p://abc" ], url: "p://abc" ],
+    [ [ "a/b" ], path: [ "a/b" ] ],
+  ].each do |exp, vals|
+    assert_to_args exp, vals
+  end    
 end

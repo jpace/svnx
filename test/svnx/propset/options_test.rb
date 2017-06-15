@@ -8,75 +8,32 @@ class Svnx::Propset::OptionsTest < Svnx::Options::TestCase
   def options_class
     Svnx::Propset::Options
   end
-
-  # assign
     
   def test_assign_default
-    defexpected = {
-      file: nil,
-      revision: nil,
-      url: nil,
-      path: nil,
-    }
-    assert_options defexpected
-  end
-  
-  def test_assign_file
-    assert_assign file: "abc"
-  end
-  
-  def test_assign_revision
-    assert_assign revision: "123:456"
-  end
-  
-  def test_assign_name
-    assert_assign name: "abc"
-  end 
-  
-  def test_assign_value
-    assert_assign value: "def"
-  end 
-  
-  def test_assign_path
-    assert_assign path: "a/b"
-  end 
-  
-  def test_assign_url
-    assert_assign url: "p://a/b"
+    assert_options file: nil, revision: nil, url: nil, path: nil
   end
 
-  # to_args
-  
-  def test_to_args_default
-    assert_to_args Array.new
-  end
-  
-  def test_to_args_revision_commit
-    assert_to_args [ "--revprop", "-r", "123" ], revision: "123"
-  end
-  
-  def test_to_args_revision_range
-    assert_to_args [ "--revprop", "-r", "123:456" ], revision: "123:456"
-  end
-  
-  def test_to_args_name_value
-    assert_to_args [ "abc", "def" ], name: "abc", value: "def"
-  end 
-  
-  def test_to_args_value_name
-    assert_to_args [ "abc", "def" ], value: "def", name: "abc"
-  end 
-  
-  def test_to_args_url
-    assert_to_args [ "p://abc" ], url: "p://abc"
+  param_test [
+    { file: "abc" },
+    { revision: "123:456" },
+    { name: "abc" },
+    { value: "def" },
+    { path: "a/b" },
+    { url: "p://a/b" },
+  ].each do |vals|
+    assert_assign vals
   end
 
-  def test_to_args_path
-    assert_to_args [ "a/b" ], path: "a/b"
+  param_test [
+    [ Array.new, Hash.new ],
+    [ [ "--revprop", "-r", "123" ], revision: "123" ],
+    [ [ "--revprop", "-r", "123:456" ], revision: "123:456" ],
+    [ [ "abc", "def" ], name: "abc", value: "def" ],
+    [ [ "abc", "def" ], value: "def", name: "abc" ],
+    [ [ "p://abc" ], url: "p://abc" ],
+    [ [ "a/b" ], path: "a/b" ],
+    [ [ "abc", "--file", "ghi", "def", ], value: "def", name: "abc", file: "ghi" ],
+  ].each do |exp, vals|
+    assert_to_args exp, vals
   end
-  
-  def test_to_args_value_name_file
-    assert_to_args [ "abc", "--file", "ghi", "def", ], value: "def", name: "abc", file: "ghi"
-  end 
-  
 end
