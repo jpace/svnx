@@ -32,30 +32,32 @@ module Svnx
   end
 end
 
-class Svnx::Common::TestCase < Test::Unit::TestCase
-  include Logue::Loggable
+module Svnx::Common
+  class TestCase < Test::Unit::TestCase
+    include Logue::Loggable
 
-  class << self
-    def add_execute_methods cls
-      unless cls.method_defined? :executed  
-        cls.metaclass.instance_eval do
-          define_method("executed") do
-            cls.metaclass.class_variable_get(:@@executed)
+    class << self
+      def add_execute_methods cls
+        unless cls.method_defined? :executed  
+          cls.metaclass.instance_eval do
+            define_method("executed") do
+              cls.metaclass.class_variable_get(:@@executed)
+            end
+
+            define_method("executed=") do |arg|
+              cls.metaclass.class_variable_set(:@@executed, arg)
+            end
           end
 
-          define_method("executed=") do |arg|
-            cls.metaclass.class_variable_set(:@@executed, arg)
-          end
-        end
+          cls.instance_eval do
+            define_method("execute") do
+              cls.executed = true
+              Array.new
+            end
 
-        cls.instance_eval do
-          define_method("execute") do
-            cls.executed = true
-            Array.new
-          end
-
-          define_method("executed") do
-            @@executed ||= nil
+            define_method("executed") do
+              @@executed ||= nil
+            end
           end
         end
       end
@@ -63,11 +65,13 @@ class Svnx::Common::TestCase < Test::Unit::TestCase
   end
 end
 
-class Svnx::Base::MockCommandLine < Svnx::Base::CommandLine
-  attr_reader :executed
-  
-  def execute
-    @executed = true
-    Array.new
+module Svnx::Base
+  class MockCommandLine < CommandLine
+    attr_reader :executed
+    
+    def execute
+      @executed = true
+      Array.new
+    end
   end
 end

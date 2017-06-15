@@ -43,7 +43,8 @@ module Svnx::Revision
     end
 
     def head?
-      @to && @to.value == 'HEAD'
+      # return true/false instead of true/false/nil
+      @to ? @to.value == 'HEAD' : false
     end
 
     def working_copy?

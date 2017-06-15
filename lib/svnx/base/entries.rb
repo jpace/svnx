@@ -12,58 +12,60 @@ end
 # this is a parse/process on-demand list of entries, acting like an
 # Enumerable.
 
-class Svnx::Base::Entries
-  include Logue::Loggable, Enumerable
+module Svnx::Base
+  class Entries
+    include Logue::Loggable, Enumerable
 
-  attr_reader :size
+    attr_reader :size
 
-  def initialize xmllines: nil, lines: nil
-    # it's a hash, but indexed with integers, for non-sequential access:
-    @entries = Hash.new
+    def initialize xmllines: nil, lines: nil
+      # it's a hash, but indexed with integers, for non-sequential access:
+      @entries = Hash.new
 
-    lines ||= xmllines
+      lines ||= xmllines
 
-    if lines.kind_of? Array
-      lines = lines.join ''
-    end
-
-    doc = REXML::Document.new lines
-    
-    @elements = get_elements doc
-    @size = @elements.size
-  end
-
-  def get_elements doc
-    raise "get_elements must be implemented for: #{self.class}"
-  end
-
-  def create_entry xmlelement
-    raise "create_entry must be implemented for: #{self.class}"
-  end
-
-  # this doesn't handle negative indices
-  def [] idx
-    if entry = @entries[idx]
-      return entry
-    end
-    if idx < 0 || idx >= size
-      raise "error: index #{idx} is not in range(0 .. #{size})"
-    end
-    @entries[idx] = create_entry @elements[idx + 1]
-  end
-
-  def each(&blk)
-    # all elements must be processed before each can run:
-    if @elements
-      # a little confusing here: REXML does each_with_index with idx
-      # zero-based, but elements[0] is invalid.
-      @elements.each_with_index do |element, idx|
-        @entries[idx] ||= create_entry(element)
+      if lines.kind_of? Array
+        lines = lines.join ''
       end
 
-      @elements = nil
+      doc = REXML::Document.new lines
+      
+      @elements = get_elements doc
+      @size = @elements.size
     end
 
-    @entries.keys.sort.collect { |idx| @entries[idx] }.each(&blk)
+    def get_elements doc
+      raise "get_elements must be implemented for: #{self.class}"
+    end
+
+    def create_entry xmlelement
+      raise "create_entry must be implemented for: #{self.class}"
+    end
+
+    # this doesn't handle negative indices
+    def [] idx
+      if entry = @entries[idx]
+        return entry
+      end
+      if idx < 0 || idx >= size
+        raise "error: index #{idx} is not in range(0 .. #{size})"
+      end
+      @entries[idx] = create_entry @elements[idx + 1]
+    end
+
+    def each(&blk)
+      # all elements must be processed before each can run:
+      if @elements
+        # a little confusing here: REXML does each_with_index with idx
+        # zero-based, but elements[0] is invalid.
+        @elements.each_with_index do |element, idx|
+          @entries[idx] ||= create_entry(element)
+        end
+
+        @elements = nil
+      end
+
+      @entries.keys.sort.collect { |idx| @entries[idx] }.each(&blk)
+    end
   end
 end

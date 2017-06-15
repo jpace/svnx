@@ -4,6 +4,8 @@
 require 'svnx/commit/options'
 require 'svnx/base/command'
 
-class Svnx::Commit::Command < Svnx::Base::Command
-  noncaching
+module Svnx::Commit
+  class Command < Svnx::Base::Command
+    noncaching
+  end
 end

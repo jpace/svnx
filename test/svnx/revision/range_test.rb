@@ -5,43 +5,32 @@ require 'tc'
 require 'svnx/log/entries'
 require 'svnx/revision/range'
 require 'svnx/revision/argument'
-require 'svnx/revision/argfactory'
+require 'paramesan'
 
 module Svnx::Revision
   class RangeTestCase < Svnx::TestCase
-    def setup
-      xmllines = Resources::PT_LOG_R22_13_SECONDFILE_TXT.readlines
-      @entries = Svnx::Log::Entries.new :xmllines => xmllines
+    extend Paramesan
+    
+    # not testing the relative functionality, which is covered by the Argument tests.
+    
+    def assert_to_s exp, obj, msg
+      assert_equal exp, obj.to_s, msg
     end
 
-    def assert_range expstr, expfrom, expto, argfrom, argto = nil
-      rg = Range.new argfrom, argto
-      msg = "from: #{argfrom}; to: #{argto}"
-      
-      assert_equal expfrom, rg.from.to_s, msg
-      assert_equal expto, rg.to.to_s, msg
-      assert_equal expstr, rg.to_s, msg
-      rg
-    end
+    param_test [
+      [ { from: "143", to: "199",  str: "143:199",  working_copy: false, head: false }, "143:199", nil ],
+      [ { from: "143", to: "",     str: "143",      working_copy: true,  head: false }, "143", nil ],
+      [ { from: "143", to: "199",  str: "143:199",  working_copy: false, head: false }, Argument.new(143), Argument.new(199) ],
+      [ { from: "143", to: "HEAD", str: "143:HEAD", working_copy: false, head: true  }, "143", "HEAD" ],      
+    ].each do |exp, from, to|
+      range = Range.new from, to
+      msg = "from: #{from}; to: #{to}"
 
-    def test_init
-      assert_range '143:199', '143', '199', '143:199'
-    end
-
-    def test_to_working_copy
-      rr = assert_range '143', '143', '', '143'
-      assert rr.working_copy?
-    end
-
-    def test_init_takes_arguments
-      fa = Argument.new 143
-      ta = Argument.new 199
-      assert_range '143:199', '143', '199', fa, ta
-    end
-
-    def test_to_head
-      rr = assert_range '143:HEAD', '143', 'HEAD', '143', 'HEAD'
-      assert rr.head?
+      assert_to_s  exp[:from],         range.from,          msg
+      assert_to_s  exp[:to],           range.to,            msg
+      assert_to_s  exp[:str],          range,               msg
+      assert_equal exp[:working_copy], range.working_copy?, msg
+      assert_equal exp[:head],         range.head?,         msg
     end
   end
 end

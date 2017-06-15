@@ -10,5 +10,7 @@ end
 # An element unites an svn element and a file/directory (at least one of
 # which should exist).
 
-class Svnx::IO::Directory < Element
+module Svnx::IO
+  class Directory < Element
+  end
 end

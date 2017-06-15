@@ -8,18 +8,20 @@ module Svnx
   end
 end
 
-class Svnx::Update::Options < Svnx::Base::Options
-  attr_reader :revision
-  attr_reader :paths
-  
-  def initialize args = Hash.new
-    assign args, :revision, :paths
-  end
-  
-  def options_to_args
-    Array.new.tap do |optargs|
-      optargs << [ :revision, [ "-r", revision ] ]
-      optargs << [ :paths,    paths ]
+module Svnx::Update
+  class Options < Svnx::Base::Options
+    attr_reader :revision
+    attr_reader :paths
+    
+    def initialize args = Hash.new
+      assign args, :revision, :paths
+    end
+    
+    def options_to_args
+      Array.new.tap do |optargs|
+        optargs << [ :revision, [ "-r", revision ] ]
+        optargs << [ :paths,    paths ]
+      end
     end
   end
 end

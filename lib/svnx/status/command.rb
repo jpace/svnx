@@ -5,6 +5,8 @@ require 'svnx/base/command'
 require 'svnx/status/options'
 require 'svnx/status/entries'
 
-class Svnx::Status::Command < Svnx::Base::EntriesCommand
-  noncaching
+module Svnx::Status
+  class Command < Svnx::Base::EntriesCommand
+    noncaching
+  end
 end

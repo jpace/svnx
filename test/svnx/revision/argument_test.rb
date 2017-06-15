@@ -29,7 +29,7 @@ module Svnx::Revision
     end
 
     def assert_argument_value_raises value
-      assert_raises(Svnx::Revision::RevisionError) do 
+      assert_raises(RevisionError) do 
         assert_argument_value nil, value
       end
     end

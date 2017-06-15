@@ -9,20 +9,22 @@ module Svnx
   end
 end
 
-class Svnx::Log::Entries < Svnx::Base::Entries
-  def get_elements doc
-    doc.elements['log'].elements
-  end
-
-  def create_entry xmlelement
-    Svnx::Log::Entry.new xmlelement: xmlelement
-  end
-
-  def match action, filter
-    matching = Array.new
-    each do |entry|
-      matching.concat entry.match(action, filter)
+module Svnx::Log
+  class Entries < Svnx::Base::Entries
+    def get_elements doc
+      doc.elements['log'].elements
     end
-    matching.sort
+
+    def create_entry xmlelement
+      Entry.new xmlelement: xmlelement
+    end
+
+    def match action, filter
+      matching = Array.new
+      each do |entry|
+        matching.concat entry.match(action, filter)
+      end
+      matching.sort
+    end
   end
 end

@@ -4,6 +4,8 @@
 require 'svnx/base/command'
 require 'svnx/update/options'
 
-class Svnx::Update::Command < Svnx::Base::Command
-  noncaching
+module Svnx::Update
+  class Command < Svnx::Base::Command
+    noncaching
+  end
 end

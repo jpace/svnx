@@ -4,6 +4,8 @@
 require 'svnx/cat/options'
 require 'svnx/base/command'
 
-class Svnx::Cat::Command < Svnx::Base::Command
-  caching
+module Svnx::Cat
+  class Command < Svnx::Base::Command
+    caching
+  end
 end

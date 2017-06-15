@@ -1,9 +1,13 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-module Svnx; module Revision; end; end
+module Svnx
+  module Revision
+    RELATIVE_REVISION_RE = Regexp.new '^([\+\-])(\d+)$'
+  end
+end
 
-module Svnx::Revision  
+module Svnx::Revision
   class ArgumentFactory
     include Logue::Loggable
 

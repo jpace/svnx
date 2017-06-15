@@ -14,6 +14,7 @@ class DateUtil
       end
     end
 
+    # returns the value in seconds, minutes, hours, or days, if within a week
     def to_time_units seconds
       secs = seconds.to_i
 

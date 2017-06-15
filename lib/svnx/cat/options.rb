@@ -9,20 +9,22 @@ module Svnx
   end
 end
 
-class Svnx::Cat::Options < Svnx::Base::Options
-  attr_reader :revision
-  attr_reader :url
-  attr_reader :path
-  
-  def initialize args
-    assign args, :revision, :url, :path
-  end
+module Svnx::Cat
+  class Options < Svnx::Base::Options
+    attr_reader :revision
+    attr_reader :url
+    attr_reader :path
+    
+    def initialize args
+      assign args, :revision, :url, :path
+    end
 
-  def options_to_args
-    Array.new.tap do |optargs|
-      optargs << [ :revision, [ "-r", revision ] ]
-      optargs << [ :url,      url ]
-      optargs << [ :path,     path ]
+    def options_to_args
+      Array.new.tap do |optargs|
+        optargs << [ :revision, [ "-r", revision ] ]
+        optargs << [ :url,      url ]
+        optargs << [ :path,     path ]
+      end
     end
   end
 end

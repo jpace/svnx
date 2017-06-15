@@ -6,20 +6,23 @@ require 'svnx/revision/error'
 require 'logue/loggable'
 require 'svnx/revision/argfactory'
 
-module Svnx; module Revision; end; end
-
 # We represent what svn calls a revision (-r134:{2010-1-1}) as a Range,
 # consisting of a from and to (optional) Argument.
+
+module Svnx
+  module Revision
+  end
+end
+
 module Svnx::Revision
-  RELATIVE_REVISION_RE = Regexp.new '^([\+\-])(\d+)$'
-  
-  # Returns the Nth revision from the given logging output.
-  
-  # -n means to count from the end of the list.
-  # +n means to count from the beginning of the list.
-  #  n means the literal revision number.  
   class Argument
     include Logue::Loggable, Comparable
+
+    # Returns the Nth revision from the given logging output.
+    
+    # -n means to count from the end of the list.
+    # +n means to count from the beginning of the list.
+    #  n means the literal revision number.  
 
     # these are also valid revisions
     # :working_copy
@@ -42,22 +45,24 @@ module Svnx::Revision
     end
 
     def <=> other
-      if other.kind_of? Argument
-        @value <=> other.value
-      else
-        @value <=> other
-      end
+      @value <=> (other.kind_of?(Argument) ? other.value : other)
     end
   end
+end
 
+module Svnx::Revision
   class IndexArgument < Argument
   end
+end
 
+module Svnx::Revision
   class StringArgument < Argument
   end
+end
 
-  # this is of the form -3, which is revision[-3] (second one from the most
-  # recent; -1 is the most recent).
+# this is of the form -3, which is revision[-3] (second one from the most
+# recent; -1 is the most recent).
+module Svnx::Revision
   class RelativeArgument < IndexArgument
     def initialize value, args
       entries = args[:entries]

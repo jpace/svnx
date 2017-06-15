@@ -4,6 +4,8 @@
 require 'svnx/propset/options'
 require 'svnx/base/command'
 
-class Svnx::Propset::Command < Svnx::Base::Command
-  noncaching
+module Svnx::Propset
+  class Command < Svnx::Base::Command
+    noncaching
+  end
 end
