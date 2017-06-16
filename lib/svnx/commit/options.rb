@@ -14,16 +14,25 @@ module Svnx::Commit
 
     attr_reader :file
     attr_reader :paths
-    attr_reader :url
     
     def initialize args = Hash.new
-      assign args, :file, :paths, :url
+      assign args, :file, :paths
+      check args,  :file, :paths
+    end
+
+    def check args, *symbols
+      invalid = args.keys.reject do |field|
+        symbols.include? field
+      end
+
+      unless invalid.empty?
+        raise "invalid fields for #{self.class}: #{invalid.join(' ')}"
+      end
     end
 
     def options_to_args
       Array.new.tap do |optargs|
         optargs << [ :file,   [ "-F", file ] ]
-        optargs << [ :url,    url ]
         optargs << [ :paths,  paths ]
       end
     end  

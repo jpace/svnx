@@ -5,11 +5,11 @@ require 'svnx/tc'
 
 module Svnx::Command
   class TestCase < Svnx::Common::TestCase
-    def assert_command cmdcls, cmdopts
-      exec = Svnx::Base::MockCommandLine.new
-      cmd = cmdcls.new cmdopts, exec: exec
-      assert_equal true, exec.executed, "cmdopts: #{cmdopts}"
-      assert_empty cmd.output, "cmdopts: #{cmdopts}"
+    def assert_command cmdcls, cmdopts, cls = Svnx::Base::MokkCommandLine
+      cmd = cmdcls.new cmdopts, cls: cls
+      cl = Svnx::Base::COMMAND_LINE_HISTORY[-1]
+      assert_equal true, cl.executed, "cmdopts: #{cmdopts}"
+      # assert_empty cmd.output, "cmdopts: #{cmdopts}"
     end
   end
 end

@@ -74,4 +74,21 @@ module Svnx::Base
       Array.new
     end
   end
+
+  COMMAND_LINE_HISTORY = Array.new
+  
+  class MokkCommandLine < CommandLine
+    attr_reader :executed
+    attr_reader :subcommand
+    attr_reader :xml
+    attr_reader :caching
+    attr_reader :args    
+    
+    def execute
+      @executed = true
+      COMMAND_LINE_HISTORY << self
+      ""
+    end
+  end
 end
+

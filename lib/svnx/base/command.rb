@@ -27,18 +27,34 @@ module Svnx::Base
     attr_reader :error
     attr_reader :status
     
-    def initialize options, cls: CommandLine, exec: nil, xml: false, caching: caching?
+    def initialize options, cls: CommandLine, optcls: nil, exec: nil, xml: false, caching: caching?
       melements = module_elements
+      info "melements: #{melements}"
       modl = find_module melements    
-      opts = modl::Options.new options
+      info "modl: #{modl}"
+      unless optcls
+        optcls = modl::Options
+      end
+      opts = optcls.new options
+      info "opts: #{opts}"
       cmdargs = opts.to_args
+      info "cmdargs: #{cmdargs}"
       subcommand = melements[-1].downcase
+      info "subcommand: #{subcommand}"
+      info "cls: #{cls}"
+      info "caching: #{caching}"
+      info "xml: #{xml}"
+      info "exec: #{exec}"
       
       @cmdline = exec || cls.new(subcommand: subcommand, xml: xml, caching: caching, args: cmdargs)
+      info "@cmdline: #{@cmdline}"
       
       @output = @cmdline.execute
+      info "@output: #{@output}"
       @error = @cmdline.error
+      info "@error: #{@error}"
       @status = @cmdline.status
+      info "@status: #{@status}"
     end
 
     def module_elements

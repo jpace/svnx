@@ -10,13 +10,12 @@ class Svnx::Commit::OptionsTest < Svnx::Options::TestCase
   end
   
   def test_default
-    assert_options file: nil, paths: nil, url: nil
+    assert_options file: nil, paths: nil
   end
 
   param_test [
     { file: "x/y" },
     { paths: [ "a/b", "c/d" ] },
-    { url: "p://a/b" },
   ].each do |vals|
     assert_assign vals
   end
@@ -24,7 +23,6 @@ class Svnx::Commit::OptionsTest < Svnx::Options::TestCase
   param_test [
     [ Array.new, Hash.new ],
     [ [ "-F", "a/b" ], file: "a/b" ],
-    [ [ "p://abc" ], url: "p://abc" ],
     [ [ "a/b" ], paths: [ "a/b" ] ],
     [ [ "a/b", "c/d" ], paths: [ "a/b", "c/d" ] ],
   ].each do |exp, vals|

@@ -10,10 +10,10 @@ end
 class Svnx::Project
   attr_reader :dir
   
-  def initialize dir: nil, url: nil, exec: nil
+  def initialize dir: nil, url: nil, cls: nil
     @dir = dir
     @url = url
-    @exec = exec
+    @cls = cls
   end
 
   def where
@@ -31,9 +31,9 @@ class Svnx::Project
     info.path
   end
 
-  def run_command cmdcls, cmdargs, args, exec: nil
+  def run_command cmdcls, cmdargs, args
     cmdargs = cmdargs.merge args
-    cmd = cmdcls.new cmdargs, exec: exec
+    cmd = cmdcls.new cmdargs, cls: @cls
     cmd.respond_to?(:entries) ? cmd.entries : cmd.output
   end
 
@@ -45,15 +45,15 @@ class Svnx::Project
     args = [
       "Svnx::#{name.to_s.capitalize}::Command",
       pathargs,
-      "args",
-      "exec: exec"
+      "args"
     ]
-    
+
     src = [
-      "def #{name} exec: @exec, **args",
-      "  run_command " + args.join(", "),
+      "def #{name} cls: nil, **args",
+      "  run_command " + args.join(", ") + "cls: @cls",
       "end"
     ].join("\n")
+    puts "src: #{src}"
     module_eval src
   end
 
