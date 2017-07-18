@@ -10,7 +10,7 @@ module Svnx
 end
 
 class Svnx::Options::TestCase < Test::Unit::TestCase
-  extend Paramesan
+  include Paramesan
 
   def assert_options expvals, optvals = Hash.new
     cls = options_class

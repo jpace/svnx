@@ -3,51 +3,41 @@
 
 require 'svnx/project'
 require 'svnx/tc'
+require 'paramesan'
 
 class Svnx::ProjectTest < Svnx::Common::TestCase
-  def mock_cmdline
-    Svnx::Base::MockCommandLine.new
-  end
+  include Paramesan
+
+  # dir and url
   
-  # init
-  
-  def assert_init expdir: nil, expurl: nil, **args
-    proj = Svnx::Project.new args
+  param_test [
+    { expdir: "/tmp/svnx-test", args: { dir: "/tmp/svnx-test", cls: Svnx::Base::MokkCommandLine } },
+    { expurl: "p://svnx/abc", args: { url: "p://svnx/abc", cls: Svnx::Base::MokkCommandLine} },
+    { expdir: "/tmp/svnx-test", expurl: "p://svnx/abc", args: { dir: "/tmp/svnx-test", url: "p://svnx/abc", cls: Svnx::Base::MokkCommandLine } }
+  ].each do |args|
+    expdir = args[:expdir]
+    expurl = args[:expurl]
+    proj = Svnx::Project.new args[:args]
     assert_equal expdir, proj.dir, "args: #{args}"
     assert_equal expurl, proj.url, "args: #{args}"
   end
   
-  def test_init_dir
-    assert_init expdir: "/tmp/svnx-test", dir: "/tmp/svnx-test", cls: Svnx::Base::MokkCommandLine
-  end
-
-  def test_init_url
-    assert_init expurl: "p://svnx/abc", url: "p://svnx/abc", cls: Svnx::Base::MokkCommandLine
-  end
-  
-  def test_init_url_and_dir
-    assert_init expdir: "/tmp/svnx-test", expurl: "p://svnx/abc", dir: "/tmp/svnx-test", url: "p://svnx/abc", cls: Svnx::Base::MokkCommandLine
+  def mock_cmdline
+    Svnx::Base::MockCommandLine.new
   end
   
   # where
- 
-  def assert_where exp, **args
-    proj = Svnx::Project.new args
+
+  param_test [
+    { exp: "/tmp/svnx-test", args: { dir: "/tmp/svnx-test", cls: Svnx::Base::MokkCommandLine } },
+    { exp: "p://svnx/abc",   args: { url: "p://svnx/abc" } },
+    # url takes priority when both are specified:
+    { exp: "p://svnx/abc",   args: { dir: "/tmp/svnx-test", url: "p://svnx/abc" } }
+  ].each do |args|
+    exp = args[:exp]
+    proj = Svnx::Project.new args[:args]
     assert_equal exp, proj.where, "args: #{args}"
   end  
-  
-  def test_where_dir
-    assert_where "/tmp/svnx-test", dir: "/tmp/svnx-test", cls: Svnx::Base::MokkCommandLine
-  end
-
-  def test_where_url
-    assert_where "p://svnx/abc", url: "p://svnx/abc"
-  end
-  
-  def test_where_url_and_dir
-    # url takes priority
-    assert_where "p://svnx/abc", dir: "/tmp/svnx-test", url: "p://svnx/abc"
-  end
 
   # command delegation
 

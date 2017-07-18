@@ -53,7 +53,6 @@ class Svnx::Project
       "  run_command " + args.join(", ") + "cls: @cls",
       "end"
     ].join("\n")
-    puts "src: #{src}"
     module_eval src
   end
 

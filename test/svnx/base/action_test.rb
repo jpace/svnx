@@ -7,7 +7,7 @@ require 'paramesan'
 
 class Svnx::ActionStatusTestCase < Svnx::TestCase
   include Logue::Loggable
-  extend Paramesan
+  include Paramesan
 
   param_test [
     [ :added,       [ 'A', :added,       'added'       ] ],
@@ -24,7 +24,7 @@ class Svnx::ActionStatusTestCase < Svnx::TestCase
 end
 
 class Svnx::ActionTestCase < Svnx::TestCase
-  extend Paramesan
+  include Paramesan
 
   param_test [
     [ true,  false, false, false, 'added',       'A', :added       ],

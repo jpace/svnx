@@ -6,7 +6,7 @@ require 'test/unit'
 require 'paramesan'
 
 class DateUtilTest < Test::Unit::TestCase
-  extend Paramesan
+  include Paramesan
   
   param_test [
     [ "30 seconds",  30 ],

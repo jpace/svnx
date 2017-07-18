@@ -8,7 +8,7 @@ require 'paramesan'
 Logue::Log.level = Logue::Log::WARN
 
 class CmdLine::CommandLineTestCase < Svnx::TestCase
-  extend Paramesan
+  include Paramesan
   
   # init
 

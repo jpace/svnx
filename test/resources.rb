@@ -78,11 +78,11 @@ class Resources
   # bin/change.rb should be executed.
   
   def generate
-    puts "this: #{self.class.constants}"
+    # puts "this: #{self.class.constants}"
     self.class.constants.each do |con|
-      puts "con: #{con}"
+      # puts "con: #{con}"
       res = self.class.const_get con
-      puts "res: #{res}"
+      # puts "res: #{res}"
       next unless res.respond_to? :generate
       res.generate
     end
