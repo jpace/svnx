@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'tc'
+require 'svnx/tc'
 require 'svnx/base/action'
 require 'paramesan'
 

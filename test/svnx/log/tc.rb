@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'tc'
+require 'common/tc'
 require 'svnx/log/command'
 require 'rexml/document'
 

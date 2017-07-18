@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'tc'
+require 'svnx/tc'
 require 'svnx/log/entries'
 require 'svnx/revision/argument'
 

@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'tc'
+require 'svnx/tc'
 
 module Svnx
   module Status
