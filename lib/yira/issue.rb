@@ -2,6 +2,7 @@
 # -*- ruby -*-
 
 require 'yira/util'
+require 'time'
 
 class Issue
   include ObjectUtil

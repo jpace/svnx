@@ -8,7 +8,7 @@ class Yira
   end
 
   def my_credentials
-    "jpace:H@ll0w3dB3Thy"
+    ENV["YIRA_CREDENTIALS"]
   end
 
   def run_curl type, *params

@@ -1,8 +1,9 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
+require 'pathname'
+require 'json'
 require 'pp'
-require 'time'
 
 dir = File.dirname(File.dirname(File.expand_path(__FILE__)))
 libpath = dir + "/lib"
@@ -15,30 +16,19 @@ require 'yira/util'
 require 'yira/fetcher/options'
 require 'logue/loggable'
 
-class String
-  include StringUtil
-end
-
-module HashUtil
-  def join kstr, vstr
-    keys.collect do |key|
-      key.to_s + kstr + self[key].to_s
-    end.join vstr
+class TicketFactory
+  def create issue
+    cls = issue_type_to_class issue
+    cls.new issue
   end
-
-  def compact
-    Hash.new.tap do |hsh|
-      keys.each do |key|
-        if key && self[key]
-          hsh[key] = self[key]
-        end
-      end
-    end
+  
+  def issue_type_to_class issue
+    type = issue["fields"]["issuetype"]["name"]
+    puts "type: #{type}"
+    cls = Object::const_get type.to_sym
+    puts "cls: #{cls}"
+    cls
   end
-end
-
-class Hash
-  include HashUtil
 end
 
 class Fetcher::App
@@ -50,14 +40,11 @@ class Fetcher::App
     
     issues = json["issues"]
     puts "issues.size: #{issues.size}"
+
+    tfact = TicketFactory.new
     
     tickets = issues.collect do |issue|
-      # pp issue
-
-      type = issue["fields"]["issuetype"]["name"]
-      puts "type: #{type}"
-      cls = Object::const_get type.to_sym
-      cls.new issue
+      tfact.create issue
     end
 
     if name
@@ -88,7 +75,7 @@ class Fetcher::App
         if args[:issuetype]
           ary << "issuetype = " + args[:issuetype]
         end
-        ary << "assignee = jpace"
+        # ary << "assignee = jpace"
         if args[:status]
           ary << "status in (" + args[:status] + ")"
         end
