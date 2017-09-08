@@ -13,6 +13,7 @@ class Fetcher::Options
   attr_reader :project
   attr_reader :issuetype
   attr_reader :version
+  attr_reader :assignee
   
   def initialize args
     @name = nil
@@ -21,6 +22,7 @@ class Fetcher::Options
     @project = "PIE"
     @issuetype = "Fix"
     @version = nil
+    @assignee = ENV["USER"]
 
     while arg = args.shift
       case arg
@@ -28,7 +30,7 @@ class Fetcher::Options
         @name = Regexp.new args.shift
       when "--status", "-s"
         @status = args.shift
-      when "--any-status", "-S"
+      when "--any-status"
         @status = nil
       when "--key", "-k"
         @key = args.shift
@@ -36,6 +38,10 @@ class Fetcher::Options
         @version = args.shift
       when "--type", "-t"
         @issuetype = args.shift
+      when "--assignee", "-a"
+        @assignee = args.shift
+      when "--no-assignee"
+        @assignee = nil
       end
     end
   end

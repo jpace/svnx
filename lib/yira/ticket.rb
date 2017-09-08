@@ -5,17 +5,17 @@ require 'yira'
 require 'yira/defect'
 require 'yira/fix'
 
-class TicketFactory
+class Yira::TicketFactory
   def create issue
-    cls = issue_type_to_class issue
+    type = issue["fields"]["issuetype"]["name"]
+    cls = issue_type_to_class type
     cls.new issue
   end
   
-  def issue_type_to_class issue
-    type = issue["fields"]["issuetype"]["name"]
+  def issue_type_to_class type
     puts "type: #{type}"
-    cls = Object::const_get type.to_sym
-    puts "cls: #{cls}"
-    cls
+    Object::const_get(type.to_sym).tap do |cls|
+      puts "cls: #{cls}"
+    end
   end
 end

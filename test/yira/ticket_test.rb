@@ -3,9 +3,17 @@
 
 require 'test/unit'
 require 'paramesan'
+require 'yira/ticket'
 
-class TicketFactoryTest < Test::Unit::TestCase
-  def test_init
-    assert_equal true, true
+class Yira::TicketFactoryTest < Test::Unit::TestCase
+  include Paramesan
+
+  param_test [
+    [ Fix,    "Fix"    ],
+    [ Issue,  "Issue"  ],
+    [ Defect, "Defect" ],
+  ] do |cls, type|
+    tf = Yira::TicketFactory.new
+    assert_equal cls, tf.issue_type_to_class(type)
   end
 end
