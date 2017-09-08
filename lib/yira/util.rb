@@ -58,4 +58,3 @@ end
 class Hash
   include HashUtil
 end
-

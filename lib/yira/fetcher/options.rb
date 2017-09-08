@@ -1,46 +1,54 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'pathname'
-
-module Fetcher
+class Yira
+  module Fetcher
+  end
 end
 
-class Fetcher::Options
-  attr_reader :name
-  attr_reader :status
-  attr_reader :key
-  attr_reader :project
-  attr_reader :issuetype
-  attr_reader :version
+class Yira::Fetcher::Options
   attr_reader :assignee
+  attr_reader :issuetype
+  attr_reader :key
+  attr_reader :name
+  attr_reader :project
+  attr_reader :status
+  attr_reader :version
   
-  def initialize args
-    @name = nil
-    @status = "Open, Scheduled"
-    @key = nil
-    @project = "PIE"
-    @issuetype = "Fix"
-    @version = nil
+  def initialize args = Array.new
     @assignee = ENV["USER"]
+    @issuetype = "Defect"
+    @key = nil
+    @name = nil
+    @project = "PIE"
+    @status = "Open, Scheduled"
+    @version = nil
 
     while arg = args.shift
       case arg
       when "--name", "-n"
         @name = Regexp.new args.shift
+        
       when "--status", "-s"
         @status = args.shift
       when "--any-status"
         @status = nil
+        
       when "--key", "-k"
         @key = args.shift
-      when "--version", "-v"
+        
+      when "--version"
         @version = args.shift
+        
+      when "--project"
+        @project = args.shift
+        
       when "--type", "-t"
         @issuetype = args.shift
+        
       when "--assignee", "-a"
         @assignee = args.shift
-      when "--no-assignee"
+      when "--any-assignee"
         @assignee = nil
       end
     end

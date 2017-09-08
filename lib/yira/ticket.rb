@@ -1,7 +1,6 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'yira'
 require 'yira/defect'
 require 'yira/fix'
 
@@ -13,9 +12,6 @@ class Yira::TicketFactory
   end
   
   def issue_type_to_class type
-    puts "type: #{type}"
-    Object::const_get(type.to_sym).tap do |cls|
-      puts "cls: #{cls}"
-    end
+    Object::const_get type.to_sym
   end
 end
