@@ -8,6 +8,7 @@ class Defect < Issue
   attr_reader :summary
   attr_reader :status
   attr_reader :version
+  attr_reader :links
 
   def initialize json
     super
@@ -16,6 +17,16 @@ class Defect < Issue
     @summary = fields["summary"]
     @status = fields["status"]["name"]
     @version = fields["customfield_10299"]["name"]
+    @links = Array.new
+    if issuelinks = fields["issuelinks"]
+      issuelinks.each do |ilnk|
+        lnkst = ilnk["type"]["inward"]
+        lnkid = ilnk["inwardIssue"]["key"]
+        lnkname = ilnk["inwardIssue"]["fields"]["summary"]
+
+        @links << { status: lnkst, id: lnkid, name: lnkname }
+      end
+    end
   end
 
   def print
@@ -23,6 +34,9 @@ class Defect < Issue
     println "summary", @summary
     println "status", @status
     println "version", @version
+    links.each_with_index do |link, idx|
+      println link[:status].sub("is ", ""), link[:id] + " (" + link[:name] + ")"
+    end
     puts
   end
 end

@@ -3,8 +3,11 @@
 
 require 'yira'
 require 'yira/fetcher/options'
+require 'logue/loggable'
 
 class Yira::Query
+  include Logue::Loggable
+  
   attr_reader :result
 
   def initialize options
@@ -13,9 +16,9 @@ class Yira::Query
     fields =  %w{ id key summary status created updated customfield_10251 customfield_10260 issuelinks fixVersions issuetype customfield_10299 }
     
     dstr = build_data query, limit, fields
-    puts "dstr: #{dstr}"
+    info "dstr: #{dstr}"
     
-    # @result = Yira.new.post_url dstr, "https://itrac.eur.ad.sag/rest/api/2/search"
+    @result = Yira.new.post_url dstr, "https://itrac.eur.ad.sag/rest/api/2/search"
   end
 
   def create_query options
@@ -48,7 +51,7 @@ class Yira::Query
     if fields && !fields.empty?
       elements << "fields".qq + ":" + fields.collect { |x| x.qq }.join(",").bracket
     end
-    puts "elements: #{elements}"
+    info "elements: #{elements}"
     elements.join(", ").brace
   end
 end

@@ -6,6 +6,20 @@ class Yira
   end
 end
 
+class Yira::QueryParams
+  attr_reader :assignee
+  attr_reader :issuetype
+  attr_reader :project
+  attr_reader :status
+
+  def initialize args = Hash.new
+    @project = args[:project]
+    @issuetype = args[:issuetype]
+    @assignee = args[:assignee]
+    @status = args[:status]
+  end
+end
+
 class Yira::Fetcher::Options
   attr_reader :assignee
   attr_reader :issuetype
@@ -45,6 +59,9 @@ class Yira::Fetcher::Options
         
       when "--type", "-t"
         @issuetype = args.shift
+        
+      when "--any-type"
+        @issuetype = nil
         
       when "--assignee", "-a"
         @assignee = args.shift

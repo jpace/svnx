@@ -2,8 +2,11 @@
 # -*- ruby -*-
 
 require 'json'
+require 'logue/loggable'
 
 class Yira
+  include Logue::Loggable
+  
   def initialize
   end
 
@@ -23,12 +26,9 @@ class Yira
     args << qq("Content-Type: application/json")
     args.concat params
     cmd = args.join " "
-    puts "cmd: #{cmd}"
+    info "cmd: #{cmd}"
 
     contents = IO.popen(cmd).readlines.join ""
-
-    puts "contents"
-    # puts contents
 
     JSON.parse contents
   end

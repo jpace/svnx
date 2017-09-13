@@ -3,11 +3,15 @@
 
 require 'yira/defect'
 require 'yira/fix'
+require 'logue/loggable'
 
 class Yira::TicketFactory
+  include Logue::Loggable
+  
   def create issue
     type = issue["fields"]["issuetype"]["name"]
     cls = issue_type_to_class type
+    info "cls: #{cls}"
     cls.new issue
   end
   
