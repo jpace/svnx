@@ -83,4 +83,9 @@ class Svnx::Diff::OptionsTest < Svnx::Options::TestCase
   def test_to_args_paths_two
     assert_to_args [ "a/b", "c/d" ], paths: [ "a/b", "c/d" ]
   end
+  
+  def test_to_args_depth_empty
+    assert_to_args [ "--depth", "empty" ], depth: "empty"
+  end
+  
 end

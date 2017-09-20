@@ -27,7 +27,8 @@ module Svnx::Base
     attr_reader :error
     attr_reader :status
     
-    def initialize options, cls: CommandLine, optcls: nil, exec: nil, xml: false, caching: caching?
+    def initialize options, cls: nil, optcls: nil, exec: nil, xml: false, caching: caching?
+      info "cls:: #{cls}"
       melements = module_elements
       info "melements: #{melements}"
       modl = find_module melements    
@@ -45,6 +46,8 @@ module Svnx::Base
       info "caching: #{caching}"
       info "xml: #{xml}"
       info "exec: #{exec}"
+
+      cls ||= CommandLine
       
       @cmdline = exec || cls.new(subcommand: subcommand, xml: xml, caching: caching, args: cmdargs)
       info "@cmdline: #{@cmdline}"

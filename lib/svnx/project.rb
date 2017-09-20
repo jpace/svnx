@@ -1,6 +1,8 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
+require 'logue/loggable'
+
 module Svnx
 end
 
@@ -8,12 +10,17 @@ end
 # entries (svnx/<command>/entry) or output. Enhances the low level functionality.
 
 class Svnx::Project
+  include Logue::Loggable
+  
   attr_reader :dir
   
   def initialize dir: nil, url: nil, cls: nil
     @dir = dir
     @url = url
     @cls = cls
+    debug "dir: #{dir}"
+    debug "url: #{url}"
+    debug "cls: #{cls}"
   end
 
   def where

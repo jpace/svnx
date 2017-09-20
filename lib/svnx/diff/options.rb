@@ -15,6 +15,7 @@ module Svnx::Diff
     attr_reader :ignorewhitespace
     attr_reader :paths
     attr_reader :url
+    attr_reader :depth
     
     def initialize args = Hash.new
       @commit = args[:commit]
@@ -22,12 +23,14 @@ module Svnx::Diff
       @ignorewhitespace = args[:ignorewhitespace]
       @paths = args[:paths]
       @url = args[:url]
+      @depth = args[:depth]
     end
 
     def options_to_args
       Array.new.tap do |optargs|
         optargs << [ :commit, [ "-c", commit ] ]
         optargs << [ :ignoreproperties, "--ignore-properties" ] 
+        optargs << [ :depth, [ "--depth", depth ] ] 
         optargs << [ :ignorewhitespace, [ "-x", "-bw" ] ]
         optargs << [ :url, url ]
         optargs << [ :paths, paths ]
