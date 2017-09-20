@@ -39,8 +39,12 @@ class Svnx::Project
   end
 
   def run_command cmdcls, cmdargs, args
+    debug "cmdargs: #{cmdargs}"
+    stack "args: #{args}"
     cmdargs = cmdargs.merge args
+    debug "cmdargs: #{cmdargs}"
     cmd = cmdcls.new cmdargs, cls: @cls
+    debug "cmd: #{cmd}"
     cmd.respond_to?(:entries) ? cmd.entries : cmd.output
   end
 
@@ -52,14 +56,17 @@ class Svnx::Project
     args = [
       "Svnx::#{name.to_s.capitalize}::Command",
       pathargs,
-      "args"
+      "**args"
     ]
 
     src = [
       "def #{name} cls: nil, **args",
-      "  run_command " + args.join(", ") + "cls: @cls",
+      "  run_command " + args.join(", ") + ", cls: @cls",
       "end"
     ].join("\n")
+
+    Logue::Log.level = Logue::Log::DEBUG
+    Logue::Log.debug "src: #{src}"
     module_eval src
   end
 
@@ -68,8 +75,8 @@ class Svnx::Project
   add_command_delegator :update,  true
   add_command_delegator :merge,   true
   add_command_delegator :commit,  true
-  
   add_command_delegator :log,     false
+  
   add_command_delegator :diff,    false
   add_command_delegator :propset, false
   add_command_delegator :propget, false
