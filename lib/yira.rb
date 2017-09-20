@@ -11,7 +11,7 @@ class Yira
   end
 
   def my_credentials
-    ENV["YIRA_CREDENTIALS"]
+    ENV["YIRA_CREDENTIALS"] || raise("missing environment variable 'CREDENTIALS'")
   end
 
   def run_curl type, *params
