@@ -1,6 +1,7 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
+require 'yira'
 require 'yira/defect'
 require 'yira/fix'
 require 'logue/loggable'
@@ -11,7 +12,6 @@ class Yira::TicketFactory
   def create issue
     type = issue["fields"]["issuetype"]["name"]
     cls = issue_type_to_class type
-    info "cls: #{cls}"
     cls.new issue
   end
   

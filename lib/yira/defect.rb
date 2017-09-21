@@ -8,7 +8,7 @@ class Defect < Issue
   attr_reader :summary
   attr_reader :status
   attr_reader :version
-  attr_reader :links
+  attr_reader :resolved_by
 
   def initialize json
     super
@@ -17,14 +17,16 @@ class Defect < Issue
     @summary = fields["summary"]
     @status = fields["status"]["name"]
     @version = fields["customfield_10299"]["name"]
-    @links = Array.new
+    @resolved_by = Array.new
     if issuelinks = fields["issuelinks"]
       issuelinks.each do |ilnk|
-        lnkst = ilnk["type"]["inward"]
-        lnkid = ilnk["inwardIssue"]["key"]
-        lnkname = ilnk["inwardIssue"]["fields"]["summary"]
+        inward = ilnk["inwardIssue"]
+        if inward && ilnk["type"]["inward"] == "is resolved by"
+          lnkid = inward["key"]
+          lnkname = inward["fields"]["summary"]
 
-        @links << { status: lnkst, id: lnkid, name: lnkname }
+          @resolved_by << { id: lnkid, name: lnkname }
+        end
       end
     end
   end
@@ -34,8 +36,10 @@ class Defect < Issue
     println "summary", @summary
     println "status", @status
     println "version", @version
-    links.each_with_index do |link, idx|
-      println link[:status].sub("is ", ""), link[:id] + " (" + link[:name] + ")"
+    nresolved_by = @resolved_by.length
+    println "resolved_by", nresolved_by.to_s + " " + (nresolved_by == 1 ? "fix" : "fixes")
+    resolved_by.each_with_index do |link, idx|
+      println "", link[:id] + " - " + link[:name]
     end
     puts
   end

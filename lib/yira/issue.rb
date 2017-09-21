@@ -3,9 +3,10 @@
 
 require 'yira/util'
 require 'time'
+require 'logue/loggable'
 
 class Issue
-  include ObjectUtil
+  include ObjectUtil, Logue::Loggable
   
   attr_reader :key
 

@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'yira'
+require 'yira/connection'
 require 'yira/fetcher/options'
 require 'logue/loggable'
 
@@ -18,7 +18,7 @@ class Yira::Query
     dstr = build_data query, limit, fields
     info "dstr: #{dstr}"
     
-    @result = Yira.new.post_url dstr, "https://itrac.eur.ad.sag/rest/api/2/search"
+    @result = Yira::Connection.new.post_url dstr, "https://itrac.eur.ad.sag/rest/api/2/search"
   end
 
   def create_query options

@@ -7,10 +7,6 @@ dir = File.dirname(File.dirname(File.expand_path(__FILE__)))
 libpath = dir + "/lib"
 $:.unshift libpath
 
-require 'yira'
-require 'yira/defect'
-require 'yira/fix'
-require 'yira/util'
 require 'yira/ticket'
 require 'yira/query'
 require 'yira/fetcher/options'
@@ -31,12 +27,9 @@ class Fetcher::App
     query = Yira::Query.new options
 
     json = query.result
-    
     issues = json["issues"]
-    info "issues.size: #{issues.size}"
-
+    
     tfact = Yira::TicketFactory.new
-    info "tfact: #{tfact}"
     
     tickets = issues.collect do |issue|
       tfact.create issue
