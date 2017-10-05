@@ -65,8 +65,7 @@ class Svnx::Project
       "end"
     ].join("\n")
 
-    Logue::Log.level = Logue::Log::DEBUG
-    Logue::Log.debug "src: #{src}"
+    # Logue::Log.debug "src: #{src}"
     module_eval src
   end
 
