@@ -39,7 +39,7 @@ module Svnx::Base
       opts = optcls.new options
       # info "opts: #{opts}"
       cmdargs = opts.to_args
-      info "cmdargs: #{cmdargs}"
+      debug "cmdargs: #{cmdargs}"
       subcommand = melements[-1].downcase
       # info "subcommand: #{subcommand}"
       # info "cls: #{cls}"
@@ -50,14 +50,14 @@ module Svnx::Base
       cls ||= CommandLine
       
       @cmdline = exec || cls.new(subcommand: subcommand, xml: xml, caching: caching, args: cmdargs)
-      info "@cmdline: #{@cmdline}"
+      debug "@cmdline: #{@cmdline}"
       
       @output = @cmdline.execute
-      info "@output: #{@output}"
+      debug "@output: #{@output}"
       @error = @cmdline.error
-      info "@error: #{@error}"
+      debug "@error: #{@error}"
       @status = @cmdline.status
-      info "@status: #{@status}"
+      debug "@status: #{@status}"
     end
 
     def module_elements

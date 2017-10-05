@@ -1,0 +1,1 @@
+rake && rm -rf pkg/svnx-2.0.8* && rake build && sudo gem uni svnx && sudo gem i ./pkg/svnx-2.0.8.gem
