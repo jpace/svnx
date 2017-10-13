@@ -16,10 +16,14 @@ module Svnx::Info
     attr_reader :path
     attr_reader :revision
     attr_reader :wc_root
+    attr_reader :relative_url
 
     def set_from_element elmt
       set_attr_vars elmt, 'kind', 'path', 'revision'
       set_elmt_var  elmt, 'url'
+      if relurl = elmt.elements['relative-url']
+        @relative_url = relurl.text
+      end
       
       repo = elmt.elements['repository']
       set_elmt_var repo, 'root'
