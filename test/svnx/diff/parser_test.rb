@@ -5,44 +5,29 @@ require 'svnx/diff/parser'
 require 'logue/loggable'
 require 'svnx/tc'
 require 'test/unit'
+require 'paramesan'
 
 class Svnx::Diff::ParserTest < Test::Unit::TestCase
-  include Logue::Loggable
+  include Logue::Loggable, Paramesan
 
   # header file
 
-  def assert_parse_header_file exp_filename, exp_revision, lines
+  def self.build_header_file_params
+    Array.new.tap do |a|
+      a << [ "x/y/Z.t", 11,  [ "--- x/y/Z.t\t(revision 11)"  ] ]
+      a << [ "x/y/Z.t", 11,  [ "+++ x/y/Z.t\t(revision 11)"  ] ]
+      a << [ "x/y/Z.t", 12,  [ "+++ x/y/Z.t\t(revision 12)"  ] ]
+      a << [ "x/y/Z.t", nil, [ "+++ x/y/Z.t\t(nonexistent)"  ] ]
+      a << [ "x/y/Z.t", nil, [ "+++ x/y/Z.t\t(working copy)" ] ]
+    end
+  end
+  
+  param_test build_header_file_params do |exp_filename, exp_revision, lines|
     p = Svnx::Diff::Parser.new
     f = p.parse_header_file lines
+    assert_not_nil f
     assert_equal exp_filename, f.filename
     assert_equal exp_revision, f.revision
-  end
-  
-  def test_parse_header_file_from_with_revision
-    lines = Array.new
-    lines << "--- x/y/Z.t\t(revision 11)"
-    filename = "x/y/Z.t"
-    revision = 11
-    assert_parse_header_file filename, revision, lines
-    assert_empty lines
-  end
-  
-  def test_parse_header_file_to_with_revision
-    lines = Array.new
-    lines << "+++ x/y/Z.t\t(revision 12)"
-    filename = "x/y/Z.t"
-    revision = 12
-    assert_parse_header_file filename, revision, lines
-    assert_empty lines
-  end
-  
-  def test_parse_header_file_to_without_revision
-    lines = Array.new
-    lines << "+++ x/y/Z.t\t(nonexistent)"
-    filename = "x/y/Z.t"
-    revision = nil
-    assert_parse_header_file filename, revision, lines
-    assert_empty lines
   end
 
   # header section

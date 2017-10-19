@@ -9,7 +9,7 @@ module Svnx::Diff
     include Logue::Loggable
 
     def parse_header_file lines
-      re = Regexp.new '^[\-\+]{3} (.*)\t\((?:nonexistent|revision (\d+))\)'
+      re = Regexp.new '^[\-\+]{3} (.*)\t\((?:nonexistent|working copy|revision (\d+))\)'
       if md = re.match(lines.first)
         lines.shift
         File.new filename: md[1], revision: md[2] && md[2].to_i
