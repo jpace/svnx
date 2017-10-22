@@ -65,9 +65,7 @@ end
 module Svnx::Revision
   class RelativeArgument < IndexArgument
     def initialize value, args
-      entries = args[:entries]
-      
-      unless entries
+      unless entries = args[:entries]
         raise RevisionError.new "cannot determine relative revision without entries"
       end
       

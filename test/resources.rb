@@ -1,7 +1,6 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'rubygems'
 require 'logue/loggable'
 require 'singleton'
 
@@ -60,7 +59,6 @@ class Resources
   PT_PATH = '/Programs/pvn/pvntestbed'
   
   PT_LOG_R19  = PtSvnResource.new 'log', '-r19' # empty message
-  PT_LOG_R22_13_SECONDFILE_TXT = PtSvnResource.new 'log', '-r22:13', 'SecondFile.txt'
 
   PT_LOG_R19_5 = PtSvnResource.new 'log', '-r19:5'
 

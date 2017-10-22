@@ -2,16 +2,51 @@
 # -*- ruby -*-
 
 require 'svnx/tc'
+require 'common/tc'
 require 'svnx/log/entries'
 require 'svnx/revision/argument'
+require 'paramesan'
 
 module Svnx::Revision
   class ArgumentTestCase < Svnx::TestCase
+    include Paramesan
+    
     def setup
-      # This is the equivalent of "log" at revision 22, when this file was added
-      # at revision 13. Using this instead of just "log" when regenerating the
-      # resource files keeps the revisions from bouncing around.
-      xmllines = Resources::PT_LOG_R22_13_SECONDFILE_TXT.readlines
+      xmllines = Array.new.tap do |a|
+        a << '<?xml version="1.0"?>'
+        a << '<log>'
+        a << '<logentry'
+        a << '   revision="22">'
+        a << '<author>Lyle</author>'
+        a << '<date>2012-09-18T11:32:19.542597Z</date>'
+        a << '<msg></msg>'
+        a << '</logentry>'
+        a << '<logentry'
+        a << '   revision="20">'
+        a << '<author>Howard Johnson</author>'
+        a << '<date>2012-09-18T11:28:08.481016Z</date>'
+        a << '<msg></msg>'
+        a << '</logentry>'
+        a << '<logentry'
+        a << '   revision="19">'
+        a << '<author>Lili von Shtupp</author>'
+        a << '<date>2012-09-16T14:24:07.913759Z</date>'
+        a << '<msg></msg>'
+        a << '</logentry>'
+        a << '<logentry'
+        a << '   revision="15">'
+        a << '<author>Mongo</author>'
+        a << '<date>2012-09-16T14:02:05.414042Z</date>'
+        a << '<msg></msg>'
+        a << '</logentry>'
+        a << '<logentry'
+        a << '   revision="13">'
+        a << '<author>Jim</author>'
+        a << '<date>2012-09-16T13:51:55.741762Z</date>'
+        a << '<msg></msg>'
+        a << '</logentry>'
+        a << '</log>'
+      end      
       @entries = Svnx::Log::Entries.new :xmllines => xmllines
     end
 
@@ -28,31 +63,10 @@ module Svnx::Revision
       assert_equal exp_value, arg.value
     end
 
-    def assert_argument_value_raises value
-      assert_raises(RevisionError) do 
-        assert_argument_value nil, value
-      end
-    end
-
-    def assert_argument_to_s exp_str, value
-      arg = create_argument value
-      assert_equal exp_str, arg.to_s
-    end      
-
     def assert_compare op, exp, xval, yval
       x = create_argument xval
       y = create_argument yval
-      msg = "xval: #{xval}; yval: #{yval}"
-      assert_equal exp, x.send(op, y), msg
-    end
-
-    def assert_argument_eq expeq, xval, yval
-      # it's the emoticon programming language
-      assert_compare :==, expeq, xval, yval
-    end
-
-    def assert_argument_gt expeq, xval, yval
-      assert_compare :>, expeq, xval, yval
+      assert_equal exp, x.send(op, y), "xval: #{xval}; yval: #{yval}"
     end
 
     def test_new_and_create_same
@@ -61,106 +75,73 @@ module Svnx::Revision
       assert_equal y.value, x.value
     end
 
-    def test_absolute_midrange
-      assert_argument_value 19, 19
-    end
-
-    def test_absolute_most_recent
-      assert_argument_value 22, 22
-    end
-
-    def test_absolute_least_recent
-      assert_argument_value 13, 13
-    end
-
-    def test_absolute_midrange_as_string
-      assert_argument_value 19, '19'
-    end
-
-    def test_absolute_most_recent_as_string
-      assert_argument_value 22, '22'
-    end
-
-    def test_absolute_least_recent_as_string
-      assert_argument_value 13, '13'
-    end
-
-    def test_svn_word
-      %w{ HEAD BASE COMMITTED PREV }.each do |word|
-        assert_argument_value word, word
-      end
-    end
-
-    def test_negative_most_recent
-      assert_argument_value 22, -1
-    end
-
-    def test_negative_second_most_recent
-      assert_argument_value 20, -2
-    end
-
-    def test_negative_least_recent
-      assert_argument_value 13, -5
-    end
-
-    def test_negative_too_far_back
-      assert_argument_value_raises(-6)
-    end
-
-    def test_negative_most_recent_as_string
-      assert_argument_value 22, '-1'
-    end
-
-    def test_negative_second_most_recent_as_string
-      assert_argument_value 20, '-2'
-    end
-
-    def test_negative_least_recent_as_string
-      assert_argument_value 13, '-5'
-    end
-
-    def test_negative_too_far_back_as_string
-      assert_argument_value_raises '-6'
-    end
-
-    def test_positive_most_recent
-      assert_argument_value 22, '+5'
-    end
-
-    def test_positive_second_most_recent
-      assert_argument_value 20, '+4'
-    end
-
-    def test_positive_least_recent
-      assert_argument_value 13, '+1'
-    end
-
-    def test_positive_too_far_forward
-      assert_argument_value_raises '+6'
-    end
-
     def xxxtest_range_svn_word_to_number
+      # not yet handled
       assert_argument_value 'BASE:1', 'BASE:1'
     end
 
     def xxxtest_date
-      assert_argument_to_s '1967-12-10', '1967-12-10'
+      # can't do this, because it gets converted to 1967 (as an integer)
+      arg = create_argument '1967-12-10'
+      assert_equal '1967-12-10', arg.to_s
     end
 
-    def test_to_s
-      assert_argument_to_s '5', '5'
-      assert_argument_to_s 'HEAD', 'HEAD'
+    param_test [
+      [ '5',    '5' ], 
+      [ 'HEAD', 'HEAD' ]
+    ].each do |exp, value|
+      arg = create_argument value
+      assert_equal exp, arg.to_s, "value: #{value}"
     end
 
-    def test_eq
-      assert_argument_eq true, '5', '5'
-      assert_argument_eq false, '4', '5'
-      assert_argument_eq false, '5', '4'
+    param_test [
+      [ true,  '5', '5' ], 
+      [ true,  '4', '4' ], 
+      [ false, '4', '5' ], 
+      [ false, '5', '4' ], 
+    ].each do |expeq, x, y|
+      # it's the emoticon programming language
+      assert_compare :==, expeq, x, y
     end
 
-    def test_gt
-      assert_argument_gt true, '17', '16'
-      assert_argument_gt false, '13', '14'
+    param_test [
+      [ true,  '2', '1' ], 
+      [ true,  '3', '1' ], 
+      [ false, '2', '2' ], 
+      [ false, '2', '3' ]
+    ].each do |expgt, x, y|
+      assert_compare :>, expgt, x, y
+    end
+
+    def self.build_value_params
+      params = Array.new.tap do |a|
+        a << [ 19, 19   ]
+        a << [ 22, 22   ]
+        a << [ 13, 13   ]
+        a << [ 19, '19' ]
+
+        a.concat %w{ HEAD BASE COMMITTED PREV }.collect { |word| [ word, word ] }
+
+        a << [ 22, -1 ]
+        a << [ 20, -2 ]
+        a << [ 13, -5 ]
+        a << [ 22, '-1' ]
+      end
+    end
+
+    param_test build_value_params.each do |exp, value|
+      result = create_argument value
+      assert_equal exp, result.value, "value: #{value}"
+    end
+
+    param_test [
+       -6 ,
+       '-6',
+       '+6', 
+    ].each do |value|
+      assert_raises(RevisionError) do 
+        create_argument value
+      end
     end
   end
 end

@@ -4,46 +4,78 @@
 require 'svnx/tc'
 require 'svnx/log/entries'
 require 'svnx/revision/argument'
+require 'common/tc'
+require 'paramesan'
 
 module Svnx::Revision
   class ArgumentFactoryTestCase < Svnx::TestCase
+    include Paramesan
+    
     def setup
-      xmllines = Resources::PT_LOG_R22_13_SECONDFILE_TXT.readlines
+      xmllines = Array.new.tap do |a|
+        a << '<?xml version="1.0"?>'
+        a << '<log>'
+        a << '<logentry'
+        a << '   revision="22">'
+        a << '<author>Lyle</author>'
+        a << '<date>2012-09-18T11:32:19.542597Z</date>'
+        a << '<msg></msg>'
+        a << '</logentry>'
+        a << '<logentry'
+        a << '   revision="20">'
+        a << '<author>Howard Johnson</author>'
+        a << '<date>2012-09-18T11:28:08.481016Z</date>'
+        a << '<msg></msg>'
+        a << '</logentry>'
+        a << '<logentry'
+        a << '   revision="19">'
+        a << '<author>Lili von Shtupp</author>'
+        a << '<date>2012-09-16T14:24:07.913759Z</date>'
+        a << '<msg></msg>'
+        a << '</logentry>'
+        a << '<logentry'
+        a << '   revision="15">'
+        a << '<author>Mongo</author>'
+        a << '<date>2012-09-16T14:02:05.414042Z</date>'
+        a << '<msg></msg>'
+        a << '</logentry>'
+        a << '<logentry'
+        a << '   revision="13">'
+        a << '<author>Jim</author>'
+        a << '<date>2012-09-16T13:51:55.741762Z</date>'
+        a << '<msg></msg>'
+        a << '</logentry>'
+        a << '</log>'
+      end      
       @entries = Svnx::Log::Entries.new :xmllines => xmllines
     end
 
-    def test_create
-      arg = ArgumentFactory.new.create 14, entries: @entries
-      assert_not_nil arg
+    def create value
+      ArgumentFactory.new.create value, entries: @entries      
     end
 
-    def test_index_argument
-      arg = ArgumentFactory.new.create 14, entries: @entries
+    param_test [
+      22,
+      20,
+    ].each do |value|
+      arg = create value
       assert_kind_of IndexArgument, arg
     end
 
-    def test_string_svn_words
-      %w{ HEAD BASE COMMITTED PREV }.each do |word|
-        arg = ArgumentFactory.new.create word, entries: @entries
-        assert_kind_of StringArgument, arg
-      end
+    param_test [
+      -1,
+      '-1',
+      -2,
+    ].each do |value|
+      arg = create value
+      assert_kind_of IndexArgument, arg
+      assert_kind_of RelativeArgument, arg
     end
 
-    def test_date
-      arg = ArgumentFactory.new.create '{2012-12-10}', entries: @entries
+    param_test %w< HEAD BASE COMMITTED PREV {2012-12-10} >.each do |word|
+      # date is a StringArgument, for now
+      arg = create word
       assert_kind_of StringArgument, arg
-    end
-
-    def test_relative_argument_fixnum
-      arg = ArgumentFactory.new.create(-4, entries: @entries)
-      assert_kind_of IndexArgument, arg
-      assert_equal 15, arg.value
-    end
-
-    def test_relative_argument_string
-      arg = ArgumentFactory.new.create('-4', entries: @entries)
-      assert_kind_of IndexArgument, arg
-      assert_equal 15, arg.value
     end
   end
 end
