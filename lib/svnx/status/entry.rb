@@ -57,3 +57,4 @@ module Svnx::Status
     end
   end
 end
+

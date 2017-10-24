@@ -2,10 +2,10 @@
 # -*- ruby -*-
 
 require 'svnx/status/tc'
-require 'svnx/status/entries'
+require 'svnx/status/entry'
 
 module Svnx::Status
-  class EntriesTestCase < TestCase
+  class EntryTestCase < TestCase
     def test_create_from_xml
       xmllines = Array.new.tap do |a|
         a << '<?xml version="1.0"?>'
@@ -64,15 +64,20 @@ module Svnx::Status
         a << '  </target>'
         a << '</status>'
       end
+
+      doc = REXML::Document.new xmllines.join('')
+      elmts = doc.elements['status'].elements['target'].elements
       
-      entries = Entries.new :xmllines => xmllines
+      entry = Entry.new xmlelement: elmts[1]
+      puts "entry: #{entry}"
+
+      assert_equal Svnx::Action.new("modified"), entry.status
+      assert_equal "a.txt", entry.path
+      assert_equal "22", entry.status_revision
+      assert_equal Svnx::Action.new("modified"), entry.action
+      assert_equal "13", entry.commit_revision
+      assert_equal "a.txt", entry.name
       
-      assert_equal 5, entries.size
-      assert_status_entry_equals 'modified', 'a.txt', entries[0]
-      assert_status_entry_equals 'unversioned', 'one/two/def.java', entries[1]
-      assert_status_entry_equals 'added', 'one/three/ghi.rb', entries[2]
-      assert_status_entry_equals 'added', 'jkl.txt', entries[3]
-      assert_status_entry_equals 'deleted', 'four/mno.txt', entries[4]
     end
   end
 end

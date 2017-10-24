@@ -2,6 +2,7 @@
 # -*- ruby -*-
 
 require 'svnx/tc'
+require 'common/tc'
 
 module Svnx
   module Status
