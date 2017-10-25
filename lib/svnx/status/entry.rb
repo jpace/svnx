@@ -11,7 +11,7 @@ end
 
 module Svnx::Status
   class Entry < Svnx::Base::Entry
-    include Comparable, Logue::Loggable
+    include Comparable
     
     attr_reader :status
     attr_reader :path
@@ -38,10 +38,6 @@ module Svnx::Status
       @commit_revision = commit && commit.attributes['revision']
       @name = @path.dup
 
-      info "@name: #{@name}"
-      info "@path: #{@path}"
-      info "@rootpath: #{@rootpath}"
-
       if @rootpath
         # name is prefixed with directory unless '.' is used as the argument
         @name.sub! Regexp.new('^' + @rootpath), ''
@@ -57,4 +53,3 @@ module Svnx::Status
     end
   end
 end
-
