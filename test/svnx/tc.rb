@@ -3,7 +3,6 @@
 
 require 'test/unit'
 require 'logue/log'
-require 'resources'
 require 'rainbow'
 require 'svnx/base/cmdline'
 

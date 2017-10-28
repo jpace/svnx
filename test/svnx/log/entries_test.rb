@@ -1,11 +1,24 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'svnx/log/tc'
 require 'svnx/log/entries'
+require 'svnx/log/xml'
+require 'svnx/tc'
 
 module Svnx::Log
-  class EntriesTestCase < Svnx::Log::TestCase
+  class EntriesTestCase < Svnx::Common::TestCase
+    def assert_log_entry_equals expdata, entry
+      assert_equal expdata[0], entry.revision
+      assert_equal expdata[1], entry.author
+      assert_equal expdata[2], entry.date
+      assert_equal expdata[3], entry.message
+      entry.paths.each_with_index do |path, idx|
+        assert_equal expdata[4 + idx][:kind], path.kind
+        assert_equal expdata[4 + idx][:action], path.action
+        assert_equal expdata[4 + idx][:name], path.name
+      end
+    end
+    
     def assert_entry_fields_not_nil entry
       # these are occasionally missing or blank, which REXML considers nil:
       assert entry.message
@@ -27,19 +40,31 @@ module Svnx::Log
         :name => '/src/java/Bravo.java'
       }
       
-      assert_log_entry_equals entry, expdata
+      assert_log_entry_equals expdata, entry
     end
     
     def test_create_from_xml
-      # entries = Entries.new :xmllines => Resources::PT_LOG_L_15.readlines this
-      # is the equivalent of being at revision 19 (when this was written) and
       # doing "svn log -r19:5"
-      entries = Entries.new :xmllines => Resources::PT_LOG_R19_5.readlines
+      entries = Entries.new xmllines: XML::LINES
+      puts "entries: #{entries}"
       assert_log_entry_16 entries[3]
     end
     
     def test_empty_message_element
-      entries = Entries.new :xmllines => Resources::PT_LOG_R19.readlines
+      lines = Array.new.tap do |a|
+        a << '<?xml version="1.0"?>'
+        a << '<log>'
+        a << '<logentry'
+        a << '   revision="19">'
+        a << '<author>Lili von Shtupp</author>'
+        a << '<date>2012-09-16T14:24:07.913759Z</date>'
+        a << '<msg></msg>'
+        a << '</logentry>'
+        a << '</log>'
+      end
+      
+      entries = Entries.new :xmllines => lines
+      info "entries: #{entries}"
       
       # empty message here:
       assert_entry_fields_not_nil entries[0]
@@ -47,7 +72,7 @@ module Svnx::Log
 
     def test_create_on_demand
       # although entries now supports xmllines as an Array, we need the size for the assertion:
-      xmllines = Resources::PT_LOG_R19_5.readlines
+      xmllines = XML::LINES
       
       assert_equal 101, xmllines.size
 
@@ -75,7 +100,7 @@ module Svnx::Log
     def test_each
       idx = 0
 
-      entries = Entries.new :xmllines => Resources::PT_LOG_R19_5.readlines
+      entries = Entries.new :xmllines => XML::LINES
       entries.each do |entry|
         if idx == 3
           assert_log_entry_16 entry

@@ -3,11 +3,11 @@
 
 require 'svnx/status/entries'
 require 'svnx/status/xml'
-require 'common/tc'
+require 'svnx/tc'
 require 'paramesan'
 
 module Svnx::Status
-  class EntriesTestCase < Svnx::TestCase
+  class EntriesTestCase < Svnx::Common::TestCase
     include Paramesan
     
     param_test [

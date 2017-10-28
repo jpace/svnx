@@ -1,14 +1,14 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'common/tc'
+require 'svnx/tc'
 require 'zlib'
 require 'pathname'
 
 module CmdLine
 end
 
-class CmdLine::CommandTestCase < Svnx::TestCase
+class CmdLine::CommandTestCase < Svnx::Common::TestCase
   CACHE_DIR = Pathname.new '/tmp/pvn/testing'
 
   def rm_cache_dir

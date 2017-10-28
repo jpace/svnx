@@ -1,11 +1,11 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'svnx/log/tc'
 require 'svnx/log/entry'
+require 'svnx/tc'
 
 module Svnx::Log
-  class EntryPathTestCase < Svnx::Log::TestCase
+  class EntryPathTestCase < Svnx::Common::TestCase
     def test
       ep = EntryPath.new kind: "file", action: Svnx::Action::ADDED, name: "abc"
       assert_equal "file", ep.kind

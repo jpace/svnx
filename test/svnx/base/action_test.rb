@@ -1,11 +1,11 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'svnx/tc'
 require 'svnx/base/action'
+require 'svnx/tc'
 require 'paramesan'
 
-class Svnx::ActionStatusTestCase < Svnx::TestCase
+class Svnx::ActionStatusTestCase < Svnx::Common::TestCase
   include Logue::Loggable
   include Paramesan
 
@@ -23,7 +23,7 @@ class Svnx::ActionStatusTestCase < Svnx::TestCase
   end
 end
 
-class Svnx::ActionTestCase < Svnx::TestCase
+class Svnx::ActionTestCase < Svnx::Common::TestCase
   include Paramesan
 
   param_test [

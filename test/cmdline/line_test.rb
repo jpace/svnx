@@ -1,13 +1,13 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'common/tc'
 require 'cmdline/line'
+require 'svnx/tc'
 require 'paramesan'
 
 Logue::Log.level = Logue::Log::WARN
 
-class CmdLine::CommandLineTestCase < Svnx::TestCase
+class CmdLine::CommandLineTestCase < Svnx::Common::TestCase
   include Paramesan
   
   # init

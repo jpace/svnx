@@ -2,13 +2,12 @@
 # -*- ruby -*-
 
 require 'svnx/tc'
-require 'common/tc'
 require 'svnx/log/entries'
 require 'svnx/revision/argument'
 require 'paramesan'
 
 module Svnx::Revision
-  class ArgumentTestCase < Svnx::TestCase
+  class ArgumentTestCase < Svnx::Common::TestCase
     include Paramesan
     
     def setup

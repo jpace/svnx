@@ -4,11 +4,11 @@
 require 'svnx/tc'
 require 'svnx/log/entries'
 require 'svnx/revision/argument'
-require 'common/tc'
+require 'svnx/tc'
 require 'paramesan'
 
 module Svnx::Revision
-  class ArgumentFactoryTestCase < Svnx::TestCase
+  class ArgumentFactoryTestCase < Svnx::Common::TestCase
     include Paramesan
     
     def setup

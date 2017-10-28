@@ -3,28 +3,25 @@
 
 require 'svnx/status/entry'
 require 'svnx/status/xml'
-require 'common/tc'
+require 'svnx/tc'
+require 'paramesan'
 
 module Svnx::Status
-  class EntryTestCase < Svnx::TestCase    
-    def test_create_from_xml
-      x = Entry.new xmlelement: XML::ELEMENTS[1]
+  class EntryTestCase < Svnx::Common::TestCase
+    include Paramesan
+    
+    param_test [
+      [ Svnx::Action.new("modified"),    "a.txt",            "22", Svnx::Action.new("modified"),    "13", "a.txt",            1 ], 
+      [ Svnx::Action.new("unversioned"), "one/two/def.java", nil,  Svnx::Action.new("unversioned"), nil,  "one/two/def.java", 2 ]
+    ].each do |exp_status, exp_path, exp_status_revision, exp_action, exp_commit_revision, exp_name, idx|
+      x = Entry.new xmlelement: XML::ELEMENTS[idx]
       
-      assert_equal Svnx::Action.new("modified"), x.status
-      assert_equal "a.txt", x.path
-      assert_equal "22", x.status_revision
-      assert_equal Svnx::Action.new("modified"), x.action
-      assert_equal "13", x.commit_revision
-      assert_equal "a.txt", x.name
-
-      y = Entry.new xmlelement: XML::ELEMENTS[2]
-      
-      assert_equal Svnx::Action.new("unversioned"), y.status
-      assert_equal "one/two/def.java", y.path
-      assert_equal nil, y.status_revision
-      assert_equal Svnx::Action.new("unversioned"), y.action
-      assert_equal nil, y.commit_revision
-      assert_equal "one/two/def.java", y.name
+      assert_equal exp_status, x.status
+      assert_equal exp_path, x.path
+      assert_equal exp_status_revision, x.status_revision
+      assert_equal exp_action, x.action
+      assert_equal exp_commit_revision, x.commit_revision
+      assert_equal exp_name, x.name
     end
   end
 end
