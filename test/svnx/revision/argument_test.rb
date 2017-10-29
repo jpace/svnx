@@ -7,7 +7,7 @@ require 'svnx/revision/argument'
 require 'paramesan'
 
 module Svnx::Revision
-  class ArgumentTestCase < Svnx::Common::TestCase
+  class ArgumentTestCase < Svnx::TestCase
     include Paramesan
     
     def setup

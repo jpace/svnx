@@ -5,6 +5,7 @@ require 'test/unit'
 require 'logue/log'
 require 'rainbow'
 require 'svnx/base/cmdline'
+require 'svnx/mock'
 
 # no verbose if running all tests:
 level = ARGV.size == 0 ? Logue::Log::DEBUG : Logue::Log::WARN
@@ -27,11 +28,9 @@ class Object
 end
 
 module Svnx
-  module Common
-  end
 end
 
-module Svnx::Common
+module Svnx
   class TestCase < Test::Unit::TestCase
     include Logue::Loggable
 
@@ -63,31 +62,3 @@ module Svnx::Common
     end
   end
 end
-
-module Svnx::Base
-  class MockCommandLine < CommandLine
-    attr_reader :executed
-    
-    def execute
-      @executed = true
-      Array.new
-    end
-  end
-
-  COMMAND_LINE_HISTORY = Array.new
-  
-  class MokkCommandLine < CommandLine
-    attr_reader :executed
-    attr_reader :subcommand
-    attr_reader :xml
-    attr_reader :caching
-    attr_reader :args    
-    
-    def execute
-      @executed = true
-      COMMAND_LINE_HISTORY << self
-      ""
-    end
-  end
-end
-

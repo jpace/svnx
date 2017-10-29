@@ -7,7 +7,7 @@ require 'svnx/info/xml'
 require 'paramesan'
 
 module Svnx::Info
-  class EntriesTestCase < Svnx::Common::TestCase
+  class EntriesTestCase < Svnx::TestCase
     include Paramesan
 
     EXPROOT = 'file:///Programs/Subversion/Repositories/pvntestbed.from'

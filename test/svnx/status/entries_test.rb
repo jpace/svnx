@@ -7,7 +7,7 @@ require 'svnx/tc'
 require 'paramesan'
 
 module Svnx::Status
-  class EntriesTestCase < Svnx::Common::TestCase
+  class EntriesTestCase < Svnx::TestCase
     include Paramesan
     
     param_test [

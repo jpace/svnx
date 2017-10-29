@@ -3,27 +3,22 @@
 
 require 'svnx/commit/command'
 require 'svnx/command/tc'
+require 'svnx/mock'
 
 module Svnx::Commit
-  COMMAND_LINE_HISTORY = Array.new
-  
-  class MokkCommandLine < Svnx::Base::MockCommandLine
-    attr_reader :executed
-    attr_reader :subcommand
-    attr_reader :xml
-    attr_reader :caching
-    attr_reader :args    
+  class MockCommandLine < Svnx::Base::MockCommandLine
+    ELEMENTS = Array.new
     
     def execute
-      @executed = true
-      COMMAND_LINE_HISTORY << self
+      super
+      ELEMENTS << self
     end
   end
   
   class CommandTest < Svnx::Command::TestCase
     def assert_command exp, cmdopts = Hash.new
-      cmd = Command.new cmdopts, cls: MokkCommandLine
-      cl = COMMAND_LINE_HISTORY[-1]
+      cmd = Command.new cmdopts, cls: MockCommandLine
+      cl = MockCommandLine::ELEMENTS[-1]
       msg = "cmdopts: #{cmdopts}"
       assert_equal true,          cl.executed, msg
       assert_equal exp[:args],    cl.args,     msg

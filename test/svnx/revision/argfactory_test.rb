@@ -8,7 +8,7 @@ require 'svnx/tc'
 require 'paramesan'
 
 module Svnx::Revision
-  class ArgumentFactoryTestCase < Svnx::Common::TestCase
+  class ArgumentFactoryTestCase < Svnx::TestCase
     include Paramesan
     
     def setup

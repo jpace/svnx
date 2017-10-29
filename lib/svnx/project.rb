@@ -39,12 +39,12 @@ class Svnx::Project
   end
 
   def run_command cmdcls, cmdargs, args
-    debug "cmdargs: #{cmdargs}"
-    stack "args: #{args}"
+    # debug "cmdargs: #{cmdargs}"
+    # stack "args: #{args}"
     cmdargs = cmdargs.merge args
-    debug "cmdargs: #{cmdargs}"
+    # debug "cmdargs: #{cmdargs}"
     cmd = cmdcls.new cmdargs, cls: @cls
-    debug "cmd: #{cmd}"
+    # debug "cmd: #{cmd}"
     cmd.respond_to?(:entries) ? cmd.entries : cmd.output
   end
 
@@ -65,7 +65,7 @@ class Svnx::Project
       "end"
     ].join("\n")
 
-    # Logue::Log.debug "src: #{src}"
+    # puts "src: #{src}"
     module_eval src
   end
 

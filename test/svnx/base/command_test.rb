@@ -3,6 +3,7 @@
 
 require 'svnx/commit/command'
 require 'svnx/tc'
+require 'svnx/mock'
 
 module Svnx::Base
   class MockCommand < Command
@@ -23,11 +24,11 @@ module Svnx::Base
     end
   end
 
-  class CommandTest < Svnx::Common::TestCase
+  class CommandTest < Svnx::TestCase
     def test_command
       options = { file: "abc", paths: [ "def", "ghi" ] }
-      MockCommand.new options, optcls: MockOptions, cls: MokkCommandLine
-      cl = COMMAND_LINE_HISTORY[-1]
+      MockCommand.new options, optcls: MockOptions, cls: MockCommandLine
+      cl = MockCommandLine::EXECUTED[-1]
       info "cl: #{cl}"
       assert_equal true, cl.executed
       assert_equal "base", cl.subcommand

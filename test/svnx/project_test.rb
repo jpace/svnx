@@ -2,96 +2,75 @@
 # -*- ruby -*-
 
 require 'svnx/project'
+require 'svnx/propget/entries'
 require 'svnx/tc'
+require 'svnx/mock'
 require 'paramesan'
 
-class Svnx::ProjectTest < Svnx::Common::TestCase
-  include Paramesan
+module Svnx
+  class ProjectTest < Svnx::TestCase
+    include Paramesan
 
-  # dir and url
-  
-  param_test [
-    { expdir: "/tmp/svnx-test", args: { dir: "/tmp/svnx-test", cls: Svnx::Base::MokkCommandLine } },
-    { expurl: "p://svnx/abc", args: { url: "p://svnx/abc", cls: Svnx::Base::MokkCommandLine} },
-    { expdir: "/tmp/svnx-test", expurl: "p://svnx/abc", args: { dir: "/tmp/svnx-test", url: "p://svnx/abc", cls: Svnx::Base::MokkCommandLine } }
-  ].each do |args|
-    expdir = args[:expdir]
-    expurl = args[:expurl]
-    proj = Svnx::Project.new args[:args]
-    assert_equal expdir, proj.dir, "args: #{args}"
-    assert_equal expurl, proj.url, "args: #{args}"
-  end
-  
-  def mock_cmdline
-    Svnx::Base::MockCommandLine.new
-  end
-  
-  # where
+    class MockCommandLine < Svnx::Base::MockCommandLine
+      ELEMENTS = Array.new
+      
+      def execute
+        ELEMENTS << self
+        super
+      end
+    end
 
-  param_test [
-    { exp: "/tmp/svnx-test", args: { dir: "/tmp/svnx-test", cls: Svnx::Base::MokkCommandLine } },
-    { exp: "p://svnx/abc",   args: { url: "p://svnx/abc" } },
-    # url takes priority when both are specified:
-    { exp: "p://svnx/abc",   args: { dir: "/tmp/svnx-test", url: "p://svnx/abc" } }
-  ].each do |args|
-    exp = args[:exp]
-    proj = Svnx::Project.new args[:args]
-    assert_equal exp, proj.where, "args: #{args}"
-  end  
+    # dir and url
+    
+    param_test [
+      { expdir: "/tmp/svnx-test", args: { dir: "/tmp/svnx-test", cls: MockCommandLine } }, 
+      { expurl: "p://svnx/abc",   args: { url: "p://svnx/abc",   cls: MockCommandLine } },  
+      { expdir: "/tmp/svnx-test", expurl: "p://svnx/abc",        args: { dir: "/tmp/svnx-test", url: "p://svnx/abc", cls: MockCommandLine } }
+    ].each do |args|
+      expdir = args[:expdir]
+      expurl = args[:expurl]
+      proj   = Svnx::Project.new args[:args]
+      
+      assert_equal expdir, proj.dir, "args: #{args}"
+      assert_equal expurl, proj.url, "args: #{args}"
+    end
+    
+    def mock_cmdline
+      Svnx::Base::MockCommandLine.new
+    end
+    
+    # where
 
-  # command delegation
+    param_test [
+      { exp: "/tmp/svnx-test", args: { dir: "/tmp/svnx-test",   cls: MockCommandLine } }, 
+      { exp: "p://svnx/abc",   args: { url: "p://svnx/abc" } }, 
+      # url takes priority when both are specified:
+      { exp: "p://svnx/abc",   args: { dir: "/tmp/svnx-test",   url: "p://svnx/abc" } }
+    ].each do |args|
+      exp  = args[:exp]
+      proj = Svnx::Project.new args[:args]
+      
+      assert_equal exp, proj.where, "args: #{args}"
+    end  
 
-  def assert_execute_command projmeth, initargs = Hash.new
-    proj = Svnx::Project.new dir: "/tmp/svnx-test", cls: Svnx::Base::MokkCommandLine
-    proj.send projmeth, cls: Svnx::Base::MokkCommandLine
-    assert_true Svnx::Base::COMMAND_LINE_HISTORY[-1].executed, projmeth.to_s
-  end
+    # command delegation
 
-  # info
-  
-  def test_info_exec
-    assert_execute_command :info
-  end
-
-  # update
-  
-  def test_update_exec
-    assert_execute_command :update
-  end
-
-  # merge
-  
-  def test_merge_exec
-    assert_execute_command :merge
-  end
-
-  # commit
-  
-  def test_commit_exec
-    # assert_execute_command :commit
-  end
-
-  # log
-  
-  def test_log_exec
-    assert_execute_command :log
-  end
-
-  # diff
-  
-  def test_diff_exec
-    assert_execute_command :diff
-  end
-  
-  # propset
-  
-  def test_propset_exec
-    assert_execute_command :propset
-  end
-  
-  # propget
-  
-  def test_propget_exec
-    assert_execute_command :propget
+    param_test [
+      :info,
+      :update,
+      :merge,
+      #$$$ not enabled because commit validates options, and cls and url are not valid for it:
+      # :commit,
+      :log,
+      :diff,
+      :propset,
+      :propget,
+    ].each do |meth|
+      MockCommandLine::ELEMENTS.clear
+      proj = Svnx::Project.new dir: "/tmp/svnx-test", cls: MockCommandLine
+      proj.send meth, cls: MockCommandLine
+      assert_true MockCommandLine::ELEMENTS[-1].executed
+      assert_equal MockCommandLine::ELEMENTS[-1].subcommand, meth.to_s
+    end  
   end
 end

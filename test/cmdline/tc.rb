@@ -8,7 +8,7 @@ require 'pathname'
 module CmdLine
 end
 
-class CmdLine::CommandTestCase < Svnx::Common::TestCase
+class CmdLine::CommandTestCase < Svnx::TestCase
   CACHE_DIR = Pathname.new '/tmp/pvn/testing'
 
   def rm_cache_dir

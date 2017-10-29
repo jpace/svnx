@@ -7,7 +7,7 @@ require 'svnx/command/tc'
 module Svnx::Update
   class CommandTest < Svnx::Command::TestCase
     def assert_command cmdopts = Hash.new
-      super Command, cmdopts
+      super Command, "update", cmdopts
     end
     
     def test_update

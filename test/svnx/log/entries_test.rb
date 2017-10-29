@@ -6,7 +6,7 @@ require 'svnx/log/xml'
 require 'svnx/tc'
 
 module Svnx::Log
-  class EntriesTestCase < Svnx::Common::TestCase
+  class EntriesTestCase < Svnx::TestCase
     def assert_log_entry_equals expdata, entry
       assert_equal expdata[0], entry.revision
       assert_equal expdata[1], entry.author
