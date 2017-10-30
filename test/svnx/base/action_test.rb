@@ -6,42 +6,38 @@ require 'svnx/tc'
 require 'paramesan'
 
 module Svnx
-  class ActionStatusTestCase < Svnx::TestCase
-    include Logue::Loggable
-    include Paramesan
-
-    param_test [
-      [ :added,       [ 'A', :added,       'added'       ] ],
-      [ :deleted,     [ 'D', :deleted,     'deleted'     ] ],
-      [ :modified,    [ 'M', :modified,    'modified'    ] ],
-      [ :unversioned, [ '?', :unversioned, 'unversioned' ] ],
-    ] do |exp, args|
-      sas = Svnx::ActionStatus.instance
-      args.each do |arg|
-        sym = sas.symbol_for arg
-        assert_equal exp, sym, "arg: #{arg}"
-      end
-    end
-  end
-end
-
-module Svnx
   class ActionTestCase < Svnx::TestCase
     include Paramesan
 
-    param_test [
-      [ true,  false, false, false, 'added',       'A', :added       ],
-      [ false, true,  false, false, 'deleted',     'D', :deleted     ],
-      [ false, false, true,  false, 'modified',    'M', :modified    ],
-      [ false, false, false, true,  'unversioned', '?', :unversioned ],
-    ].each do |expadd, expdel, expmod, expunver, val|
-      action = Svnx::Action.new val
-      msg = "value: #{val}"
-      
+    def self.build_params
+      Array.new.tap do |a|
+        a << [ true,  false, false, false, 'added',       'A', :added       ]
+        a << [ false, true,  false, false, 'deleted',     'D', :deleted     ]
+        a << [ false, false, true,  false, 'modified',    'M', :modified    ]
+        a << [ false, false, false, true,  'unversioned', '?', :unversioned ]
+      end
+    end
+
+    def assert_action expadd, expdel, expmod, expunver, action, msg
       assert_equal expadd,   action.added?,       msg
       assert_equal expdel,   action.deleted?,     msg
       assert_equal expmod,   action.modified?,    msg
       assert_equal expunver, action.unversioned?, msg
+    end
+
+    param_test build_params do |expadd, expdel, expmod, expunver, str, char, sym|
+      action = Svnx::Action.new str
+      assert_action expadd, expdel, expmod, expunver, action, "str: #{str}"
+    end
+
+    param_test build_params do |expadd, expdel, expmod, expunver, str, char, sym|
+      action = Svnx::Action.new char
+      assert_action expadd, expdel, expmod, expunver, action, "char: #{char}"
+    end
+
+    param_test build_params do |expadd, expdel, expmod, expunver, str, char, sym|
+      action = Svnx::Action.new sym
+      assert_action expadd, expdel, expmod, expunver, action, "sym: #{sym}"
     end
 
     param_test [
@@ -55,7 +51,7 @@ module Svnx
     
     def test_invalid_type
       assert_raise(RuntimeError) do
-        Svnx::Action.new('dummy')
+        Svnx::Action.new 'dummy'
       end
     end
   end
