@@ -17,7 +17,7 @@ module Svnx::Commit
   
   class CommandTest < Svnx::Command::TestCase
     def assert_command exp, cmdopts = Hash.new
-      cmd = Command.new cmdopts, cls: MockCommandLine
+      Command.new cmdopts, cls: MockCommandLine
       cl = MockCommandLine::ELEMENTS[-1]
       msg = "cmdopts: #{cmdopts}"
       assert_equal true,          cl.executed, msg

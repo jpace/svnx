@@ -113,7 +113,7 @@ module Svnx::Revision
     end
 
     def self.build_value_params
-      params = Array.new.tap do |a|
+      Array.new.tap do |a|
         a << [ 19, 19   ]
         a << [ 22, 22   ]
         a << [ 13, 13   ]
