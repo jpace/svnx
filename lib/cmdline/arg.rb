@@ -2,12 +2,11 @@
 # -*- ruby -*-
 
 module CmdLine
-end
+  class Argument < String
+    # just a string, but quotes itself
 
-class CmdLine::Argument < String
-  # just a string, but quotes itself
-
-  def to_s
-    '"' + super + '"'
+    def to_s
+      '"' + super + '"'
+    end
   end
 end
