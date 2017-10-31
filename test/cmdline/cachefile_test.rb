@@ -1,18 +1,15 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'cmdline/tc'
 require 'cmdline/cachefile'
+require 'cmdline/tc'
 require 'pathname_assertions'
-
-Logue::Log.level = Logue::Log::WARN
 
 module CmdLine
   class CacheFileTestCase < CommandTestCase
-    include Logue::Loggable
     include PathnameAssertions
 
-    def get_cache_file command
+    def get_cache_file *command
       CacheFile.new CACHE_DIR, command
     end
 
@@ -22,7 +19,7 @@ module CmdLine
     end
     
     def test_creates_gzfile
-      cf = get_cache_file [ "ls", "/var/tmp" ]
+      cf = get_cache_file "ls", "/var/tmp"
       rm_cached_file cf
       refute_exists cf.pathname
       
@@ -34,7 +31,7 @@ module CmdLine
     end
 
     def test_reads_gzfile
-      cf = get_cache_file [ "ls", "-l", "/var/tmp" ]
+      cf = get_cache_file "ls", "-l", "/var/tmp"
       rm_cached_file cf
       refute_exists cf.pathname
 
@@ -42,7 +39,7 @@ module CmdLine
       assert_exists cf.pathname
 
       # same as above
-      cf2 = get_cache_file [ "ls", "-l", "/var/tmp" ]
+      cf2 = get_cache_file "ls", "-l", "/var/tmp"
       
       def cf2.save_file
         fail "should not have called save file for read"

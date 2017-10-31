@@ -9,13 +9,20 @@ module CmdLine
   class FileNameTest < Test::Unit::TestCase
     include Paramesan
 
-    param_test [
-      [ "abc.gz",               [ "abc"            ] ],
-      [ "abc-def.gz",           [ "abc", "def"     ] ],
-      [ "abc-def_slash_ghi.gz", [ "abc", "def/ghi" ] ],
-    ].each do |exp, args|
+    PARAMS = Array.new.tap do |a|
+      a << [ "abc.gz",               "abc"            ]
+      a << [ "abc-def.gz",           "abc", "def"     ]
+      a << [ "abc-def_slash_ghi.gz", "abc", "def/ghi" ]
+    end
+
+    param_test PARAMS.each do |exp, *args|
       fn = FileName.new args
       assert_equal exp, fn.name, "args: #{args}"
+    end
+
+    param_test PARAMS.each do |exp, *args|
+      fn = FileName.new args
+      assert_equal exp, fn.to_s, "args: #{args}"
     end
   end
 end

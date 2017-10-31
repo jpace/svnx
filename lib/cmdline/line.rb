@@ -13,7 +13,7 @@ module CmdLine
     attr_reader :error
     attr_reader :status
 
-    def initialize args = Array.new
+    def initialize *args, debug: false
       @args = args.dup
     end
 
