@@ -4,13 +4,14 @@
 require 'svnx/commit/command'
 require 'svnx/tc'
 require 'svnx/mock'
+require 'paramesan'
 
-module Svnx::Base
-  class MockCommand < Command
+module SvnxTest
+  class MockCommand < Svnx::Base::Command
     caching
   end
 
-  class MockOptions < Options
+  class MockOptions < Svnx::Base::Options
     attr_reader :abc
     
     def initialize args
@@ -22,18 +23,55 @@ module Svnx::Base
         optargs << [ :abc, @abc ]
       end
     end
-  end
+  end  
+end
 
+module SvnxTest2
+  module Nesting
+    class MockCommand < Svnx::Base::Command
+      caching
+    end
+
+    class Options < Svnx::Base::Options
+      attr_reader :key
+      
+      def initialize args
+        @key = "val"
+      end
+
+      def options_to_args
+        Array.new.tap do |optargs|
+          optargs << [ :key, @key ]
+        end
+      end
+    end
+  end
+end
+
+module Svnx::Base
   class CommandTest < Svnx::TestCase
-    def test_command
+    include Paramesan
+    
+    def self.build_params
       options = { file: "abc", paths: [ "def", "ghi" ] }
-      MockCommand.new options, optcls: MockOptions, cls: MockCommandLine
-      cl = MockCommandLine::EXECUTED[-1]
-      info "cl: #{cl}"
-      assert_equal true, cl.executed
-      assert_equal "base", cl.subcommand
-      assert_equal false, cl.xml
-      assert_equal %w{ ghi }, cl.args
+      command = SvnxTest::MockCommand.new options,           optcls: SvnxTest::MockOptions, cls: Svnx::Base::MockCommandLine
+      other   = SvnxTest2::Nesting::MockCommand.new options, cls: Svnx::Base::MockCommandLine
+      Array.new.tap do |a|
+        a << [ %w{ SvnxTest },          SvnxTest,           SvnxTest::MockOptions, command ]
+        a << [ %w{ SvnxTest2 Nesting }, SvnxTest2::Nesting, SvnxTest2::Nesting::Options, other ]
+      end
+    end
+
+    param_test build_params.each do |expelements, expmodule, expoptcls, cmd|
+      assert_equal expelements, cmd.module_elements
+    end
+
+    param_test build_params.each do |expelements, expmodule, expoptcls, cmd|
+      assert_equal expmodule, cmd.find_module
+    end
+
+    param_test build_params.each do |expelements, expmodule, expoptcls, cmd|
+      assert_equal expoptcls, cmd.options.class, "cmd: #{cmd}"
     end
   end
 end

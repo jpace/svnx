@@ -20,7 +20,7 @@ module Svnx
         a << '</properties>'
       end.join "\n"
 
-      puts "str: #{str}"
+      # puts "str: #{str}"
 
       Cmd.new str
     end

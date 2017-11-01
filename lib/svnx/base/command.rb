@@ -4,6 +4,8 @@
 require 'logue/loggable'
 require 'cmdline/caching'
 require 'svnx/base/cmdline'
+require 'svnx/util/classutil'
+require 'svnx/base/command_factory'
 
 module Svnx::Base
   class Command
@@ -26,28 +28,23 @@ module Svnx::Base
     attr_reader :output
     attr_reader :error
     attr_reader :status
+
+    attr_reader :options
     
     def initialize options, cls: nil, optcls: nil, exec: nil, xml: false, caching: caching?
-      # info "cls:: #{cls}"
-      melements = module_elements
-      # info "melements: #{melements}"
-      modl = find_module melements    
-      # info "modl: #{modl}"
-      unless optcls
-        optcls = modl::Options
-      end
-      opts = optcls.new options
-      # info "opts: #{opts}"
-      cmdargs = opts.to_args
-      debug "cmdargs: #{cmdargs}"
-      subcommand = melements[-1].downcase
-      # info "subcommand: #{subcommand}"
-      # info "cls: #{cls}"
-      # info "caching: #{caching}"
-      # info "xml: #{xml}"
-      # info "exec: #{exec}"
-
-      cls ||= CommandLine
+      info "cls: #{cls}"
+      
+      factory = CommandFactory.new
+      params = factory.create self.class, cmdlinecls: cls, optcls: optcls
+      info "params: #{params}"
+      
+      optcls ||= params[:options_class]
+      
+      @options = optcls.new options
+      cmdargs = @options.to_args
+      subcommand = params[:subcommand]
+      
+      cls ||= params[:command_line_class]
       
       @cmdline = exec || cls.new(subcommand: subcommand, xml: xml, caching: caching, args: cmdargs)
       debug "@cmdline: #{@cmdline}"
@@ -66,8 +63,7 @@ module Svnx::Base
     end
 
     def find_module elements = module_elements
-      mod = elements * "::"
-      Kernel.const_get mod
+      ClassUtil::Util.find_module self.class
     end
   end
 
@@ -79,7 +75,7 @@ module Svnx::Base
       
       if not @output.empty?
         entries_class ||= begin
-                            modl = find_module
+                            modl = ClassUtil::Util.find_module self.class
                             modl::Entries
                           end
         

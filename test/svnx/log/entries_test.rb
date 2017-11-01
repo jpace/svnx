@@ -46,7 +46,7 @@ module Svnx::Log
     def test_create_from_xml
       # doing "svn log -r19:5"
       entries = Entries.new xmllines: XML::LINES
-      puts "entries: #{entries}"
+      debug "entries: #{entries}"
       assert_log_entry_16 entries[3]
     end
     
@@ -64,7 +64,7 @@ module Svnx::Log
       end
       
       entries = Entries.new :xmllines => lines
-      info "entries: #{entries}"
+      debug "entries: #{entries}"
       
       # empty message here:
       assert_entry_fields_not_nil entries[0]
