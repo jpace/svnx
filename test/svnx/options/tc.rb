@@ -13,7 +13,7 @@ module Svnx::Options
   class TestCase < Test::Unit::TestCase
     include Paramesan
 
-    def assert_options expvals, optvals = Hash.new
+    def assert_options expvals, optvals
       cls  = options_class
       opts = cls.new optvals
       expvals.each do |methname, expval|
@@ -26,7 +26,7 @@ module Svnx::Options
       assert_options input, input
     end
 
-    def assert_to_args expected, optvals = Hash.new
+    def assert_to_args expected, optvals
       cls  = options_class
       opts = cls.new optvals
       opts.to_args.tap do |svnargs|

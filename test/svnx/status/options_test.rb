@@ -11,11 +11,7 @@ module Svnx::Status
     end
     
     def test_assign_default
-      defexpected = {
-        paths: nil,
-        url: nil
-      }
-      assert_options defexpected
+      assert_options({ paths: nil, url: nil }, Hash.new)
     end
 
     param_test [

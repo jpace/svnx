@@ -11,14 +11,15 @@ module Svnx::Commit
     end
     
     def test_default
-      assert_options file: nil, paths: nil
+      defvals = { file: nil, paths: nil }
+      assert_options defvals, Hash.new
     end
 
     param_test [
       { file: "x/y" },
       { paths: [ "a/b", "c/d" ] },
     ].each do |vals|
-      assert_assign vals
+      assert_options vals, vals
     end
 
     param_test [

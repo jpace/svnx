@@ -3,90 +3,54 @@
 
 require 'svnx/diff/options'
 require 'svnx/options/tc'
+require 'paramesan'
 
 module Svnx::Diff
   class OptionsTest < Svnx::Options::TestCase
+    include Paramesan
+    
     def options_class
       Options
     end
-    
-    def test_assign_default
-      defexpected = { commit: nil,
-                      ignoreproperties: nil,
-                      ignorewhitespace: nil,
-                      paths: nil,
-                      url: nil }
-      assert_options defexpected
-    end
-    
-    def test_assign_commit
-      assert_assign commit: 123
-    end
-    
-    def test_assign_ignoreproperties_true
-      assert_assign ignoreproperties: true
-    end
-    
-    def test_assign_ignoreproperties_false
-      assert_assign ignoreproperties: false
-    end
-    
-    def test_assign_ignorewhitespace_true
-      assert_assign ignorewhitespace: true
-    end
-    
-    def test_assign_ignorewhitespace_false
-      assert_assign ignorewhitespace: false
-    end 
 
-    def test_assign_url
-      assert_options({ url: "p://xyz", paths: nil }, url: "p://xyz")
+    param_test [
+      # default:
+      { commit: nil,
+        ignoreproperties: nil,
+        ignorewhitespace: nil,
+        paths: nil,
+        url: nil },
+      { commit: 123 },
+      { ignoreproperties: true },
+      { ignoreproperties: false },
+      { ignorewhitespace: true },
+      { ignorewhitespace: false },
+    ].each do |vals|
+      assert_options vals, vals
     end
 
-    def test_assign_paths
-      assert_options({ paths: [ "a/b" ], url: nil }, paths: [ "a/b" ])
+    param_test [
+      [ { url: "p://xyz", paths: nil }, url: "p://xyz" ],
+      [ { paths: [ "a/b" ], url: nil }, paths: [ "a/b" ] ],
+    ].each do |exp, optvals|
+      assert_options exp, optvals
     end
 
     # to_args
-    
-    def test_to_args_default
-      assert_to_args Array.new
-    end
-    
-    def test_to_args_commit
-      assert_to_args [ "-c", 123 ], commit: 123
-    end
-    
-    def test_to_args_ignoreproperties_true
-      assert_to_args [ "--ignore-properties" ], ignoreproperties: true
-    end
-    
-    def test_to_args_ignoreproperties_false
-      assert_to_args Array.new, ignoreproperties: false
-    end
-    
-    def test_to_args_ignorewhitespace_true
-      assert_to_args [ "-x", "-bw" ], ignorewhitespace: true
-    end
-    
-    def test_to_args_ignorewhitespace_false
-      assert_to_args Array.new, ignorewhitespace: false
-    end
 
-    def test_to_args_url
-      assert_to_args [ "p://xyz" ], url: "p://xyz"
-    end
-
-    def test_to_args_paths_one
-      assert_to_args [ "a/b" ], paths: [ "a/b" ]
-    end
-    
-    def test_to_args_paths_two
-      assert_to_args [ "a/b", "c/d" ], paths: [ "a/b", "c/d" ]
-    end
-    
-    def test_to_args_depth_empty
-      assert_to_args [ "--depth", "empty" ], depth: "empty"
+    param_test [
+      [ Array.new, Hash.new ],
+      [ [ "-c", 123 ], commit: 123 ],
+      [ [ "--ignore-properties" ], ignoreproperties: true ],
+      [ Array.new, ignoreproperties: false ],
+      [ [ "-x", "-bw" ], ignorewhitespace: true ],
+      [ Array.new, ignorewhitespace: false ],
+      [ [ "p://xyz" ], url: "p://xyz" ],
+      [ [ "a/b" ], paths: [ "a/b" ] ],
+      [ [ "a/b", "c/d" ], paths: [ "a/b", "c/d" ] ],
+      [ [ "--depth", "empty" ], depth: "empty" ],
+    ].each do |exp, optvals|
+      assert_to_args exp, optvals
     end
   end
 end

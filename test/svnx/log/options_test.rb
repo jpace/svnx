@@ -11,17 +11,18 @@ module Svnx::Log
     end
     
     def test_assign_default
-      assert_options verbose: nil, limit: nil, revision: nil, path: nil, url: nil
+      defvals = { verbose: nil, limit: nil, revision: nil, path: nil, url: nil }
+      assert_options defvals, Hash.new
     end
 
     param_test [
-      { verbose: true },
-      { limit: 17 },
+      { verbose:  true },
+      { limit:    17 },
       { revision: 123 },
-      { path: "a/b" },
-      { url: "p://a/b" },
+      { path:     "a/b" },
+      { url:      "p: //a/b" },
     ].each do |vals|
-      assert_assign vals
+      assert_options vals, vals
     end
 
     param_test [

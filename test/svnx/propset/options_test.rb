@@ -11,7 +11,8 @@ module Svnx::Propset
     end
     
     def test_assign_default
-      assert_options file: nil, revision: nil, url: nil, path: nil
+      defvals = { file: nil, revision: nil, url: nil, path: nil }
+      assert_options defvals, Hash.new
     end
 
     param_test [
@@ -20,9 +21,9 @@ module Svnx::Propset
       { name:     "abc" },
       { value:    "def" },
       { path:     "a/b" },
-      { url:      "p:   //a/b" },
+      { url:      "p://a/b" },
     ].each do |vals|
-      assert_assign vals
+      assert_options vals, vals
     end
 
     param_test [

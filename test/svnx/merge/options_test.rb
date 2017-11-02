@@ -11,7 +11,8 @@ module Svnx::Merge
     end
     
     def test_assign_default
-      assert_options commit: nil, range: nil, accept: nil, path: nil, url: nil
+      defvals = { commit: nil, range: nil, accept: nil, path: nil, url: nil }
+      assert_options defvals, Hash.new
     end
 
     param_test [
@@ -21,7 +22,7 @@ module Svnx::Merge
       { path: "a/b" },
       { url: "p://a/b" }
     ].each do |vals|
-      assert_assign vals
+      assert_options vals, vals
     end
     
     # to_args
