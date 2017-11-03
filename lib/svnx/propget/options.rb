@@ -10,23 +10,21 @@ end
 
 module Svnx::Propget
   class Options < Svnx::Base::Options
-    attr_reader :revision
-    attr_reader :revprop
-    attr_reader :name
-    attr_reader :url
-    attr_reader :path
+    FIELDS = [ :revision, :revprop, :name, :url, :path ]
+
+    attr_readers FIELDS
     
     def initialize args
-      assign args, :revision, :revprop, :name, :url, :path
+      assign args, FIELDS
     end
 
     def options_to_args
-      Array.new.tap do |optargs|
-        optargs << [ :revision, [ "-r", revision ] ]
-        optargs << [ :revprop,  "--revprop" ]
-        optargs << [ :name,     name ]
-        optargs << [ :url,      url ]
-        optargs << [ :path,     path ]
+      Array.new.tap do |a|
+        a << [ :revision, [ "-r", revision ] ]
+        a << [ :revprop,  "--revprop" ]
+        a << [ :name,     name ]
+        a << [ :url,      url ]
+        a << [ :path,     path ]
       end
     end
   end

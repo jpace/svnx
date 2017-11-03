@@ -12,15 +12,16 @@ module Svnx::Commit
   class Options < Svnx::Base::Options
     include Svnx::ObjectUtil
 
-    attr_reader :file
-    attr_reader :paths
+    FIELDS = [ :file, :paths ]
+
+    attr_readers FIELDS
     
     def initialize args = Hash.new
-      assign args, :file, :paths
-      check args,  :file, :paths
+      assign args, FIELDS
+      check args,  FIELDS
     end
 
-    def check args, *symbols
+    def check args, symbols = Array.new
       invalid = args.keys.reject do |field|
         symbols.include? field
       end
@@ -31,9 +32,9 @@ module Svnx::Commit
     end
 
     def options_to_args
-      Array.new.tap do |optargs|
-        optargs << [ :file,   [ "-F", file ] ]
-        optargs << [ :paths,  paths ]
+      Array.new.tap do |a|
+        a << [ :file,   [ "-F", file ] ]
+        a << [ :paths,  paths ]
       end
     end  
   end

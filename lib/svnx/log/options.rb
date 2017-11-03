@@ -10,23 +10,21 @@ end
 
 module Svnx::Log
   class Options < Svnx::Base::Options
-    attr_reader :limit
-    attr_reader :verbose
-    attr_reader :revision
-    attr_reader :url
-    attr_reader :path
+    FIELDS = [ :limit, :verbose, :revision, :url, :path ]
+
+    attr_readers FIELDS
     
     def initialize args
-      assign args, :limit, :verbose, :revision, :url, :path
+      assign args, FIELDS
     end
     
     def options_to_args
-      Array.new.tap do |optargs|
-        optargs << [ :limit,    [ "--limit", limit ] ]
-        optargs << [ :verbose,  "-v" ]
-        optargs << [ :revision, "-r" + revision.to_s ]
-        optargs << [ :url,      url ]
-        optargs << [ :path,     path ]
+      Array.new.tap do |a|
+        a << [ :limit,    [ "--limit", limit ] ]
+        a << [ :verbose,  "-v" ]
+        a << [ :revision, "-r" + revision.to_s ]
+        a << [ :url,      url ]
+        a << [ :path,     path ]
       end
     end
   end

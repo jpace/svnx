@@ -19,8 +19,8 @@ module SvnxTest
     end
 
     def options_to_args
-      Array.new.tap do |optargs|
-        optargs << [ :abc, @abc ]
+      Array.new.tap do |a|
+        a << [ :abc, @abc ]
       end
     end
   end  
@@ -40,8 +40,8 @@ module SvnxTest2
       end
 
       def options_to_args
-        Array.new.tap do |optargs|
-          optargs << [ :key, @key ]
+        Array.new.tap do |a|
+          a << [ :key, @key ]
         end
       end
     end

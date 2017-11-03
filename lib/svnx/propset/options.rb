@@ -10,25 +10,22 @@ end
 
 module Svnx::Propset
   class Options < Svnx::Base::Options
-    attr_reader :file
-    attr_reader :revision
-    attr_reader :name
-    attr_reader :value
-    attr_reader :url
-    attr_reader :path
+    FIELDS = [ :file, :revision, :name, :value, :url, :path ]
+    
+    attr_readers FIELDS
     
     def initialize args
-      assign args, :file, :revision, :name, :value, :url, :path
+      assign args, FIELDS
     end
 
     def options_to_args
-      Array.new.tap do |optargs|
-        optargs << [ :name,     name ]
-        optargs << [ :revision, [ "--revprop", "-r", revision ] ]
-        optargs << [ :file,     [ "--file", file ] ]
-        optargs << [ :value,    value ]
-        optargs << [ :url,      url ]
-        optargs << [ :path,     path ]
+      Array.new.tap do |a|
+        a << [ :name,     name ]
+        a << [ :revision, [ "--revprop", "-r", revision ] ]
+        a << [ :file,     [ "--file", file ] ]
+        a << [ :value,    value ]
+        a << [ :url,      url ]
+        a << [ :path,     path ]
       end
     end
   end

@@ -2,7 +2,6 @@
 # -*- ruby -*-
 
 require 'svnx/util/objutil'
-require 'svnx/base/options'
 
 module Svnx
   module Status
@@ -11,19 +10,19 @@ end
 
 module Svnx::Status
   class Options < Svnx::Base::Options
-    attr_reader :revision
-    attr_reader :url
-    attr_reader :paths
+    FIELDS = [ :revision, :url, :paths ]
+    
+    attr_readers FIELDS
     
     def initialize args
-      assign args, :revision, :url, :paths
+      assign args, FIELDS
     end
     
     def options_to_args
-      Array.new.tap do |optargs|
-        optargs << [ :revision, [ "-r", @revision ] ]
-        optargs << [ :url,      @url ]
-        optargs << [ :paths,    @paths ]
+      Array.new.tap do |a|
+        a << [ :revision, [ "-r", revision ] ]
+        a << [ :url,      url ]
+        a << [ :paths,    paths ]
       end
     end
   end

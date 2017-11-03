@@ -15,7 +15,7 @@ class ObjectUtilTest < Test::Unit::TestCase
   def obj_assigned args, *symbols
     obj = Object.new
     obj.extend Svnx::ObjectUtil
-    obj.assign args, *symbols
+    obj.assign args, symbols
     obj
   end
 

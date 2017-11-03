@@ -10,26 +10,23 @@ end
 
 module Svnx::Merge
   class Options < Svnx::Base::Options
-    attr_reader :commit
-    attr_reader :range
-    attr_reader :accept
-    attr_reader :from
-    attr_reader :path
-    attr_reader :url
+    FIELDS = [ :commit, :range, :accept, :from, :path, :url ]
+    
+    attr_readers FIELDS
     
     def initialize args = Hash.new
-      assign args, :url, :path, :accept, :range, :commit, :from
+      assign args, FIELDS
     end
 
     def options_to_args
       # an array, not a hash, because "from" should be in the exec args before "url"/"path"
-      Array.new.tap do |optargs|
-        optargs << [ :commit, [ "-c", commit ] ]
-        optargs << [ :range,  [ "-r", range ] ]
-        optargs << [ :accept, [ "--accept", accept ] ]
-        optargs << [ :from,   from ]
-        optargs << [ :url,    url ]
-        optargs << [ :path,   path ]
+      Array.new.tap do |a|
+        a << [ :commit, [ "-c", commit ] ]
+        a << [ :range,  [ "-r", range ] ]
+        a << [ :accept, [ "--accept", accept ] ]
+        a << [ :from,   from ]
+        a << [ :url,    url ]
+        a << [ :path,   path ]
       end
     end  
   end

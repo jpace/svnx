@@ -10,17 +10,18 @@ end
 
 module Svnx::Update
   class Options < Svnx::Base::Options
-    attr_reader :revision
-    attr_reader :paths
+    FIELDS = [ :revision, :paths ]
+    
+    attr_readers FIELDS
     
     def initialize args = Hash.new
-      assign args, :revision, :paths
+      assign args, FIELDS
     end
     
     def options_to_args
-      Array.new.tap do |optargs|
-        optargs << [ :revision, [ "-r", revision ] ]
-        optargs << [ :paths,    paths ]
+      Array.new.tap do |a|
+        a << [ :revision, [ "-r", revision ] ]
+        a << [ :paths,    paths ]
       end
     end
   end
