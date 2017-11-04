@@ -10,13 +10,10 @@ end
 
 module Svnx::Merge
   class Options < Svnx::Base::Options
-    FIELDS = [ :commit, :range, :accept, :from, :path, :url ]
+    # FIELDS = [ :commit, :range, :accept, :from, :path, :url ]
+    FIELDS = [ :commit, :range, :accept, :from, :to ]
     
-    attr_readers FIELDS
-    
-    def initialize args = Hash.new
-      assign args, FIELDS
-    end
+    has_fields FIELDS
 
     def options_to_args
       # an array, not a hash, because "from" should be in the exec args before "url"/"path"
@@ -25,8 +22,7 @@ module Svnx::Merge
         a << [ :range,  [ "-r", range ] ]
         a << [ :accept, [ "--accept", accept ] ]
         a << [ :from,   from ]
-        a << [ :url,    url ]
-        a << [ :path,   path ]
+        a << [ :to,   to ]
       end
     end  
   end

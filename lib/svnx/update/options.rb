@@ -12,11 +12,7 @@ module Svnx::Update
   class Options < Svnx::Base::Options
     FIELDS = [ :revision, :paths ]
     
-    attr_readers FIELDS
-    
-    def initialize args = Hash.new
-      assign args, FIELDS
-    end
+    has_fields FIELDS
     
     def options_to_args
       Array.new.tap do |a|

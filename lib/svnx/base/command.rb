@@ -32,11 +32,8 @@ module Svnx::Base
     attr_reader :options
     
     def initialize options, cls: nil, optcls: nil, exec: nil, xml: false, caching: caching?
-      info "cls: #{cls}"
-      
       factory = CommandFactory.new
       params = factory.create self.class, cmdlinecls: cls, optcls: optcls
-      info "params: #{params}"
       
       optcls ||= params[:options_class]
       
@@ -51,19 +48,12 @@ module Svnx::Base
       
       @output = @cmdline.execute
       debug "@output: #{@output}"
+      
       @error = @cmdline.error
       debug "@error: #{@error}"
+      
       @status = @cmdline.status
       debug "@status: #{@status}"
-    end
-
-    def module_elements
-      mods = self.class.name.split "::"
-      mods[0 .. -2]
-    end
-
-    def find_module elements = module_elements
-      ClassUtil::Util.find_module self.class
     end
   end
 

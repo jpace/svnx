@@ -57,20 +57,12 @@ module Svnx::Base
       command = SvnxTest::MockCommand.new options,           optcls: SvnxTest::MockOptions, cls: Svnx::Base::MockCommandLine
       other   = SvnxTest2::Nesting::MockCommand.new options, cls: Svnx::Base::MockCommandLine
       Array.new.tap do |a|
-        a << [ %w{ SvnxTest },          SvnxTest,           SvnxTest::MockOptions, command ]
-        a << [ %w{ SvnxTest2 Nesting }, SvnxTest2::Nesting, SvnxTest2::Nesting::Options, other ]
+        a << [ SvnxTest::MockOptions,       command ]
+        a << [ SvnxTest2::Nesting::Options, other   ]
       end
     end
 
-    param_test build_params.each do |expelements, expmodule, expoptcls, cmd|
-      assert_equal expelements, cmd.module_elements
-    end
-
-    param_test build_params.each do |expelements, expmodule, expoptcls, cmd|
-      assert_equal expmodule, cmd.find_module
-    end
-
-    param_test build_params.each do |expelements, expmodule, expoptcls, cmd|
+    param_test build_params.each do |expoptcls, cmd|
       assert_equal expoptcls, cmd.options.class, "cmd: #{cmd}"
     end
   end

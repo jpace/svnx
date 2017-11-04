@@ -11,16 +11,16 @@ module Svnx::Merge
     end
     
     def test_assign_default
-      defvals = { commit: nil, range: nil, accept: nil, path: nil, url: nil }
+      defvals = { commit: nil, range: nil, accept: nil, from: nil, to: nil }
       assert_options defvals, Hash.new
     end
 
     param_test [
       { commit: 123 },
-      { range: "123:456" },
+      { range:  "123: 456" },
       { accept: "postpone" },
-      { path: "a/b" },
-      { url: "p://a/b" }
+      { from:   "a/b" },
+      { to:     "a/b" },
     ].each do |vals|
       assert_options vals, vals
     end
@@ -33,9 +33,9 @@ module Svnx::Merge
       [ [ "-r", "123:456" ], range: "123:456" ],
       [ [ "--accept", "postpone" ], accept: "postpone" ],
       [ [ "p://abc" ], from: "p://abc" ],
-      [ [ "p://abc", "q://def" ], from: "p://abc", url: "q://def" ],
-      [ [ "p://abc" ], url: "p://abc" ],
-      [ [ "a/b" ], path: "a/b" ],
+      [ [ "p://abc", "q://def" ], from: "p://abc", to: "q://def" ],
+      [ [ "p://abc" ], from: "p://abc" ],
+      [ [ "a/b" ], from: "a/b" ],
     ].each do |exp, vals|
       assert_to_args exp, vals
     end

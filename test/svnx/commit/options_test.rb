@@ -29,6 +29,12 @@ module Svnx::Commit
       [ [ "a/b", "c/d" ], paths: [ "a/b", "c/d" ] ],
     ].each do |exp, vals|
       assert_to_args exp, vals
-    end  
+    end
+
+    def test_invalid
+      assert_raise(RuntimeError) do
+        Svnx::Commit::Options.new kabc: "vabc"
+      end
+    end
   end
 end

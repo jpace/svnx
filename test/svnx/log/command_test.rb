@@ -11,7 +11,7 @@ module Svnx::Log
     end
     
     def test_log
-      assert_command paths: "/tmp/svnx-from"
+      assert_command path: "/tmp/svnx-from"
     end
   end
 end

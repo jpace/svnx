@@ -39,10 +39,10 @@ class Svnx::Project
   end
 
   def run_command cmdcls, cmdargs, args
-    # debug "cmdargs: #{cmdargs}"
-    # stack "args: #{args}"
+    debug "cmdargs: #{cmdargs}"
+    debug "args: #{args}"
     cmdargs = cmdargs.merge args
-    # debug "cmdargs: #{cmdargs}"
+    puts "cmdargs: #{cmdargs}"
     cmd = cmdcls.new cmdargs, cls: @cls
     # debug "cmd: #{cmd}"
     cmd.respond_to?(:entries) ? cmd.entries : cmd.output
