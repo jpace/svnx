@@ -9,7 +9,7 @@ require 'paramesan'
 
 module Svnx
   # disabling this test while Project is refined ...
-  class ProjectTest # < Svnx::TestCase
+  class ProjectTest < Svnx::TestCase
     include Paramesan
 
     class MockCommandLine < Svnx::Base::MockCommandLine
@@ -59,7 +59,8 @@ module Svnx
     param_test [
       :info,
       :update,
-      :merge,
+      #$$$ merge takes more than one dir/url, so it's not on a project now
+      # :merge,
       #$$$ not enabled because commit validates options, and cls and url are not valid for it:
       # :commit,
       :log,

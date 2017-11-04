@@ -39,23 +39,22 @@ class Svnx::Project
   end
 
   def run_command cmdcls, cmdargs, args
-    debug "cmdargs: #{cmdargs}"
-    debug "args: #{args}"
-    cmdargs = cmdargs.merge args
-    puts "cmdargs: #{cmdargs}"
     cmd = cmdcls.new cmdargs, cls: @cls
-    # debug "cmd: #{cmd}"
     cmd.respond_to?(:entries) ? cmd.entries : cmd.output
   end
 
   def self.add_command_delegator name, takes_multiple_paths
     require "svnx/#{name}/command"
 
-    pathargs = (takes_multiple_paths ? "{ paths: [ @dir ], url: @url }" : "{ path: @dir, url: @url }")
+    pathargs = takes_multiple_paths ? "paths: [ @dir ]" : "path: @dir"
+    
+    unless NOURL.include? name
+      pathargs << ", url: @url"
+    end
     
     args = [
       "Svnx::#{name.to_s.capitalize}::Command",
-      pathargs,
+      "{ " + pathargs + " }",
       "**args"
     ]
 
@@ -65,18 +64,19 @@ class Svnx::Project
       "end"
     ].join("\n")
 
-    # puts "src: #{src}"
     module_eval src
   end
 
+  NOURL = [ :diff, :update, :merge ]
+  
   add_command_delegator :info,    false
   
   add_command_delegator :update,  true
-  add_command_delegator :merge,   true
+  
   add_command_delegator :commit,  true
   add_command_delegator :log,     false
   
-  add_command_delegator :diff,    false
+  add_command_delegator :diff,    true
   add_command_delegator :propset, false
   add_command_delegator :propget, false
 
