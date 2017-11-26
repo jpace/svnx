@@ -27,4 +27,13 @@ class Svnx::ObjectUtilTest < Test::Unit::TestCase
     end
     puts
   end
+
+  param_test [
+  ].each do |expected, args, valid|
+    obj = Object.new
+    obj.extend Svnx::ObjectUtil
+    begin
+      obj.validate args, valid
+    end
+  end
 end
