@@ -15,8 +15,16 @@ module Svnx
         valid.include? field
       end
 
-      unless invalid.empty?
-        raise "invalid fields for #{self.class}: #{invalid.join(' ')}"
+      if invalid.empty?
+        true
+      else
+        msg = "invalid "
+        msg << (invalid.size == 1 ? "field" : "fields" )
+        msg << " for "
+        msg << self.class.to_s
+        msg << ": "
+        msg << invalid.join(' ')
+        raise msg
       end
     end
 
