@@ -18,11 +18,11 @@ module Svnx::Merge
     def options_to_args
       # an array, not a hash, because "from" should be in the exec args before "url"/"path"
       Array.new.tap do |a|
-        a << [ :commit, [ "-c", commit ] ]
-        a << [ :range,  [ "-r", range ] ]
+        a << [ :commit, [ "-c",       commit ] ]
+        a << [ :range,  [ "-r",       range ] ]
         a << [ :accept, [ "--accept", accept ] ]
         a << [ :from,   from ]
-        a << [ :to,   to ]
+        a << [ :to,     to ]
       end
     end  
   end

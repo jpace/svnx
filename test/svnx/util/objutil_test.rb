@@ -3,34 +3,28 @@
 
 require 'svnx/util/objutil'
 require 'test/unit'
+require 'paramesan'
 
-class ObjectUtilTest < Test::Unit::TestCase
-  def assert_instance_variables obj, *exp
-    exp.each do |name, value|
-      result = obj.instance_variable_get name
-      assert_equal value, result, "name: #{name}"
-    end
-  end
-
-  def obj_assigned args, *symbols
+class Svnx::ObjectUtilTest < Test::Unit::TestCase
+  include Paramesan
+  
+  param_test [
+    [ [ [ "@one", "1" ] ], { one: "1" }, [ :one ] ],
+    [ [ [ "@one", "1" ], [ "@two", nil ] ], { one: "1", two: "2" }, [ :one ] ],
+    [ [ [ "@one", "1" ], [ "@two", "2" ] ], { one: "1", two: "2" }, [ :one, :two ] ],
+  ].each do |expected, args, symbols|
     obj = Object.new
     obj.extend Svnx::ObjectUtil
     obj.assign args, symbols
-    obj
-  end
-
-  def test_assign_one
-    obj = obj_assigned({ one: "1" }, :one)
-    assert_instance_variables obj, [ "@one", "1" ]
-  end
-  
-  def test_assign_two
-    obj = obj_assigned({ one: "1", two: "2" }, :one, :two)
-    assert_instance_variables obj, [ "@one", "1" ], [ "@two", "2" ]
-  end
-  
-  def test_assign_ignore
-    obj = obj_assigned({ one: "1", two: "2" }, :one)
-    assert_instance_variables obj, [ "@one", "1" ], [ "@two", nil ]
+    expected.each do |name, value|
+      defined = obj.instance_variable_defined? name
+      if defined
+        result = obj.instance_variable_get name
+        assert_equal value, result, "name: #{name}"
+      else
+        assert_nil value, "name: #{name}"
+      end
+    end
+    puts
   end
 end
