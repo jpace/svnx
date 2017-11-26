@@ -46,7 +46,6 @@ module Svnx
     extend ClassMethods
 
     def self.included other
-      puts "other: #{other}"
       other.extend ClassMethods
     end
   end
