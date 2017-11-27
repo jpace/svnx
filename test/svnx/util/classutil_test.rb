@@ -17,23 +17,21 @@ module A2
   end
 end
 
-module ClassUtil
-  class UtilTest < Svnx::TestCase
-    include Paramesan
-    
-    def self.build_params
-      Array.new.tap do |a|
-        a << [ %w{ A1 },    A1,     A1::C1 ]
-        a << [ %w{ A2 B2 }, A2::B2, A2::B2::C2 ]
-      end
+class ClassUtilTest < Svnx::TestCase
+  include Paramesan
+  
+  def self.build_params
+    Array.new.tap do |a|
+      a << [ %w{ A1 },    A1,     A1::C1 ]
+      a << [ %w{ A2 B2 }, A2::B2, A2::B2::C2 ]
     end
+  end
 
-    param_test build_params.each do |expelements, expmodule, cls|
-      assert_equal expelements, ClassUtil::Util.module_elements(cls)
-    end
+  param_test build_params.each do |expelements, expmodule, cls|
+    assert_equal expelements, ClassUtil.module_elements(cls)
+  end
 
-    param_test build_params.each do |expelements, expmodule, cls|
-      assert_equal expmodule, ClassUtil::Util.find_module(cls)
-    end
+  param_test build_params.each do |expelements, expmodule, cls|
+    assert_equal expmodule, ClassUtil.find_module(cls)
   end
 end

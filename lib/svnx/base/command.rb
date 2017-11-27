@@ -65,7 +65,7 @@ module Svnx::Base
       
       if not @output.empty?
         entries_class ||= begin
-                            modl = ClassUtil::Util.find_module self.class
+                            modl = ClassUtil.find_module self.class
                             modl::Entries
                           end
         

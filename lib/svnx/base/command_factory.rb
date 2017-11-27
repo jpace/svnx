@@ -9,10 +9,10 @@ module Svnx::Base
     include Logue::Loggable
     
     def create cmdcls, cmdlinecls: nil, optcls: nil
-      melements = ClassUtil::Util.module_elements cmdcls
+      melements = ClassUtil.module_elements cmdcls
       
       optcls ||= begin
-                   modl = ClassUtil::Util.find_module cmdcls
+                   modl = ClassUtil.find_module cmdcls
                    modl::Options
                  end
 
