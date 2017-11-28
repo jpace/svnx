@@ -6,19 +6,11 @@ require 'svnx/command/tc'
 require 'svnx/mock'
 
 module Svnx::Commit
-  class MockCommandLine < Svnx::Base::MockCommandLine
-    ELEMENTS = Array.new
-    
-    def execute
-      super
-      ELEMENTS << self
-    end
-  end
-  
   class CommandTest < Svnx::Command::TestCase
     def assert_command exp, cmdopts = Hash.new
-      Command.new cmdopts, cls: MockCommandLine
-      cl = MockCommandLine::ELEMENTS[-1]
+      clcls = Svnx::Base::MockCommandLine
+      Command.new cmdopts, cls: clcls
+      cl = clcls::EXECUTED[-1]
       msg = "cmdopts: #{cmdopts}"
       assert_equal true,          cl.executed, msg
       assert_equal exp[:args],    cl.args,     msg
@@ -37,7 +29,8 @@ module Svnx::Commit
     end
     
     def test_commit
-      assert_command({ args: %w{ -F abc def ghi }, xml: false, caching: false }, file: "abc", paths: [ "def", "ghi" ])
+      exp = { args: %w{ -F abc def ghi }, xml: false, caching: false }
+      assert_command exp, file: "abc", paths: [ "def", "ghi" ]
     end
   end
 end
