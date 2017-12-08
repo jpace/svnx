@@ -16,12 +16,12 @@ module Svnx::Status
     ].each do |exp_status, exp_path, exp_status_revision, exp_action, exp_commit_revision, exp_name, idx|
       x = Entry.new xmlelement: XML::ELEMENTS[idx]
       
-      assert_equal exp_status, x.status
-      assert_equal exp_path, x.path
+      assert_equal exp_status,          x.status
+      assert_equal exp_path,            x.path
       assert_equal exp_status_revision, x.status_revision
-      assert_equal exp_action, x.action
+      assert_equal exp_action,          x.action
       assert_equal exp_commit_revision, x.commit_revision
-      assert_equal exp_name, x.name
+      assert_equal exp_name,            x.name
     end
   end
 end
