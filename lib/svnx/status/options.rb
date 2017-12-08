@@ -1,7 +1,7 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'svnx/util/objutil'
+require 'svnx/base/options'
 
 module Svnx
   module Status

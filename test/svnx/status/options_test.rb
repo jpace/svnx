@@ -23,8 +23,8 @@ module Svnx::Status
 
     param_test [
       [ Array.new, Hash.new ],
-      [ [ "p://abc" ], url: "p://abc" ],
-      [ [ "a/b" ], paths: [ "a/b" ] ],
+      [ [ "p://abc" ],    url: "p://abc" ],
+      [ [ "a/b" ],        paths: [ "a/b" ] ],
       [ [ "a/b", "c/d" ], paths: [ "a/b", "c/d" ] ],
     ].each do |exp, vals|
       assert_to_args exp, vals

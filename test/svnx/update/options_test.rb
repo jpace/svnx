@@ -15,17 +15,17 @@ module Svnx::Update
 
     param_test [
       [ { revision: nil, paths: nil }, Hash.new ],
-      [ { paths: [ "a/b", "c/d" ] },   { paths: [ "a/b", "c/d" ] } ],
-      [ { revision: 123 },             { revision: 123 } ],
+      [ { paths: [ "a/b", "c/d" ] },   paths: [ "a/b", "c/d" ] ],
+      [ { revision: 123 },             revision: 123 ],
     ].each do |exp, optvals|
       assert_options exp, optvals
     end
 
     param_test [
       [ Array.new,        Hash.new ],
-      [ [ "-r", 123 ],    { revision: 123 } ],
-      [ [ "a/b" ],        { paths: [ "a/b" ] } ],
-      [ [ "a/b", "c/d" ], { paths: [ "a/b", "c/d" ] } ],
+      [ [ "-r", 123 ],    revision: 123 ],
+      [ [ "a/b" ],        paths: [ "a/b" ] ],
+      [ [ "a/b", "c/d" ], paths: [ "a/b", "c/d" ] ],
     ].each do |exp, args|
       assert_to_args exp, args
     end
