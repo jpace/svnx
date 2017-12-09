@@ -8,6 +8,15 @@ require 'paramesan'
 class Svnx::ObjectUtilTest < Test::Unit::TestCase
   include Paramesan
 
+  def self.create_object obj = Object.new
+    obj.extend Svnx::ObjectUtil
+    obj
+  end
+
+  def self.create_string
+    create_object String.new
+  end
+
   def self.build_assign_params
     ary1   = [ "@one", "1" ]
     args1  = { one: "1" }
@@ -21,8 +30,7 @@ class Svnx::ObjectUtilTest < Test::Unit::TestCase
   end
   
   param_test build_assign_params.each do |expected, args, symbols|
-    obj = Object.new
-    obj.extend Svnx::ObjectUtil
+    obj = self.class.create_object
     obj.assign args, symbols
     expected.each do |name, value|
       msg = "name: #{name}"
@@ -37,11 +45,8 @@ class Svnx::ObjectUtilTest < Test::Unit::TestCase
   end
 
   def self.build_validate_params
-    obj = Object.new
-    obj.extend Svnx::ObjectUtil
-
-    str = String.new
-    str.extend Svnx::ObjectUtil
+    obj = create_object
+    str = create_string
 
     args1   = { one: "1" }
     args12  = args1.merge two: "2"
@@ -147,5 +152,22 @@ class Svnx::ObjectUtilTest < Test::Unit::TestCase
   
   param_test build_has_fields_params.each do |expected, obj, methname|
     assert_send expected, obj, methname
+  end
+
+  def self.build_create_invalid_fields_message_params
+    obj = create_object
+    str = create_string
+
+    Array.new.tap do |a|
+      a << [ "invalid field for Object: one",        obj, [ :one       ] ]
+      a << [ "invalid field for Object: two",        obj, [ :two       ] ]
+      a << [ "invalid field for String: two",        str, [ :two       ] ]
+      a << [ "invalid fields for Object: two three", obj, [ :two, :three ] ]
+    end
+  end
+  
+  param_test build_create_invalid_fields_message_params.each do |expected, obj, fields|
+    result = obj.create_invalid_fields_message fields
+    assert_equal expected, result
   end
 end

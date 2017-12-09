@@ -16,15 +16,17 @@ module Svnx
         valid.include? field
       end
 
-      invalid.empty? || begin
-                          msg = "invalid "
-                          msg << (invalid.size == 1 ? "field" : "fields" )
-                          msg << " for "
-                          msg << self.class.to_s
-                          msg << ": "
-                          msg << invalid.join(' ')
-                          raise msg
-                        end
+      invalid.empty? || raise(create_invalid_fields_message invalid)
+    end
+
+    def create_invalid_fields_message fields
+      Array.new.tap do |a|
+        a << "invalid"
+        a << (fields.size == 1 ? "field" : "fields" )
+        a << "for"
+        a << self.class.to_s + ":"
+        a.concat fields
+      end.join(" ")
     end
 
     module ClassMethods

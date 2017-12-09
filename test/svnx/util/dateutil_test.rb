@@ -35,7 +35,7 @@ class DateUtilTest < Test::Unit::TestCase
   end
 
   def assert_fmt_mmdd_hhmm expected, datestr
-    date = DateTime.parse datestr
+    date   = DateTime.parse datestr
     result = DateUtil.fmt_mmdd_hhmm date
     assert_equal expected, result, "datestr: #{datestr}"
   end
