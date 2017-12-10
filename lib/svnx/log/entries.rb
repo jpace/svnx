@@ -16,15 +16,15 @@ module Svnx::Log
     end
 
     def create_entry xmlelement
-      Entry.new xmlelement: xmlelement
+      Entry.new xmlelement
     end
 
     def match action, filter
-      matching = Array.new
-      each do |entry|
-        matching.concat entry.match(action, filter)
-      end
-      matching.sort
+      Array.new.tap do |a|
+        each do |entry|
+          a.concat entry.match(action, filter)
+        end
+      end.sort
     end
   end
 end

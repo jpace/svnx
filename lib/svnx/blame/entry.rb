@@ -14,31 +14,30 @@ module Svnx::Blame
     include Comparable
     
     attr_reader :line_number
-    attr_reader :commit_revision
-    attr_reader :commit_author
-    attr_reader :commit_date
+    attr_reader :revision
+    attr_reader :author
+    attr_reader :date
     
-    def initialize xmlelement: nil
-      super xmlelement: xmlelement
+    def set_from_element elmt
+      set_attr_var elmt, 'line_number', 'line-number'
+      
+      commit = elmt.elements['commit']
+      set_attr_var commit, 'revision'
+      set_elmt_vars commit, 'author', 'date'
     end
 
-    def set_from_element elmt
-      @line_number = elmt.attributes['line-number']
-      
-      if commit = elmt.elements['commit']
-        @commit_revision = commit.attributes['revision'].to_i
-        @commit_author   = commit.elements['author'].text
-        datestr          = commit.elements['date'].text
-        @commit_date     = DateTime.parse(datestr).to_time
-      else
-        @commit_revision = nil
-        @commit_author   = nil
-        @commit_date     = nil
-      end
+    def set_commit_fields rev, auth, date
+      @commit_revision = rev
+      @commit_author   = auth
+      @commit_date     = date
     end
 
     def <=> other
       line_number <=> other.line_number
+    end
+
+    def datetime
+      @dt ||= DateTime.parse date
     end
   end
 end

@@ -20,7 +20,7 @@ module Svnx::Log
     end
     
     def test_entry_from_xml
-      entry = Entry.new :xmlelement => XML::ELEMENTS.elements[4]
+      entry = Entry.new XML::ELEMENTS.elements[4]
 
       expdata = '16', 'Buddy Bizarre', '2012-09-16T14:07:30.329525Z', 'CUT! What in the hell do you think you\'re doing here? This is a closed set.'
       expdata << { :kind => 'dir', 

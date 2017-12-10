@@ -11,14 +11,14 @@ module Svnx::Blame
     include Paramesan
     
     param_test [
-      [ "1", 92482, "a5", DateTime.parse("2010-10-05 16:12:09.647500 -0400").to_time, 1 ],
-    ].each do |exp_line_number, exp_commit_revision, exp_commit_author, exp_commit_date, idx|
-      x = Entry.new xmlelement: XML::ELEMENTS[idx]
+      [ "1", "92482", "a5", DateTime.parse("2010-10-05 16:12:09.647500 -0400"), 1 ],
+    ].each do |exp_line_number, exp_revision, exp_author, exp_date, idx|
+      x = Entry.new XML::ELEMENTS[idx]
       
-      assert_equal exp_line_number,     x.line_number
-      assert_equal exp_commit_revision, x.commit_revision
-      assert_equal exp_commit_author,   x.commit_author
-      assert_equal exp_commit_date,     x.commit_date
+      assert_equal exp_line_number, x.line_number
+      assert_equal exp_revision,    x.revision
+      assert_equal exp_author,      x.author
+      assert_equal exp_date,        x.datetime
     end
   end
 end

@@ -6,9 +6,9 @@ require 'svnx/base/entries'
 
 module Svnx::Status
   class Entries < Svnx::Base::Entries
-    def initialize args = Hash.new
-      @rootpath = args[:rootpath]
-      super
+    def initialize lines, rootpath: nil
+      @rootpath = rootpath
+      super lines
     end
 
     def get_elements doc
@@ -17,7 +17,7 @@ module Svnx::Status
     end
 
     def create_entry xmlelement
-      Entry.new xmlelement: xmlelement, rootpath: @rootpath
+      Entry.new xmlelement, rootpath: @rootpath
     end
   end
 end

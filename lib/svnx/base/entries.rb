@@ -18,20 +18,12 @@ module Svnx::Base
 
     attr_reader :size
 
-    def initialize xmllines: nil, lines: nil
+    def initialize lines
       # it's a hash, but indexed with integers, for non-sequential access:
-      @entries = Hash.new
-
-      lines ||= xmllines
-
-      if lines.kind_of? Array
-        lines = lines.join ''
-      end
-
-      doc = REXML::Document.new lines
-      
+      @entries  = Hash.new
+      doc       = REXML::Document.new Array(lines).join
       @elements = get_elements doc
-      @size = @elements.size
+      @size     = @elements.size
     end
 
     def get_elements doc

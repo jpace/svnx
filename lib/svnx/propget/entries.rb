@@ -11,7 +11,7 @@ module Svnx::Propget
     end
 
     def create_entry xmlelement
-      Entry.new :xmlelement => xmlelement
+      Entry.new xmlelement
     end
   end
 end

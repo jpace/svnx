@@ -21,8 +21,8 @@ module Svnx::Log
     
     def assert_entry_fields_not_nil entry
       # these are occasionally missing or blank, which REXML considers nil:
-      assert entry.message
-      assert entry.author
+      assert_not_nil entry.message
+      assert_not_nil entry.author
     end
 
     def assert_log_entry_16 entry
@@ -45,7 +45,7 @@ module Svnx::Log
     
     def test_create_from_xml
       # doing "svn log -r19:5"
-      entries = Entries.new xmllines: XML::LINES
+      entries = Entries.new XML::LINES
       debug "entries: #{entries}"
       assert_log_entry_16 entries[3]
     end
@@ -63,7 +63,7 @@ module Svnx::Log
         a << '</log>'
       end
       
-      entries = Entries.new :xmllines => lines
+      entries = Entries.new lines
       debug "entries: #{entries}"
       
       # empty message here:
@@ -76,7 +76,7 @@ module Svnx::Log
       
       assert_equal 101, xmllines.size
 
-      entries = Entries.new :xmllines => xmllines
+      entries = Entries.new xmllines
 
       nentries = entries.size
       assert_equal 15, nentries
@@ -100,7 +100,7 @@ module Svnx::Log
     def test_each
       idx = 0
 
-      entries = Entries.new :xmllines => XML::LINES
+      entries = Entries.new XML::LINES
       entries.each do |entry|
         if idx == 3
           assert_log_entry_16 entry

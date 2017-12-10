@@ -12,7 +12,7 @@ module Svnx::Revision
     include Paramesan
     
     def setup
-      xmllines = Array.new.tap do |a|
+      lines = Array.new.tap do |a|
         a << '<?xml version="1.0"?>'
         a << '<log>'
         a << '<logentry'
@@ -47,7 +47,7 @@ module Svnx::Revision
         a << '</logentry>'
         a << '</log>'
       end      
-      @entries = Svnx::Log::Entries.new :xmllines => xmllines
+      @entries = Svnx::Log::Entries.new lines
     end
 
     def create value

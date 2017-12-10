@@ -17,14 +17,14 @@ module Svnx::Status
       [ 'added',       'jkl.txt',          3 ], 
       [ 'deleted',     'four/mno.txt',     4 ], 
     ].each do |expstatus, exppath, idx|
-      entries = Entries.new :xmllines => XML::LINES
+      entries = Entries.new XML::LINES
       entry   = entries[idx]
       assert_equal expstatus.to_s, entry.status.to_s
       assert_equal exppath,        entry.path
     end
 
     def test_size
-      entries = Entries.new :xmllines => XML::LINES
+      entries = Entries.new XML::LINES
       assert_equal 5, entries.size
     end
   end

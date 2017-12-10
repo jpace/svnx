@@ -17,7 +17,7 @@ module Svnx::Info
       [ 'src/ruby/dog.rb',       'file', '0',  1 ],
       [ 'FirstFile.txt',         'file', '22', 2 ],
     ].each do |exppath, expkind, exprevision, idx|
-      entries    = Svnx::Info::Entries.new :xmllines => XML::LINES
+      entries    = Svnx::Info::Entries.new XML::LINES
       entry      = entries[idx]
       exp        = { path: exppath, kind: expkind, revision: exprevision }
       exp[:root] = EXPROOT

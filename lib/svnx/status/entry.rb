@@ -20,9 +20,9 @@ module Svnx::Status
     attr_reader :commit_revision
     attr_reader :name
 
-    def initialize xmlelement: nil, rootpath: nil
+    def initialize xmlelement, rootpath: nil
       @rootpath = rootpath
-      super xmlelement: xmlelement
+      super xmlelement
       # @status is an Svnx::Action
       @action = @status
     end
@@ -32,10 +32,10 @@ module Svnx::Status
 
       wcstatus = elmt.elements['wc-status']
       @status = Svnx::Action.new(wcstatus.attributes['item'])
-      @status_revision = wcstatus.attributes['revision']
+      set_attr_var wcstatus, 'status_revision', 'revision'
       
       commit = wcstatus.elements['commit']
-      @commit_revision = commit && commit.attributes['revision']
+      set_attr_var commit, 'commit_revision', 'revision'
       @name = @path.dup
 
       if @rootpath
