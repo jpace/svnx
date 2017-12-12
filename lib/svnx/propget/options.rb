@@ -14,13 +14,18 @@ module Svnx::Propget
 
     has_fields FIELDS
 
-    def options_to_args
-      Array.new.tap do |a|
-        a << [ :revision, [ "-r", revision ] ]
-        a << [ :revprop,  "--revprop" ]
-        a << [ :name,     name ]
-        a << [ :url,      url ]
-        a << [ :path,     path ]
+    def fields
+      FIELDS
+    end
+
+    def get_args field
+      case field
+      when :revision
+        [ "-r", revision ] 
+      when :revprop
+        "--revprop"
+      else
+        send field
       end
     end
   end

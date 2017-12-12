@@ -14,10 +14,16 @@ module Svnx::Commit
 
     has_fields FIELDS
 
-    def options_to_args
-      Array.new.tap do |a|
-        a << [ :file,   [ "-F", file ] ]
-        a << [ :paths,  paths ]
+    def fields
+      FIELDS
+    end
+
+    def get_args field
+      case field
+      when :file
+        [ "-F", file ]
+      else
+        send field
       end
     end  
   end

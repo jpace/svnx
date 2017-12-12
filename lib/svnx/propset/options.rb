@@ -10,18 +10,22 @@ end
 
 module Svnx::Propset
   class Options < Svnx::Base::Options
-    FIELDS = [ :file, :revision, :name, :value, :url, :path ]
+    FIELDS = [ :name, :revision, :file, :value, :url, :path ]
     
     has_fields FIELDS
 
-    def options_to_args
-      Array.new.tap do |a|
-        a << [ :name,     name ]
-        a << [ :revision, [ "--revprop", "-r", revision ] ]
-        a << [ :file,     [ "--file", file ] ]
-        a << [ :value,    value ]
-        a << [ :url,      url ]
-        a << [ :path,     path ]
+    def fields
+      FIELDS
+    end
+
+    def get_args field
+      case field
+      when :revision
+        [ "--revprop", "-r", revision ] 
+      when :file
+        [ "--file", file ] 
+      else
+        send field
       end
     end
   end

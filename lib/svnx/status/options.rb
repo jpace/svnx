@@ -13,12 +13,17 @@ module Svnx::Status
     FIELDS = [ :revision, :url, :paths ]
     
     has_fields FIELDS
-    
-    def options_to_args
-      Array.new.tap do |a|
-        a << [ :revision, [ "-r", revision ] ]
-        a << [ :url,      url ]
-        a << [ :paths,    paths ]
+
+    def fields
+      FIELDS
+    end
+
+    def get_args field
+      case field
+      when :revision
+        [ "-r", revision ] 
+      else
+        send field
       end
     end
   end

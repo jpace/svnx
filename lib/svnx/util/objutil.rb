@@ -12,10 +12,7 @@ module Svnx
 
     # raises an exception if any element in +args+ is not in +valid+.
     def validate args, valid = Array.new
-      invalid = args.keys.reject do |field|
-        valid.include? field
-      end
-
+      invalid = args.keys.reject { |field| valid.include? field }
       invalid.empty? || raise(create_invalid_fields_message invalid)
     end
 

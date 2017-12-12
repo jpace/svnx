@@ -14,14 +14,22 @@ module Svnx::Diff
     
     has_fields FIELDS
 
-    def options_to_args
-      Array.new.tap do |a|
-        a << [ :commit,           [ "-c",      commit ] ]
-        a << [ :ignoreproperties, "--ignore-properties" ] 
-        a << [ :depth,            [ "--depth", depth ] ] 
-        a << [ :ignorewhitespace, [ "-x",      "-bw" ] ]
-        a << [ :url,              url ]
-        a << [ :paths,            paths ]
+    def fields
+      FIELDS
+    end
+
+    def get_args field
+      case field
+      when :commit
+        [ "-c", commit ]
+      when :ignoreproperties
+        "--ignore-properties" 
+      when :depth
+        [ "--depth", depth ] 
+      when :ignorewhitespace
+        [ "-x", "-bw" ]
+      else
+        send field
       end
     end
   end

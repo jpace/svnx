@@ -27,11 +27,11 @@ module Svnx::Propget
 
     param_test [
       [ Array.new, Hash.new ],
-      [ [ "-r", "123" ], revision: "123" ],
+      [ [ "-r", "123" ],     revision: "123" ],
       [ [ "-r", "123:456" ], revision: "123:456" ],
-      [ [ "abc" ], name: "abc" ],
-      [ [ "p://abc" ], url: "p://abc" ],
-      [ [ "a/b" ], path: "a/b" ],
+      [ [ "abc" ],           name: "abc" ],
+      [ [ "p://abc" ],       url: "p://abc" ],
+      [ [ "a/b" ],           path: "a/b" ],
     ].each do |exp, vals|
       assert_to_args exp, vals
     end

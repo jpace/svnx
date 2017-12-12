@@ -32,5 +32,16 @@ module Svnx::Blame
     ].each do |exp, vals|
       assert_to_args exp, vals
     end
+
+    param_test [
+      [ %w{ -r 123 }, :revision ],
+      [ %w{ a/b }, :paths ],
+      [ %w{ p://a/b }, :urls ],
+    ].each do |expected, field|
+      args = { revision: "123", paths: [ "a/b" ], urls: [ "p://a/b" ] }
+      opts = Svnx::Blame::Options.new args
+      result = opts.get_args field
+      assert_equal expected, result
+    end
   end
 end

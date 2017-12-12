@@ -12,26 +12,20 @@ module Svnx::Base
   class Options
     include Svnx::ObjectUtil
 
-    def check args, valid = Array.new
-      invalid = args.keys.reject do |field|
-        valid.include? field
+    def options_to_args
+      fields.collect do |fld|
+        [ fld, get_args(fld) ]
       end
+    end
 
-      unless invalid.empty?
-        raise "invalid fields for #{self.class}: #{invalid.join(' ')}"
-      end
+    def fields
+      raise "not implemented for #{self.class}"
     end
     
     def to_args
-      Array.new.tap do |args|
-        options_to_args.each do |opt|
-          optname = opt[0]
-          values = opt[1]
-          if send optname
-            args.concat [ values ].flatten
-          end
-        end
-      end
+      options_to_args.collect do |opt|
+        send(opt.first) ? opt[1] : nil
+      end.compact.flatten
     end
   end
 end
