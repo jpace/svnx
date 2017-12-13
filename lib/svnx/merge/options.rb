@@ -11,25 +11,19 @@ end
 module Svnx::Merge
   class Options < Svnx::Base::Options
     # FIELDS = [ :commit, :range, :accept, :from, :path, :url ]
-    FIELDS = [ :commit, :range, :accept, :from, :to ]
     
-    has_fields FIELDS
+    FIELDS = Hash.new.tap do |h|
+      h[:commit] = Proc.new { |x| [ "-c",       x.commit ] }
+      h[:range]  = Proc.new { |x| [ "-r",       x.range ]  }
+      h[:accept] = Proc.new { |x| [ "--accept", x.accept ] }
+      h[:from]   = nil
+      h[:to]     = nil
+    end
+    
+    has_fields FIELDS.keys
 
     def fields
       FIELDS
     end
-
-    def get_args field
-      case field
-      when :commit
-        [ "-c",       commit ] 
-      when :range
-        [ "-r",       range ] 
-      when :accept
-        [ "--accept", accept ] 
-      else
-        send field
-      end
-    end    
   end
 end

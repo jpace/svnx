@@ -10,27 +10,19 @@ end
 
 module Svnx::Diff
   class Options < Svnx::Base::Options
-    FIELDS = [ :commit, :ignoreproperties, :ignorewhitespace, :paths, :url, :depth ]
+    FIELDS = Hash.new.tap do |h|
+        h[:commit]           = Proc.new { |x| [ "-c", x.commit ] }
+        h[:ignoreproperties] = "--ignore-properties"
+        h[:depth]            = Proc.new { |x| [ "--depth", x.depth ] }
+        h[:ignorewhitespace] = [ "-x", "-bw" ]
+        h[:paths]            = nil
+        h[:url]              = nil
+    end
     
-    has_fields FIELDS
+    has_fields FIELDS.keys
 
     def fields
       FIELDS
-    end
-
-    def get_args field
-      case field
-      when :commit
-        [ "-c", commit ]
-      when :ignoreproperties
-        "--ignore-properties" 
-      when :depth
-        [ "--depth", depth ] 
-      when :ignorewhitespace
-        [ "-x", "-bw" ]
-      else
-        send field
-      end
     end
   end
 end

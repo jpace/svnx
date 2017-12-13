@@ -10,21 +10,10 @@ end
 
 module Svnx::Blame
   class Options < Svnx::Base::Options
-    FIELDS = [ :revision, :paths, :urls ]
-    
-    has_fields FIELDS
+    has_fields Svnx::Base::REVISION_PATHS_URLS_FIELDS.keys
 
     def fields
-      FIELDS
-    end
-
-    def get_args field
-      case field
-      when :revision
-        [ "-r", revision ]
-      else
-        send field
-      end
+      Svnx::Base::REVISION_PATHS_URLS_FIELDS
     end
   end
 end

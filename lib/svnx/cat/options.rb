@@ -10,21 +10,16 @@ end
 
 module Svnx::Cat
   class Options < Svnx::Base::Options
-    FIELDS = [ :revision, :path, :url ]
+    FIELDS = Hash.new.tap do |h|
+      h[:revision] = Svnx::Base::REVISION_FIELD
+      h[:path]     = nil
+      h[:url]      = nil
+    end
     
-    has_fields FIELDS
+    has_fields FIELDS.keys
 
     def fields
       FIELDS
-    end
-
-    def get_args field
-      case field
-      when :revision
-        [ "-r", revision ] 
-      else
-        send field
-      end
     end
   end
 end

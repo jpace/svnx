@@ -10,23 +10,20 @@ end
 
 module Svnx::Propset
   class Options < Svnx::Base::Options
-    FIELDS = [ :name, :revision, :file, :value, :url, :path ]
+
+    FIELDS = Hash.new.tap do |h|
+      h[:name]     = nil
+      h[:revision] = Proc.new { |x| [ "--revprop", "-r", x.revision ] }
+      h[:file]     = Proc.new { |x| [ "--file", x.file ] }
+      h[:value]    = nil
+      h[:url]      = nil
+      h[:path]     = nil
+    end
     
-    has_fields FIELDS
+    has_fields FIELDS.keys
 
     def fields
       FIELDS
-    end
-
-    def get_args field
-      case field
-      when :revision
-        [ "--revprop", "-r", revision ] 
-      when :file
-        [ "--file", file ] 
-      else
-        send field
-      end
     end
   end
 end

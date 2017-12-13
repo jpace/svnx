@@ -10,21 +10,15 @@ end
 
 module Svnx::Update
   class Options < Svnx::Base::Options
-    FIELDS = [ :revision, :paths ]
+    FIELDS = Hash.new.tap do |h|
+      h[:revision] = Svnx::Base::REVISION_FIELD
+      h[:paths]    = nil
+    end
     
-    has_fields FIELDS
+    has_fields FIELDS.keys
 
     def fields
       FIELDS
-    end
-
-    def get_args field
-      case field
-      when :revision
-        [ "-r", revision ] 
-      else
-        send field
-      end
     end
   end
 end
