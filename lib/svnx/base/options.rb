@@ -20,6 +20,21 @@ module Svnx::Base
   class Options
     include Svnx::ObjectUtil
 
+    class << self
+      # Creates a reader method for each field, and assigns and validates them from an initialize
+      # method, which is also created.
+      def has_fields(*fields)
+        what = Array(fields).flatten
+        attr_reader(*what)
+      end
+    end
+
+    def initialize args
+      fkeys = fields.keys
+      assign args, fkeys
+      validate args, fkeys
+    end
+    
     def options_to_args
       fields.keys.collect do |fld|
         [ fld, get_args(fld) ]
@@ -37,19 +52,14 @@ module Svnx::Base
     end
 
     def get_args field
-      if fields.has_key? field
-        if blk = fields[field]
-          case blk
-          when Proc
-            blk.call self
-          else
-            blk
-          end
-        else
-          send field
-        end
-      else
+      val = fields[field]
+      case val
+      when Proc
+        val.call self
+      when nil
         send field
+      else
+        val
       end
     end    
   end

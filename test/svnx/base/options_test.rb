@@ -22,10 +22,6 @@ module Svnx::Base
   class OptionsTest < Test::Unit::TestCase
     include Paramesan
     
-    def test_init
-      Options.new
-    end
-
     param_test [
       [ %w{ v1 },         true,  false ], 
       [ %w{ v2a v2b },    false, true ],  

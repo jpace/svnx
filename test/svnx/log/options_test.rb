@@ -34,6 +34,11 @@ module Svnx::Log
       [ [ "a/b" ], path: [ "a/b" ] ],
     ].each do |exp, vals|
       assert_to_args exp, vals
-    end    
+    end
+
+    def test_init
+      opts = Svnx::Log::Options.new limit: 17
+      assert_equal 17, opts.limit
+    end
   end
 end

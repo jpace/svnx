@@ -15,12 +15,12 @@ module Svnx::Diff
 
     param_test [
       # default:
-      { commit: nil,
+      { commit:           nil,
         ignoreproperties: nil,
         ignorewhitespace: nil,
-        paths: nil,
-        url: nil },
-      { commit: 123 },
+        paths:            nil,
+        url:              nil },
+      { commit:           123 },
       { ignoreproperties: true },
       { ignoreproperties: false },
       { ignorewhitespace: true },
@@ -36,19 +36,17 @@ module Svnx::Diff
       assert_options exp, optvals
     end
 
-    # to_args
-
     param_test [
-      [ Array.new, Hash.new ],
-      [ [ "-c", 123 ], commit: 123 ],
-      [ [ "--ignore-properties" ], ignoreproperties: true ],
-      [ Array.new, ignoreproperties: false ],
-      [ [ "-x", "-bw" ], ignorewhitespace: true ],
-      [ Array.new, ignorewhitespace: false ],
-      [ [ "p://xyz" ], url: "p://xyz" ],
-      [ [ "a/b" ], paths: [ "a/b" ] ],
-      [ [ "a/b", "c/d" ], paths: [ "a/b", "c/d" ] ],
-      [ [ "--depth", "empty" ], depth: "empty" ],
+      [ Array.new,                            Hash.new                ],
+      [ [ "-c", 123                        ], commit: 123             ],
+      [ [ "--ignore-properties"            ], ignoreproperties: true  ],
+      [ Array.new,                            ignoreproperties: false ],
+      [ [ "-x", "-bw"                      ], ignorewhitespace: true  ],
+      [ Array.new,                            ignorewhitespace: false ],
+      [ [ "p://xyz"                        ], url: "p://xyz"          ],
+      [ [ "a/b"                            ], paths: [ "a/b" ]        ],
+      [ [ "a/b", "c/d"                     ], paths: [ "a/b", "c/d" ] ],
+      [ [ "--depth", "empty"               ], depth: "empty"          ],
     ].each do |exp, optvals|
       assert_to_args exp, optvals
     end

@@ -34,7 +34,7 @@ module Svnx
 
       # Creates a reader method for each field, and assigns and validates them from an initialize
       # method, which is also created.
-      def has_fields(*fields)
+      def xhas_fields(*fields)
         what = Array(fields).flatten
         attr_reader(*what)
         
