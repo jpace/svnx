@@ -39,7 +39,9 @@ class Svnx::Project
   end
 
   def run_command cmdcls, cmdargs, args
-    cmd = cmdcls.new cmdargs, cls: @cls
+    debug "cmdargs: #{cmdargs}"
+    debug "args: #{args}"
+    cmd = cmdcls.new cmdargs.merge(args), cls: @cls
     cmd.respond_to?(:entries) ? cmd.entries : cmd.output
   end
 
@@ -55,14 +57,17 @@ class Svnx::Project
     args = [
       "Svnx::#{name.to_s.capitalize}::Command",
       "{ " + pathargs + " }",
-      "**args"
+      "**cmdargs"
     ]
 
     src = [
-      "def #{name} cls: nil, **args",
+      "def #{name} cls: nil, **cmdargs",
+      "  debug \"cmdargs: \#{cmdargs}\"",
       "  run_command " + args.join(", ") + ", cls: @cls",
       "end"
     ].join("\n")
+
+    puts "src: #{src}"
 
     module_eval src
   end
