@@ -8,7 +8,6 @@ require 'svnx/mock'
 require 'paramesan'
 
 module Svnx
-  # disabling this test while Project is refined ...
   class ProjectTest < Svnx::TestCase
     include Paramesan
 

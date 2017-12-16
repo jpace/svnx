@@ -38,10 +38,10 @@ class Svnx::Project
     info.path
   end
 
-  def run_command cmdcls, cmdargs, args
+  def run_command cmdcls, cmdargs, cls: @cls
     debug "cmdargs: #{cmdargs}"
-    debug "args: #{args}"
-    cmd = cmdcls.new cmdargs.merge(args), cls: @cls
+    # debug "args: #{args}"
+    cmd = cmdcls.new cmdargs, cls: cls
     cmd.respond_to?(:entries) ? cmd.entries : cmd.output
   end
 
