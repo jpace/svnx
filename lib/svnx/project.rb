@@ -85,6 +85,18 @@ class Svnx::Project
   add_command_delegator :propset, false
   add_command_delegator :propget, false
 
+  def self.add_log_method
+    require "svnx/log/command"
+
+    src = ""
+    src << "def log limit: nil, verbose: nil, revision: nil, url: nil, path: nil, cls: nil\n"
+    src << "  cmd = Svnx::Log::Command.new({ limit: limit, verbose: verbose, revision: revision, url: url, path: path }, cls: cls)\n"
+    src << "  cmd.respond_to?(:entries) ? cmd.entries : cmd.output\n"
+    src << "end\n"
+
+    module_eval src
+  end
+
   def log limit: nil, verbose: nil, revision: nil, url: nil, path: nil, cls: nil
     require "svnx/log/command"
     
