@@ -79,11 +79,18 @@ class Svnx::Project
   add_command_delegator :update,  true
   
   add_command_delegator :commit,  true
-  add_command_delegator :log,     false
+  # add_command_delegator :log,     false
   
   add_command_delegator :diff,    true
   add_command_delegator :propset, false
   add_command_delegator :propget, false
+
+  def log limit: nil, verbose: nil, revision: nil, url: nil, path: nil, cls: nil
+    require "svnx/log/command"
+    
+    cmd = Svnx::Log::Command.new({ limit: limit, verbose: verbose, revision: revision, url: url, path: path }, cls: cls)
+    cmd.respond_to?(:entries) ? cmd.entries : cmd.output
+  end
 
   def to_s
     where.to_s
