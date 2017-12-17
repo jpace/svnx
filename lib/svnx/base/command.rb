@@ -44,7 +44,7 @@ module Svnx::Base
       cls ||= params[:command_line_class]
       
       @cmdline = exec || cls.new(subcommand: subcommand, xml: xml, caching: caching, args: cmdargs)
-      stack "@cmdline: #{@cmdline}"
+      debug "@cmdline: #{@cmdline}"
       
       @output = @cmdline.execute
       debug "@output: #{@output}"

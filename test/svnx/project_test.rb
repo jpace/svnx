@@ -20,12 +20,28 @@ module Svnx
       end
     end
 
+    def self.to_args args = Hash.new
+      args.merge({ cls: MockCommandLine })
+    end
+
+    def self.dir_args dirname = "/tmp/svnx-test"
+      Hash[dir: dirname, cls: MockCommandLine]
+    end
+
+    def self.url_args urlname = "p://svnx/abc"
+      Hash[url: urlname, cls: MockCommandLine]
+    end
+
+    def self.dir_url_args dirname = "/tmp/svnx-test", urlname = "p://svnx/abc"
+      Hash[dir: dirname, url: urlname, cls: MockCommandLine]
+    end
+
     # dir and url
     
     param_test [
-      { expdir: "/tmp/svnx-test", args: { dir: "/tmp/svnx-test", cls: MockCommandLine } }, 
-      { expurl: "p://svnx/abc",   args: { url: "p://svnx/abc",   cls: MockCommandLine } },  
-      { expdir: "/tmp/svnx-test", expurl: "p://svnx/abc",        args: { dir: "/tmp/svnx-test", url: "p://svnx/abc", cls: MockCommandLine } }
+      { expdir: "/tmp/svnx-test", args: dir_args },
+      { expurl: "p://svnx/abc",   args: url_args },  
+      { expdir: "/tmp/svnx-test", expurl: "p://svnx/abc", args: dir_url_args }
     ].each do |args|
       expdir = args[:expdir]
       expurl = args[:expurl]
@@ -42,10 +58,10 @@ module Svnx
     # where
 
     param_test [
-      { exp: "/tmp/svnx-test", args: { dir: "/tmp/svnx-test",   cls: MockCommandLine } }, 
-      { exp: "p://svnx/abc",   args: { url: "p://svnx/abc" } }, 
+      { exp: "/tmp/svnx-test", args: dir_args }, 
+      { exp: "p://svnx/abc",   args: url_args }, 
       # url takes priority when both are specified:
-      { exp: "p://svnx/abc",   args: { dir: "/tmp/svnx-test",   url: "p://svnx/abc" } }
+      { exp: "p://svnx/abc",   args: dir_url_args }
     ].each do |args|
       exp  = args[:exp]
       proj = Svnx::Project.new args[:args]
@@ -68,10 +84,22 @@ module Svnx
       :propget,
     ].each do |meth|
       MockCommandLine::ELEMENTS.clear
-      proj = Svnx::Project.new dir: "/tmp/svnx-test", cls: MockCommandLine
+      proj = Svnx::Project.new self.class.dir_args
       proj.send meth, cls: MockCommandLine
-      assert_true MockCommandLine::ELEMENTS[-1].executed
-      assert_equal MockCommandLine::ELEMENTS[-1].subcommand, meth.to_s
-    end  
+      assert_true MockCommandLine::ELEMENTS.last.executed
+      assert_equal MockCommandLine::ELEMENTS.last.subcommand, meth.to_s
+    end
+
+    param_test [
+      { revision: 123 },
+      { limit:    123 },
+      { verbose:  true },
+      { url:      "abc" },
+      { path:     "def" },
+    ].each do |args|
+      proj = Svnx::Project.new self.class.dir_args
+      args = args.merge({ cls: MockCommandLine })
+      proj.log args
+    end
   end
 end
