@@ -47,7 +47,7 @@ module Svnx::Base
       debug "@cmdline: #{@cmdline}"
       
       @output = @cmdline.execute
-      debug "@output: #{@output}"
+      debug "@output: #{@output && @output.first}"
       
       @error = @cmdline.error
       debug "@error: #{@error}"
