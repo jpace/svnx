@@ -10,10 +10,12 @@ end
 
 module Svnx::Blame
   class Options < Svnx::Base::Options
-    has_fields Svnx::Base::REVISION_PATHS_URLS_FIELDS.keys
+    FIELDS = Svnx::Base::REVISION_PATHS_URLS_FIELDS.merge(Svnx::Base::IGNORE_WHITESPACE)
+    
+    has_fields FIELDS.keys
 
     def fields
-      Svnx::Base::REVISION_PATHS_URLS_FIELDS
+      FIELDS
     end
   end
 end

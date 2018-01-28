@@ -28,7 +28,8 @@ module Svnx::Blame
       [ [ "-r", "123" ], revision: "123" ],
       [ [ "-r", "123:456" ], revision: "123:456" ],
       [ [ "p://abc" ], urls: [ "p://abc" ] ],
-      [ [ "a/b" ], paths: [ "a/b" ] ]
+      [ [ "a/b" ], paths: [ "a/b" ] ],
+      [ %w{ -x -bw -x --ignore-eol-style }, ignorewhitespace: true ],
     ].each do |exp, vals|
       assert_to_args exp, vals
     end
