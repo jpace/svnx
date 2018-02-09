@@ -10,8 +10,6 @@ end
 
 module Svnx::Merge
   class Options < Svnx::Base::Options
-    # FIELDS = [ :commit, :range, :accept, :from, :path, :url ]
-    
     FIELDS = Hash.new.tap do |h|
       h[:commit] = Proc.new { |x| [ "-c",       x.commit ] }
       h[:range]  = Proc.new { |x| [ "-r",       x.range ]  }

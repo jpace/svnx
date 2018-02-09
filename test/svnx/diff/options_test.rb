@@ -41,7 +41,7 @@ module Svnx::Diff
       [ [ "-c", 123                        ], commit: 123             ],
       [ [ "--ignore-properties"            ], ignoreproperties: true  ],
       [ Array.new,                            ignoreproperties: false ],
-      [ [ "-x", "-bw"                      ], ignorewhitespace: true  ],
+      [ %w{ -x -bw -x --ignore-eol-style },   ignorewhitespace: true  ],
       [ Array.new,                            ignorewhitespace: false ],
       [ [ "p://xyz"                        ], url: "p://xyz"          ],
       [ [ "a/b"                            ], paths: [ "a/b" ]        ],
