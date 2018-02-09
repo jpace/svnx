@@ -36,9 +36,9 @@ module Svnx::Base
     
     def self.build_params
       Array.new.tap do |a|
-        a << [ M1::Opts, "m1", Svnx::Base::CommandLine, M1::Cmd, optcls: M1::Opts ]
-        a << [ M2::C2::Options, "c2", Svnx::Base::CommandLine, M2::C2::Cmd,     Hash.new ]
-        a << [ M2::C2::Options, "c2", M2::C2::CmdLine, M2::C2::Cmd, cmdlinecls: M2::C2::CmdLine ]
+        a << [ M1::Opts,        "m1", Svnx::Base::CommandLine, M1::Cmd,     optcls: M1::Opts ]
+        a << [ M2::C2::Options, "c2", Svnx::Base::CommandLine, M2::C2::Cmd, Hash.new ]
+        a << [ M2::C2::Options, "c2", M2::C2::CmdLine,         M2::C2::Cmd, cmdlinecls: M2::C2::CmdLine ]
       end
     end
 

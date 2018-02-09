@@ -2,8 +2,8 @@
 # -*- ruby -*-
 
 require 'logue/loggable'
-require 'cmdline/caching'
-require 'svnx/base/cmdline'
+require 'command/cacheable/command'
+# require 'svnx/base/cmdline'
 require 'svnx/util/classutil'
 require 'svnx/base/command_factory'
 
@@ -47,7 +47,7 @@ module Svnx::Base
       debug "@cmdline: #{@cmdline}"
       
       @output = @cmdline.execute
-      debug "@output: #{@output && @output.first}"
+      debug "@output: #{@output && @output[0 .. 100]}"
       
       @error = @cmdline.error
       debug "@error: #{@error}"
@@ -60,7 +60,7 @@ module Svnx::Base
   class EntriesCommand < Command
     attr_reader :entries
     
-    def initialize options, cls: CommandLine, exec: nil, caching: caching?, xml: true, entries_class: nil
+    def initialize options, cls: Command::Cacheable::Command, exec: nil, caching: caching?, xml: true, entries_class: nil
       super options, cls: cls, exec: exec, xml: xml, caching: caching
       
       if not @output.empty?

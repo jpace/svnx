@@ -2,8 +2,9 @@
 # -*- ruby -*-
 
 require 'logue/loggable'
-require 'cmdline/line'
-require 'cmdline/caching'
+# require 'cmdline/line'
+# require 'cmdline/caching'
+require 'command/cacheable'
 require 'svnx/base/env'
 
 module Svnx
@@ -12,16 +13,6 @@ module Svnx
 end
 
 module Svnx::Base
-  class CachingCommandLine < CmdLine::CachingCommandLine
-    def caching?
-      true
-    end
-
-    def cache_dir
-      Svnx::Env.instance.cache_dir
-    end
-  end
-
   class CommandLine
     include Logue::Loggable
 
@@ -57,8 +48,7 @@ module Svnx::Base
     end
 
     def command_line cmdargs
-      cls = @caching ? CachingCommandLine : CmdLine::CommandLine
-      cls.new cmdargs
+      Command::Cacheable::Command.new cmdargs, caching: @caching, dir: Svnx::Env.instance.cache_dir
     end
   end
 end
