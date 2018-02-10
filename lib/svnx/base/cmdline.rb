@@ -2,8 +2,6 @@
 # -*- ruby -*-
 
 require 'logue/loggable'
-# require 'cmdline/line'
-# require 'cmdline/caching'
 require 'command/cacheable'
 require 'svnx/base/env'
 
