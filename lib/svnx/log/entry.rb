@@ -13,24 +13,26 @@ end
 
 module Svnx::Log
   class Entry < Svnx::Base::Entry
-    attr_reader :revision, :author, :date, :paths, :msg
+    attr_reader :revision, :reverse_merge, :author, :date, :paths, :msg, :entries
 
     def set_from_element elmt
       set_attr_var elmt, 'revision'
-      set_elmt_vars elmt, 'author', 'date', 'msg'
+      @reverse_merge = attribute_value elmt, 'reverse-merge'
       
-      @paths = Array.new
+      set_elmt_vars elmt, 'author', 'date', 'msg'
 
-      elmt.elements.each('paths/path') do |pe|
+      # sort, because Subversion is not consistent with order
+      @paths = elmt.elements.to_a('paths/path').collect do |pe|
         kind = attribute_value pe, 'kind'
         action = attribute_value pe, 'action'
         name = pe.text
 
-        @paths << EntryPath.new(kind: kind, action: Svnx::Action.new(action), name: name)
+        EntryPath.new(kind: kind, action: Svnx::Action.new(action), name: name)
+      end.sort
+
+      @entries = elmt.elements.to_a('logentry').collect do |le|
+        Entry.new le
       end
-      
-      # Svn isn't consistent with the order of paths
-      @paths.sort!
     end
 
     def message

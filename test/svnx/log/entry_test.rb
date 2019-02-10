@@ -2,41 +2,72 @@
 # -*- ruby -*-
 
 require 'svnx/log/entry'
-require 'svnx/log/xml'
 require 'svnx/tc'
+require 'rexml/document'
 
 module Svnx::Log
   class EntryTestCase < Svnx::TestCase
-    def assert_log_entry_equals expdata, entry
-      assert_equal expdata[0], entry.revision
-      assert_equal expdata[1], entry.author
-      assert_equal expdata[2], entry.date
-      assert_equal expdata[3], entry.message
-      entry.paths.each_with_index do |path, idx|
-        assert_equal expdata[4 + idx][:kind], path.kind
-        assert_equal expdata[4 + idx][:action], path.action
-        assert_equal expdata[4 + idx][:name], path.name
+    def test_entry
+      lines = Array.new.tap do |a|
+        a << '<logentry'
+        a << '    revision="789">'
+        a << '  <author>a-ghi</author>'
+        a << '  <date>2019-02-41T41:15:40.132144Z</date>'
+        a << '  <msg>ID-2345 - message xyz'
+        a << '  </msg>'
+        a << '</logentry>'
       end
-    end
-    
-    def test_entry_from_xml
-      entry = Entry.new XML::ELEMENTS.elements[4]
 
-      expdata = '16', 'Buddy Bizarre', '2012-09-16T14:07:30.329525Z', 'CUT! What in the hell do you think you\'re doing here? This is a closed set.'
-      expdata << { :kind => 'dir', 
-                   :action => 'A', 
-                   :name => '/src/java'
-      }
-      expdata << { :kind => 'file', 
-                   :action => 'A', 
-                   :name => '/src/java/Alpha.java'
-      }
-      expdata << { :kind => 'file', 
-                   :action => 'A', 
-                   :name => '/src/java/Bravo.java'
-      }
+      doc = REXML::Document.new lines.join('')
+      elmt = doc.elements[1]
+      
+      e = Entry.new elmt
+      assert_equal "789", e.revision
+      assert_equal "a-ghi", e.author
+      assert_equal nil, e.reverse_merge
+      assert_equal "2019-02-41T41:15:40.132144Z", e.date
+      assert_equal "ID-2345 - message xyz", e.message.strip
+      assert_true e.paths.empty?
+      assert_true e.entries.empty?
+    end    
 
-      assert_log_entry_equals expdata, entry
+    def test_merge_entry
+      lines = Array.new.tap do |a|
+        a << '  <logentry'
+        a << '      revision="567">'
+        a << '    <author>a-abc</author>'
+        a << '    <date>2019-01-14T14:15:40.321166Z</date>'
+        a << '    <msg>ID-1234 Merging from dev to 3.17'
+        a << ''
+        a << '    </msg>'
+        a << '    <logentry'
+        a << '	reverse-merge="false"'
+        a << '	revision="543">'
+        a << '      <author>a-def</author>'
+        a << '      <date>2019-01-12T12:41:20.157024Z</date>'
+        a << '      <msg>ID-1234 Original message</msg>'
+        a << '    </logentry>'
+        a << '  </logentry>'
+      end
+
+      doc = REXML::Document.new lines.join('')
+      elmt = doc.elements[1]
+      
+      e = Entry.new elmt
+      assert_equal "567", e.revision
+      assert_equal "a-abc", e.author
+      assert_equal nil, e.reverse_merge
+      assert_equal "2019-01-14T14:15:40.321166Z", e.date
+      assert_equal "ID-1234 Merging from dev to 3.17", e.message.strip
+      assert_true e.paths.empty?
+
+      f = e.entries.first
+      assert_equal "543", f.revision
+      assert_equal "false", f.reverse_merge
+      assert_equal "a-def", f.author
+      assert_equal "2019-01-12T12:41:20.157024Z", f.date
+      assert_equal "ID-1234 Original message", f.message.strip
+      assert_true f.paths.empty?
     end
   end
 end
