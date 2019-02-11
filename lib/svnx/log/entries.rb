@@ -4,11 +4,6 @@
 require 'svnx/base/entries'
 require 'svnx/log/entry'
 
-module Svnx
-  module Log
-  end
-end
-
 module Svnx::Log
   class Entries < Svnx::Base::Entries
     def get_elements doc

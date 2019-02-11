@@ -6,11 +6,6 @@ require 'svnx/base/action'
 require 'time'
 require 'svnx/log/entrypath'
 
-module Svnx
-  module Log
-  end
-end
-
 module Svnx::Log
   class Entry < Svnx::Base::Entry
     attr_reader :revision, :reverse_merge, :author, :date, :paths, :msg, :entries
@@ -21,14 +16,13 @@ module Svnx::Log
       
       set_elmt_vars elmt, 'author', 'date', 'msg'
 
-      # sort, because Subversion is not consistent with order
       @paths = elmt.elements.to_a('paths/path').collect do |pe|
         kind = attribute_value pe, 'kind'
         action = attribute_value pe, 'action'
         name = pe.text
 
         EntryPath.new(kind: kind, action: Svnx::Action.new(action), name: name)
-      end.sort
+      end.sort                  # sorted, because svn is not consistent with order
 
       @entries = elmt.elements.to_a('logentry').collect do |le|
         Entry.new le
