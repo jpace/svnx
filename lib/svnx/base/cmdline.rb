@@ -46,7 +46,7 @@ module Svnx::Base
     end
 
     def command_line cmdargs
-      Command::Cacheable::Command.new cmdargs, caching: @caching, dir: Svnx::Env.instance.cache_dir
+      ::Command::Cacheable::Command.new cmdargs, caching: @caching, cachedir: Svnx::Env.instance.cache_dir
     end
   end
 end

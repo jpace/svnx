@@ -60,7 +60,7 @@ module Svnx::Base
   class EntriesCommand < Command
     attr_reader :entries
     
-    def initialize options, cls: Command::Cacheable::Command, exec: nil, caching: caching?, xml: true, entries_class: nil
+    def initialize options, cls: ::Command::Cacheable::Command, exec: nil, caching: caching?, xml: true, entries_class: nil
       super options, cls: cls, exec: exec, xml: xml, caching: caching
       
       if not @output.empty?
