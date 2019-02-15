@@ -28,40 +28,35 @@ module Svnx::Base
     attr_reader :output
     attr_reader :error
     attr_reader :status
-
     attr_reader :options
     
-    def initialize options, cls: nil, optcls: nil, exec: nil, xml: false, caching: caching?
+    def initialize options, cmdlinecls: nil, optcls: nil, xml: false, caching: caching?
       factory = CommandFactory.new
-      params = factory.create self.class, cmdlinecls: cls, optcls: optcls
+      
+      params = factory.create self.class, cmdlinecls: cmdlinecls, optcls: optcls
       
       optcls ||= params[:options_class]
       
       @options = optcls.new options
       cmdargs = @options.to_args
+      
       subcommand = params[:subcommand]
       
-      cls ||= params[:command_line_class]
+      cmdlinecls ||= params[:command_line_class]
       
-      @cmdline = exec || cls.new(subcommand: subcommand, xml: xml, caching: caching, args: cmdargs)
-      debug "@cmdline: #{@cmdline}"
+      @cmdline = cmdlinecls.new(subcommand: subcommand, xml: xml, caching: caching, args: cmdargs)
       
       @output = @cmdline.execute
-      debug "@output: #{@output && @output[0 .. 100]}"
-      
       @error = @cmdline.error
-      debug "@error: #{@error}"
-      
       @status = @cmdline.status
-      debug "@status: #{@status}"
     end
   end
 
   class EntriesCommand < Command
     attr_reader :entries
     
-    def initialize options, cls: ::Command::Cacheable::Command, exec: nil, caching: caching?, xml: true, entries_class: nil
-      super options, cls: cls, exec: exec, xml: xml, caching: caching
+    def initialize options, cmdlinecls: CommandLine, caching: caching?, xml: true, entries_class: nil
+      super options, cmdlinecls: cmdlinecls, xml: xml, caching: caching
       
       if not @output.empty?
         entries_class ||= begin

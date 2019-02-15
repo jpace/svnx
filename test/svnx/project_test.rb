@@ -21,19 +21,19 @@ module Svnx
     end
 
     def self.to_args args = Hash.new
-      args.merge({ cls: MockCommandLine })
+      args.merge({ cmdlinecls: MockCommandLine })
     end
 
     def self.dir_args dirname = "/tmp/svnx-test"
-      Hash[dir: dirname, cls: MockCommandLine]
+      Hash[dir: dirname, cmdlinecls: MockCommandLine]
     end
 
     def self.url_args urlname = "p://svnx/abc"
-      Hash[url: urlname, cls: MockCommandLine]
+      Hash[url: urlname, cmdlinecls: MockCommandLine]
     end
 
     def self.dir_url_args dirname = "/tmp/svnx-test", urlname = "p://svnx/abc"
-      Hash[dir: dirname, url: urlname, cls: MockCommandLine]
+      Hash[dir: dirname, url: urlname, cmdlinecls: MockCommandLine]
     end
 
     # dir and url
@@ -76,7 +76,7 @@ module Svnx
       :update,
       #$$$ merge takes more than one dir/url, so it's not on a project now
       # :merge,
-      #$$$ not enabled because commit validates options, and cls and url are not valid for it:
+      #$$$ not enabled because commit validates options, and cmdlinecls and url are not valid for it:
       # :commit,
       :log,
       :diff,
@@ -85,20 +85,21 @@ module Svnx
     ].each do |meth|
       MockCommandLine::ELEMENTS.clear
       proj = Svnx::Project.new self.class.dir_args
-      proj.send meth, cls: MockCommandLine
-      assert_true MockCommandLine::ELEMENTS.last.executed
-      assert_equal MockCommandLine::ELEMENTS.last.subcommand, meth.to_s
+      proj.send meth, cmdlinecls: MockCommandLine
+      el = MockCommandLine::ELEMENTS.last
+      assert_true el.executed
+      assert_equal el.subcommand, meth.to_s
     end
 
     param_test [
-      { revision: 123 },
-      { limit:    123 },
-      { verbose:  true },
+      { revision: 123   },
+      { limit:    123   },
+      { verbose:  true  },
       { url:      "abc" },
       { path:     "def" },
     ].each do |args|
       proj = Svnx::Project.new self.class.dir_args
-      args = args.merge({ cls: MockCommandLine })
+      args = args.merge({ cmdlinecls: MockCommandLine })
       proj.log args
     end
   end

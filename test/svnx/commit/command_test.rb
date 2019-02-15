@@ -8,9 +8,9 @@ require 'svnx/mock'
 module Svnx::Commit
   class CommandTest < Svnx::Command::TestCase
     def assert_command exp, cmdopts = Hash.new
-      clcls = Svnx::Base::MockCommandLine
-      Command.new cmdopts, cls: clcls
-      cl = clcls::EXECUTED[-1]
+      cmdlinecls = Svnx::Base::MockCommandLine
+      Command.new cmdopts, cmdlinecls: cmdlinecls
+      cl = cmdlinecls::EXECUTED[-1]
       msg = "cmdopts: #{cmdopts}"
       assert_equal true,          cl.executed, msg
       assert_equal exp[:args],    cl.args,     msg

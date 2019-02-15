@@ -10,10 +10,10 @@ end
 class Svnx::Project  
   attr_reader :dir
   
-  def initialize dir: nil, url: nil, cls: nil
+  def initialize dir: nil, url: nil, cmdlinecls: nil
     @dir = dir
     @url = url
-    @cls = cls
+    @cmdlinecls = cmdlinecls
   end
 
   def where
@@ -43,8 +43,8 @@ class Svnx::Project
     cmdargs  = fields.collect { |key| key.to_s + ": " + key.to_s }.join ", "
     
     src = Array.new.tap do |a|
-      a << "def #{cmd} #{params}, cls: @cls"
-      a << "  cmd = Svnx::#{cmd.to_s.capitalize}::Command.new({ #{cmdargs} }, cls: cls)"
+      a << "def #{cmd} #{params}, cmdlinecls: @cmdlinecls"
+      a << "  cmd = Svnx::#{cmd.to_s.capitalize}::Command.new({ #{cmdargs} }, cmdlinecls: cmdlinecls)"
       a << "  cmd.respond_to?(:entries) ? cmd.entries : cmd.output"
       a << "end"
     end.join "\n"
