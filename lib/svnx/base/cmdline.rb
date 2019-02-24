@@ -2,7 +2,7 @@
 # -*- ruby -*-
 
 require 'logue/loggable'
-require 'command/cacheable'
+require 'command/cacheable/command'
 require 'svnx/base/env'
 
 module Svnx

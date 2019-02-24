@@ -2,8 +2,6 @@
 # -*- ruby -*-
 
 require 'logue/loggable'
-require 'command/cacheable/command'
-# require 'svnx/base/cmdline'
 require 'svnx/util/classutil'
 require 'svnx/base/command_factory'
 
@@ -35,14 +33,14 @@ module Svnx::Base
       
       params = factory.create self.class, cmdlinecls: cmdlinecls, optcls: optcls
       
-      optcls ||= params[:options_class]
+      optcls ||= params.options
       
       @options = optcls.new options
       cmdargs = @options.to_args
       
-      subcommand = params[:subcommand]
+      subcommand = params.subcommand
       
-      cmdlinecls ||= params[:command_line_class]
+      cmdlinecls ||= params.cmdline
       
       @cmdline = cmdlinecls.new(subcommand: subcommand, xml: xml, caching: caching, args: cmdargs)
       

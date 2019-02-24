@@ -10,9 +10,6 @@ require 'svnx/mock'
 # no verbose if running all tests:
 level = ARGV.size == 0 ? Logue::Level::DEBUG : Logue::Level::WARN
 
-# puts "ARGV: #{ARGV}"
-# puts "level: #{level}"
-
 Logue::Log.level = level
 Logue::Log.set_widths(-35, 4, -35)
 

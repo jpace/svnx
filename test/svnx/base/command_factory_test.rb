@@ -36,31 +36,31 @@ module Svnx::Base
     
     def self.build_params
       Array.new.tap do |a|
-        a << [ M1::Opts,        "m1", Svnx::Base::CommandLine, M1::Cmd,     optcls: M1::Opts ]
-        a << [ M2::C2::Options, "c2", Svnx::Base::CommandLine, M2::C2::Cmd, Hash.new ]
+        a << [ M1::Opts,        "m1", Svnx::Base::CommandLine, M1::Cmd,     optcls: M1::Opts            ]
+        a << [ M2::C2::Options, "c2", Svnx::Base::CommandLine, M2::C2::Cmd, Hash.new                    ]
         a << [ M2::C2::Options, "c2", M2::C2::CmdLine,         M2::C2::Cmd, cmdlinecls: M2::C2::CmdLine ]
       end
     end
 
-    param_test build_params.each do |expoptcls, expsubcmd, expcmdlinecls, cls, args|
+    param_test build_params.each do |expoptcls, _, _, cls, args|
       f = CommandFactory.new
       params = f.create cls, args
       
-      assert_equal expoptcls, params[:options_class]
+      assert_equal expoptcls, params.options
     end
 
-    param_test build_params.each do |expoptcls, expsubcmd, expcmdlinecls, cls, args|
+    param_test build_params.each do |_, expsubcmd, _, cls, args|
       f = CommandFactory.new
       params = f.create cls, args
       
-      assert_equal expsubcmd, params[:subcommand]
+      assert_equal expsubcmd, params.subcommand
     end
 
-    param_test build_params.each do |expoptcls, expsubcmd, expcmdlinecls, cls, args|
+    param_test build_params.each do |_, _, expcmdlinecls, cls, args|
       f = CommandFactory.new
       params = f.create cls, args
       
-      assert_equal expcmdlinecls, params[:command_line_class]
+      assert_equal expcmdlinecls, params.cmdline
     end
   end
 end
