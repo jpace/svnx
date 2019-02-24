@@ -2,6 +2,7 @@
 # -*- ruby -*-
 
 require 'time'
+require 'svnx/util/englishtime'
 
 class DateUtil
   class << self
@@ -16,17 +17,7 @@ class DateUtil
 
     # returns the value in seconds, minutes, hours, or days, if within a week
     def to_time_units seconds
-      secs = seconds.to_i
-
-      if secs < 120
-        "#{secs} seconds"
-      elsif (min = secs / 60) < 120
-        "#{min} minutes"
-      elsif (hour = min / 60) < 72
-        "#{hour} hours"
-      elsif (day = hour / 24) < 7
-        "#{day} days"
-      end
+      EnglishTime.new.to_time_units seconds
     end
 
     def fmt_mmdd_hhmm date
