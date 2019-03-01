@@ -7,30 +7,71 @@ require 'paramesan'
 
 class EnglishTimeTest < Test::Unit::TestCase
   include Paramesan
-  
-  param_test [
-    [ "30 seconds",  30 ],
-    [ "119 seconds", 119 ],
-    [ "2 minutes",   60 * 2 ],
-    [ "15 minutes",  60 * 15 ],
-    [ "119 minutes", 60 * 119 ],
-    [ "2 hours",     60 * 120 ],
-    [ "71 hours",    60 * 60 * 71 ],
-    [ "3 days",      60 * 60 * 72 ],
-    [ "3 days",      60 * 60 * 24 * 3 ],
-    [ nil,           60 * 60 * 24 * 8 ]
-  ].each do |exp, seconds|
-    result = EnglishTime.new.to_time_units seconds
-    assert_equal exp, result, "seconds: #{seconds}"    
+
+  def self.build_ago_params
+    now = Time.now
+    h1 = now - 3600
+    s1 = "60 minutes ago (" + h1.strftime("%m/%d %H:%M") + ")"
+    
+    h3 = now - 3 * 3600
+    s2 = "3 hours ago (" + h3.strftime("%m/%d %H:%M") + ")"
+
+    Array.new.tap do |a|
+      a << [ s1, h1, now ]
+      a << [ s2, h3, now ]
+    end
   end
 
-  param_test [
-    [ "3 days ago (10/05 08:36)", "2016-10-05 08:36:10 -0400", "2016-10-08 08:51:40 -0400" ],
-    [ "2016/09/05 08:36",         "2016-09-05 08:36:10 -0400", "2016-10-08 08:51:40 -0400" ]
-  ].each do |expected, frdatestr, todatestr|
-    fromdate = DateTime.parse(frdatestr).to_time
-    todate   = DateTime.parse(todatestr).to_time
-    result   = EnglishTime.new.relative_full fromdate, todate
-    assert_equal expected, result, "frdatestr: #{frdatestr}; todatestr: #{todatestr}"
+  param_test build_ago_params do |expected, fromdate, todate|
+    result = EnglishTime.new(fromdate).ago
+    assert_equal expected, result
   end
+
+  def self.build_earlier_params
+    t1 = Time.new 2015, 11, 1, 12, 15, 0
+    h1 = Time.new 2015, 11, 1, 11, 15, 0
+    s1 = "60 minutes earlier (" + h1.strftime("%m/%d %H:%M") + ")"
+    
+    h2 = Time.new 2015, 11, 1, 9, 15, 0
+    s2 = "3 hours earlier (" + h2.strftime("%m/%d %H:%M") + ")"
+    
+    h3 = Time.new 2014, 11, 1, 9, 15, 0
+    s3 = h3.strftime "%Y/%m/%d %H:%M"
+
+    Array.new.tap do |a|
+      a << [ s1, h1, t1 ]
+      a << [ s2, h2, t1 ]
+      a << [ s3, h3, t1 ]
+    end
+  end
+
+  param_test build_earlier_params do |expected, fromdate, todate|
+    result = EnglishTime.new(fromdate).earlier todate
+    assert_equal expected, result
+  end
+
+  def self.build_since_params
+    word = "since"
+    
+    t1 = Time.new 2015, 11, 1, 12, 15, 0
+    h1 = Time.new 2015, 11, 1, 11, 15, 0
+    s1 = "60 minutes " + word + " (" + h1.strftime("%m/%d %H:%M") + ")"
+    
+    h2 = Time.new 2015, 11, 1, 9, 15, 0
+    s2 = "3 hours " + word + " (" + h2.strftime("%m/%d %H:%M") + ")"
+    
+    h3 = Time.new 2014, 11, 1, 9, 15, 0
+    s3 = h3.strftime "%Y/%m/%d %H:%M"
+
+    Array.new.tap do |a|
+      a << [ s1, h1, t1, word ]
+      a << [ s2, h2, t1, word ]
+      a << [ s3, h3, t1, word ]
+    end
+  end
+
+  param_test build_since_params do |expected, fromtime, totime, word|
+    result = EnglishTime.new(fromtime).since totime, word
+    assert_equal expected, result
+  end  
 end
