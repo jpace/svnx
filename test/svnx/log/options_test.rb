@@ -21,7 +21,7 @@ module Svnx::Log
       { revision: 123 },
       { path:     "a/b" },
       { url:      "p: //a/b" },
-    ].each do |vals|
+    ] do |vals|
       assert_options vals, vals
     end
 
@@ -32,7 +32,7 @@ module Svnx::Log
       [ [ "-r123" ], revision: 123 ],
       [ [ "p://abc" ], url: "p://abc" ],
       [ [ "a/b" ], path: [ "a/b" ] ],
-    ].each do |exp, vals|
+    ] do |exp, vals|
       assert_to_args exp, vals
     end
 

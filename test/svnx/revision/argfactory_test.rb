@@ -57,7 +57,7 @@ module Svnx::Revision
     param_test [
       22,
       20,
-    ].each do |value|
+    ] do |value|
       arg = create value
       assert_kind_of IndexArgument, arg
     end
@@ -66,13 +66,13 @@ module Svnx::Revision
       -1,
       '-1',
       -2,
-    ].each do |value|
+    ] do |value|
       arg = create value
       assert_kind_of IndexArgument, arg
       assert_kind_of RelativeArgument, arg
     end
 
-    param_test %w< HEAD BASE COMMITTED PREV {2012-12-10} >.each do |word|
+    param_test %w< HEAD BASE COMMITTED PREV {2012-12-10} > do |word|
       # date is a StringArgument, for now
       arg = create word
       assert_kind_of StringArgument, arg

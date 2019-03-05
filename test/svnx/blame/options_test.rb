@@ -19,7 +19,7 @@ module Svnx::Blame
       { revision: "123" },
       { paths: [ "a/b" ] },
       { urls: [ "p://a/b" ] }
-    ].each do |vals|
+    ] do |vals|
       assert_options vals, vals
     end
 
@@ -30,7 +30,7 @@ module Svnx::Blame
       [ [ "p://abc" ], urls: [ "p://abc" ] ],
       [ [ "a/b" ], paths: [ "a/b" ] ],
       [ %w{ -x -bw -x --ignore-eol-style }, ignorewhitespace: true ],
-    ].each do |exp, vals|
+    ] do |exp, vals|
       assert_to_args exp, vals
     end
 
@@ -38,7 +38,7 @@ module Svnx::Blame
       [ %w{ -r 123 }, :revision ],
       [ %w{ a/b }, :paths ],
       [ %w{ p://a/b }, :urls ],
-    ].each do |expected, field|
+    ] do |expected, field|
       args = { revision: "123", paths: [ "a/b" ], urls: [ "p://a/b" ] }
       opts = Svnx::Blame::Options.new args
       result = opts.get_args field

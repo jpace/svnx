@@ -17,7 +17,7 @@ module Svnx::Status
     param_test [
       { paths: [ "a/b", "c/d" ] },
       { url: "p://a/b" }
-    ].each do |vals|
+    ] do |vals|
       assert_assign vals
     end
 
@@ -26,7 +26,7 @@ module Svnx::Status
       [ [ "p://abc" ],    url: "p://abc" ],
       [ [ "a/b" ],        paths: [ "a/b" ] ],
       [ [ "a/b", "c/d" ], paths: [ "a/b", "c/d" ] ],
-    ].each do |exp, vals|
+    ] do |exp, vals|
       assert_to_args exp, vals
     end
   end

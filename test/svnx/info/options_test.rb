@@ -21,7 +21,7 @@ module Svnx::Info
       { revision: "123" },
       { path:     "a/b" },
       { url:      "p: //a/b" }
-    ].each do |vals|
+    ] do |vals|
       assert_options vals, vals
     end
 
@@ -31,7 +31,7 @@ module Svnx::Info
       [ [ "-r", "123:456" ], revision: "123:456" ],
       [ [ "p://abc"       ], url: "p://abc"      ],
       [ [ "a/b"           ], path: "a/b"         ]
-    ].each do |exp, vals|
+    ] do |exp, vals|
       assert_to_args exp, vals
     end
   end

@@ -16,7 +16,7 @@ module Svnx::Status
       [ 'added',       'one/three/ghi.rb', 2 ], 
       [ 'added',       'jkl.txt',          3 ], 
       [ 'deleted',     'four/mno.txt',     4 ], 
-    ].each do |expstatus, exppath, idx|
+    ] do |expstatus, exppath, idx|
       entries = Entries.new XML::LINES
       entry   = entries[idx]
       assert_equal expstatus.to_s, entry.status.to_s

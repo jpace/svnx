@@ -12,7 +12,7 @@ module Svnx::Blame
     
     param_test [
       [ "1", "92482", "a5", DateTime.parse("2010-10-05 16:12:09.647500 -0400"), 1 ],
-    ].each do |exp_line_number, exp_revision, exp_author, exp_date, idx|
+    ] do |exp_line_number, exp_revision, exp_author, exp_date, idx|
       x = Entry.new XML::ELEMENTS[idx]
       
       assert_equal exp_line_number, x.line_number

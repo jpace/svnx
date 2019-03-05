@@ -74,7 +74,7 @@ module Svnx::Base
       end
     end
 
-    param_test build_params.each do |expoptcls, cmd|
+    param_test build_params do |expoptcls, cmd|
       assert_equal expoptcls, cmd.options.class, "cmd: #{cmd}"
     end
 

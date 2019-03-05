@@ -47,7 +47,7 @@ module Svnx
       [ Svnx::Action.new('unversioned'), Svnx::Action::UNVERSIONED ],
       [ Svnx::Action.new('external'),    Svnx::Action::EXTERNAL    ],
       [ Svnx::Action.new('normal'),      Svnx::Action::NORMAL      ],
-    ].each do |exp, action|
+    ] do |exp, action|
       assert_equal exp, action
     end
     
