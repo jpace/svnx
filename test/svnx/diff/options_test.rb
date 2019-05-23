@@ -25,14 +25,14 @@ module Svnx::Diff
       { ignoreproperties: false },
       { ignorewhitespace: true },
       { ignorewhitespace: false },
-    ].each do |vals|
+    ] do |vals|
       assert_options vals, vals
     end
 
     param_test [
       [ { url: "p://xyz", paths: nil }, url: "p://xyz" ],
       [ { paths: [ "a/b" ], url: nil }, paths: [ "a/b" ] ],
-    ].each do |exp, optvals|
+    ] do |exp, optvals|
       assert_options exp, optvals
     end
 
@@ -47,7 +47,7 @@ module Svnx::Diff
       [ [ "a/b"                            ], paths: [ "a/b" ]        ],
       [ [ "a/b", "c/d"                     ], paths: [ "a/b", "c/d" ] ],
       [ [ "--depth", "empty"               ], depth: "empty"          ],
-    ].each do |exp, optvals|
+    ] do |exp, optvals|
       assert_to_args exp, optvals
     end
   end

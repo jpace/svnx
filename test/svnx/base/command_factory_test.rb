@@ -42,21 +42,21 @@ module Svnx::Base
       end
     end
 
-    param_test build_params.each do |expoptcls, _, _, cls, args|
+    param_test build_params do |expoptcls, _, _, cls, args|
       f = CommandFactory.new
       params = f.create cls, args
       
       assert_equal expoptcls, params.options
     end
 
-    param_test build_params.each do |_, expsubcmd, _, cls, args|
+    param_test build_params do |_, expsubcmd, _, cls, args|
       f = CommandFactory.new
       params = f.create cls, args
       
       assert_equal expsubcmd, params.subcommand
     end
 
-    param_test build_params.each do |_, _, expcmdlinecls, cls, args|
+    param_test build_params do |_, _, expcmdlinecls, cls, args|
       f = CommandFactory.new
       params = f.create cls, args
       

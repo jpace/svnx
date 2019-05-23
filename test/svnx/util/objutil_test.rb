@@ -29,7 +29,7 @@ class Svnx::ObjectUtilTest < Test::Unit::TestCase
     end
   end
   
-  param_test build_assign_params.each do |expected, args, symbols|
+  param_test build_assign_params do |expected, args, symbols|
     obj = self.class.create_object
     obj.assign args, symbols
     expected.each do |name, value|
@@ -61,7 +61,7 @@ class Svnx::ObjectUtilTest < Test::Unit::TestCase
     end
   end
   
-  param_test build_validate_params.each do |expected, obj, args, valid|
+  param_test build_validate_params do |expected, obj, args, valid|
     begin
       result = obj.validate args, valid
       assert_nil expected
@@ -118,7 +118,7 @@ class Svnx::ObjectUtilTest < Test::Unit::TestCase
     end
   end
   
-  param_test build_attr_readers_params.each do |expected, obj, methname|
+  param_test build_attr_readers_params do |expected, obj, methname|
     assert_send expected, obj, methname
   end
   
@@ -150,7 +150,7 @@ class Svnx::ObjectUtilTest < Test::Unit::TestCase
   #   end
   # end
   
-  # param_test build_has_fields_params.each do |expected, obj, methname|
+  # param_test build_has_fields_params do |expected, obj, methname|
   #   assert_send expected, obj, methname
   # end
 
@@ -166,7 +166,7 @@ class Svnx::ObjectUtilTest < Test::Unit::TestCase
     end
   end
   
-  param_test build_create_invalid_fields_message_params.each do |expected, obj, fields|
+  param_test build_create_invalid_fields_message_params do |expected, obj, fields|
     result = obj.create_invalid_fields_message fields
     assert_equal expected, result
   end

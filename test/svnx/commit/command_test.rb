@@ -10,7 +10,7 @@ module Svnx::Commit
     def assert_command exp, cmdopts = Hash.new
       cmdlinecls = Svnx::Base::MockCommandLine
       Command.new cmdopts, cmdlinecls: cmdlinecls
-      cl = cmdlinecls::EXECUTED[-1]
+      cl = cmdlinecls.all_executed.last
       msg = "cmdopts: #{cmdopts}"
       assert_equal true,          cl.executed, msg
       assert_equal exp[:args],    cl.args,     msg

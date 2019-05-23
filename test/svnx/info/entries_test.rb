@@ -16,7 +16,7 @@ module Svnx::Info
       [ 'dirzero/SixthFile.txt', 'file', '22', 0 ],
       [ 'src/ruby/dog.rb',       'file', '0',  1 ],
       [ 'FirstFile.txt',         'file', '22', 2 ],
-    ].each do |exppath, expkind, exprevision, idx|
+    ] do |exppath, expkind, exprevision, idx|
       entries    = Svnx::Info::Entries.new XML::LINES
       entry      = entries[idx]
       exp        = { path: exppath, kind: expkind, revision: exprevision }

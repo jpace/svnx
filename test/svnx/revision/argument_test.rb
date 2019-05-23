@@ -88,7 +88,7 @@ module Svnx::Revision
     param_test [
       [ '5',    '5' ], 
       [ 'HEAD', 'HEAD' ]
-    ].each do |exp, value|
+    ] do |exp, value|
       arg = create_argument value
       assert_equal exp, arg.to_s, "value: #{value}"
     end
@@ -98,7 +98,7 @@ module Svnx::Revision
       [ true,  '4', '4' ], 
       [ false, '4', '5' ], 
       [ false, '5', '4' ], 
-    ].each do |expeq, x, y|
+    ] do |expeq, x, y|
       # it's the emoticon programming language
       assert_compare :==, expeq, x, y
     end
@@ -108,7 +108,7 @@ module Svnx::Revision
       [ true,  '3', '1' ], 
       [ false, '2', '2' ], 
       [ false, '2', '3' ]
-    ].each do |expgt, x, y|
+    ] do |expgt, x, y|
       assert_compare :>, expgt, x, y
     end
 
@@ -128,7 +128,7 @@ module Svnx::Revision
       end
     end
 
-    param_test build_value_params.each do |exp, value|
+    param_test build_value_params do |exp, value|
       result = create_argument value
       assert_equal exp, result.value, "value: #{value}"
     end
@@ -137,7 +137,7 @@ module Svnx::Revision
        -6 ,
        '-6',
        '+6', 
-    ].each do |value|
+    ] do |value|
       assert_raises(RevisionError) do 
         create_argument value
       end

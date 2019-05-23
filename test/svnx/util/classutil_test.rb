@@ -27,11 +27,11 @@ class ClassUtilTest < Svnx::TestCase
     end
   end
 
-  param_test build_params.each do |expelements, expmodule, cls|
+  param_test build_params do |expelements, expmodule, cls|
     assert_equal expelements, ClassUtil.module_elements(cls)
   end
 
-  param_test build_params.each do |expelements, expmodule, cls|
+  param_test build_params do |expelements, expmodule, cls|
     assert_equal expmodule, ClassUtil.find_module(cls)
   end
 end

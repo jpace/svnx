@@ -26,7 +26,7 @@ module Svnx::Base
       [ %w{ v1 },         true,  false ], 
       [ %w{ v2a v2b },    false, true ],  
       [ %w{ v1 v2a v2b }, true,  true ],  
-    ].each do |expected, m1, m2|
+    ] do |expected, m1, m2|
       opts = ExampleOptions.new m1, m2
       args = opts.to_args
       assert_equal expected, args, "m1: #{m1}; m2: #{m2}"

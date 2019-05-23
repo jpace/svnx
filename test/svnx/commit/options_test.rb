@@ -18,7 +18,7 @@ module Svnx::Commit
     param_test [
       { file: "x/y" },
       { paths: [ "a/b", "c/d" ] },
-    ].each do |vals|
+    ] do |vals|
       assert_options vals, vals
     end
 
@@ -27,7 +27,7 @@ module Svnx::Commit
       [ [ "-F", "a/b" ], file: "a/b" ],
       [ [ "a/b" ], paths: [ "a/b" ] ],
       [ [ "a/b", "c/d" ], paths: [ "a/b", "c/d" ] ],
-    ].each do |exp, vals|
+    ] do |exp, vals|
       assert_to_args exp, vals
     end
 

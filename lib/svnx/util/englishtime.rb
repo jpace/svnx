@@ -2,52 +2,30 @@
 # -*- ruby -*-
 
 require 'time'
+require 'svnx/util/timeutil'
 
 class EnglishTime
-  def relative_full datetime, reltime = Time.now
-    secs = (reltime - datetime).to_i
-    if ago = to_time_units(secs)
-      ago + " ago (" + fmt_mmdd_hhmm(datetime) + ")"
-    else
-      fmt_yymmdd_hhmm datetime
-    end
+  attr_reader :time
+  
+  def initialize time
+    @time = time
   end
   
-  # returns the value in seconds, minutes, hours, or days, if within a week
-  def to_time_units seconds
-    secs = seconds.to_i
-
-    max = Hash.new.tap do |h|
-      h[:seconds] = 120
-      h[:minutes] = 120
-      h[:hours] = 72
-      h[:days] = 7
-    end
-
-    interval = Hash.new.tap do |h|
-      h[:seconds] = 60
-      h[:minutes] = 60
-      h[:hours] = 24
-    end
-
-    if secs < max[:seconds]
-      "#{secs} seconds"
-    elsif (min = secs / interval[:seconds]) < max[:minutes]
-      "#{min} minutes"
-    elsif (hour = min / interval[:minutes]) < max[:hours]
-      "#{hour} hours"
-    elsif (day = hour / interval[:hours]) < max[:days]
-      "#{day} days"
+  def ago
+    since Time.new, "ago"
+  end
+  
+  def earlier totime
+    since totime, "earlier"
+  end
+  
+  def since totime, name
+    diff = totime - @time
+    seconds = diff.to_i
+    if units = TimeUtil.new.to_units(seconds)
+      sprintf "%s %s %s (%s)", units.first, units.last, name, @time.strftime("%m/%d %H:%M")
     else
-      nil
+      @time.strftime "%Y/%m/%d %H:%M"
     end
-  end
-
-  def fmt_yymmdd_hhmm date
-    date.strftime "%Y/%m/%d %H:%M"
-  end
-
-  def fmt_mmdd_hhmm date
-    date.strftime "%m/%d %H:%M"
   end
 end

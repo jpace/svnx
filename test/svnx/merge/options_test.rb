@@ -21,7 +21,7 @@ module Svnx::Merge
       { accept: "postpone" },
       { from:   "a/b" },
       { to:     "a/b" },
-    ].each do |vals|
+    ] do |vals|
       assert_options vals, vals
     end
     
@@ -36,7 +36,7 @@ module Svnx::Merge
       [ [ "p://abc", "q://def" ], from: "p://abc", to: "q://def" ],
       [ [ "p://abc" ], from: "p://abc" ],
       [ [ "a/b" ], from: "a/b" ],
-    ].each do |exp, vals|
+    ] do |exp, vals|
       assert_to_args exp, vals
     end
   end

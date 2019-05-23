@@ -17,7 +17,7 @@ module Svnx::Update
       [ { revision: nil, paths: nil }, Hash.new ],
       [ { paths: [ "a/b", "c/d" ] },   paths: [ "a/b", "c/d" ] ],
       [ { revision: 123 },             revision: 123 ],
-    ].each do |exp, optvals|
+    ] do |exp, optvals|
       assert_options exp, optvals
     end
 
@@ -26,7 +26,7 @@ module Svnx::Update
       [ [ "-r", 123 ],    revision: 123 ],
       [ [ "a/b" ],        paths: [ "a/b" ] ],
       [ [ "a/b", "c/d" ], paths: [ "a/b", "c/d" ] ],
-    ].each do |exp, args|
+    ] do |exp, args|
       assert_to_args exp, args
     end
   end

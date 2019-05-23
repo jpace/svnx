@@ -22,7 +22,7 @@ module Svnx::Revision
       [ { from: "2", to: "",     str: "2",      working_copy: true,  head: false }, "2",             nil ],             
       [ { from: "4", to: "6",    str: "4:6",    working_copy: false, head: false }, Argument.new(4), Argument.new(6) ], 
       [ { from: "5", to: "HEAD", str: "5:HEAD", working_copy: false, head: true  }, "5",             "HEAD" ],          
-    ].each do |exp, from, to|
+    ] do |exp, from, to|
       range = Range.new from, to
       msg = "from: #{from}; to: #{to}"
 

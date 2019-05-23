@@ -42,7 +42,7 @@ module Svnx
       { expdir: "/tmp/svnx-test", args: dir_args },
       { expurl: "p://svnx/abc",   args: url_args },  
       { expdir: "/tmp/svnx-test", expurl: "p://svnx/abc", args: dir_url_args }
-    ].each do |args|
+    ] do |args|
       expdir = args[:expdir]
       expurl = args[:expurl]
       proj   = Svnx::Project.new args[:args]
@@ -62,7 +62,7 @@ module Svnx
       { exp: "p://svnx/abc",   args: url_args }, 
       # url takes priority when both are specified:
       { exp: "p://svnx/abc",   args: dir_url_args }
-    ].each do |args|
+    ] do |args|
       exp  = args[:exp]
       proj = Svnx::Project.new args[:args]
       
@@ -82,7 +82,7 @@ module Svnx
       :diff,
       :propset,
       :propget,
-    ].each do |meth|
+    ] do |meth|
       MockCommandLine::ELEMENTS.clear
       proj = Svnx::Project.new self.class.dir_args
       proj.send meth, cmdlinecls: MockCommandLine
@@ -97,7 +97,7 @@ module Svnx
       { verbose:  true  },
       { url:      "abc" },
       { path:     "def" },
-    ].each do |args|
+    ] do |args|
       proj = Svnx::Project.new self.class.dir_args
       args = args.merge({ cmdlinecls: MockCommandLine })
       proj.log args
