@@ -2,6 +2,7 @@
 # -*- ruby -*-
 
 require 'rexml/document'
+require 'nokogiri'
 
 module Svnx::Blame
   class XML
@@ -263,6 +264,9 @@ module Svnx::Blame
     end
 
     doc = REXML::Document.new LINES.join('')
-    ELEMENTS = doc.elements['blame'].elements['target'].elements    
+    ELEMENTS = doc.elements['blame'].elements['target'].elements
+
+    nk = Nokogiri::XML LINES.join('')
+    NOKOGIRI_ELEMENTS = nk.xpath '//blame/target/entry'
   end
 end

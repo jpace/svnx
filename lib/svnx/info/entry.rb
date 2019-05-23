@@ -21,16 +21,16 @@ module Svnx::Info
     def set_from_element elmt
       set_attr_vars elmt, 'kind', 'path', 'revision'
       set_elmt_var  elmt, 'url'
-      if relurl = elmt.elements['relative-url']
+      if relurl = elmt.at_xpath('relative-url')
         @relative_url = relurl.text
       end
       
-      repo = elmt.elements['repository']
+      repo = elmt.at_xpath 'repository'
       set_elmt_var repo, 'root'
 
       @wc_root = nil
-      if wcinfo = elmt.elements['wc-info']
-        if wcroot = wcinfo.elements['wcroot-abspath']
+      if wcinfo = elmt.at_xpath('wc-info')
+        if wcroot = wcinfo.at_xpath('wcroot-abspath')
           @wc_root = wcroot.text
         end
       end

@@ -4,6 +4,7 @@
 require 'svnx/log/entry'
 require 'svnx/tc'
 require 'rexml/document'
+require 'nokogiri'
 
 module Svnx::Log
   class EntryTestCase < Svnx::TestCase
@@ -17,16 +18,16 @@ module Svnx::Log
         a << '  </msg>'
         a << '</logentry>'
       end
-
-      doc = REXML::Document.new lines.join('')
-      elmt = doc.elements[1]
+      
+      nk = Nokogiri::XML lines.join('')
+      elmt = nk.at_xpath '//logentry'
       
       e = Entry.new elmt
-      assert_equal "789", e.revision
-      assert_equal "a-ghi", e.author
-      assert_equal nil, e.reverse_merge
+      assert_equal "789",                         e.revision
+      assert_equal "a-ghi",                       e.author
+      assert_equal nil,                           e.reverse_merge
       assert_equal "2019-02-41T41:15:40.132144Z", e.date
-      assert_equal "ID-2345 - message xyz", e.message.strip
+      assert_equal "ID-2345 - message xyz",       e.message.strip
       assert_true e.paths.empty?
       assert_true e.entries.empty?
     end    
@@ -49,9 +50,9 @@ module Svnx::Log
         a << '    </logentry>'
         a << '  </logentry>'
       end
-
-      doc = REXML::Document.new lines.join('')
-      elmt = doc.elements[1]
+      
+      nk = Nokogiri::XML lines.join('')
+      elmt = nk.at_xpath '//logentry'
       
       e = Entry.new elmt
       assert_equal "567", e.revision

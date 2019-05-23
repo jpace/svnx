@@ -16,7 +16,7 @@ module Svnx::Log
       
       set_elmt_vars elmt, 'author', 'date', 'msg'
 
-      @paths = elmt.elements.to_a('paths/path').collect do |pe|
+      @paths = elmt.xpath('paths/path').collect do |pe|
         kind = attribute_value pe, 'kind'
         action = attribute_value pe, 'action'
         name = pe.text
@@ -24,7 +24,7 @@ module Svnx::Log
         EntryPath.new(kind: kind, action: Svnx::Action.new(action), name: name)
       end.sort                  # sorted, because svn is not consistent with order
 
-      @entries = elmt.elements.to_a('logentry').collect do |le|
+      @entries = elmt.xpath('logentry').collect do |le|
         Entry.new le
       end
     end

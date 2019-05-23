@@ -13,9 +13,7 @@ module Svnx::Status
     param_test [
       [ 'modified',    'a.txt',            0 ], 
       [ 'unversioned', 'one/two/def.java', 1 ], 
-      [ 'added',       'one/three/ghi.rb', 2 ], 
-      [ 'added',       'jkl.txt',          3 ], 
-      [ 'deleted',     'four/mno.txt',     4 ], 
+      [ 'deleted',     'four/mno.txt',    -1 ], 
     ].each do |expstatus, exppath, idx|
       entries = Entries.new XML::LINES
       entry   = entries[idx]

@@ -2,6 +2,7 @@
 # -*- ruby -*-
 
 require 'rexml/document'
+require 'nokogiri'
 
 module Svnx::Status
   class XML
@@ -63,7 +64,10 @@ module Svnx::Status
       a << '</status>'
     end
 
-    doc = REXML::Document.new LINES.join('')
-    ELEMENTS = doc.elements['status'].elements['target'].elements
+    redoc = REXML::Document.new LINES.join('')
+    ELEMENTS = redoc.elements['status'].elements['target'].elements
+
+    nk = Nokogiri::XML LINES.join('')
+    NOKOGIRI_ELEMENTS = nk.xpath 'status/target/entry'
   end
 end

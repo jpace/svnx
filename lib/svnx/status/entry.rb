@@ -30,11 +30,11 @@ module Svnx::Status
     def set_from_element elmt
       set_attr_var elmt, 'path'
 
-      wcstatus = elmt.elements['wc-status']
-      @status = Svnx::Action.new(wcstatus.attributes['item'])
+      wcstatus = elmt.at_xpath 'wc-status'
+      @status = Svnx::Action.new(wcstatus['item'])
       set_attr_var wcstatus, 'status_revision', 'revision'
       
-      commit = wcstatus.elements['commit']
+      commit = wcstatus.at_xpath 'commit'
       set_attr_var commit, 'commit_revision', 'revision'
       @name = @path.dup
 

@@ -7,7 +7,7 @@ require 'svnx/base/entries'
 module Svnx::Info
   class Entries < Svnx::Base::Entries
     def get_elements doc
-      doc.elements['info'].elements
+      doc.xpath 'info/entry'
     end
 
     def create_entry xmlelement

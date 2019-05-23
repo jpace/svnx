@@ -7,7 +7,7 @@ require 'svnx/log/entry'
 module Svnx::Log
   class Entries < Svnx::Base::Entries
     def get_elements doc
-      doc.elements['log'].elements
+      doc.xpath '//log/logentry'
     end
 
     def create_entry xmlelement

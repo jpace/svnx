@@ -12,8 +12,12 @@ module Svnx::Status
     end
 
     def get_elements doc
-      # status/target
-      doc.elements['status'].elements['target'].elements
+      if $use_nokogiri
+        doc.xpath '//status/target/entry'
+      else
+        # status/target
+        doc.elements['status'].elements['target'].elements
+      end
     end
 
     def create_entry xmlelement

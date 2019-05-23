@@ -8,7 +8,7 @@ module Svnx::Blame
   class Entries < Svnx::Base::Entries
     def get_elements doc
       # blame/target
-      doc.elements['blame'].elements['target'].elements
+      doc.xpath '//blame/target/entry'
     end
 
     def create_entry xmlelement

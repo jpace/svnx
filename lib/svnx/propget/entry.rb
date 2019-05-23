@@ -17,7 +17,7 @@ module Svnx::Propget
     def set_from_element elmt
       set_attr_vars elmt, :path
 
-      prop = elmt.elements["property"]
+      prop = elmt.at_xpath "property"
       set_attr_vars prop, :name
       @value = prop.text
     end

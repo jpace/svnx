@@ -2,6 +2,7 @@
 # -*- ruby -*-
 
 require 'rexml/document'
+require 'nokogiri'
 
 module Svnx
   module Info
@@ -74,6 +75,8 @@ module Svnx::Info
     end
 
     doc = REXML::Document.new LINES.join('')
-    ELEMENTS = doc.elements[1]    
+    ELEMENTS = doc.elements[1]
+
+    NOKOGIRI_ELEMENTS = Nokogiri::XML LINES.join('')
   end
 end

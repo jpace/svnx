@@ -11,10 +11,10 @@ module Svnx::Status
     include Paramesan
     
     param_test [
-      [ Svnx::Action.new("modified"),    "a.txt",            "22", Svnx::Action.new("modified"),    "13", "a.txt",            1 ], 
-      [ Svnx::Action.new("unversioned"), "one/two/def.java", nil,  Svnx::Action.new("unversioned"), nil,  "one/two/def.java", 2 ]
+      [ Svnx::Action.new("modified"),    "a.txt",            "22", Svnx::Action.new("modified"),    "13", "a.txt",            0 ], 
+      [ Svnx::Action.new("unversioned"), "one/two/def.java", nil,  Svnx::Action.new("unversioned"), nil,  "one/two/def.java", 1 ]
     ].each do |exp_status, exp_path, exp_status_revision, exp_action, exp_commit_revision, exp_name, idx|
-      x = Entry.new XML::ELEMENTS[idx]
+      x = Entry.new XML::NOKOGIRI_ELEMENTS.to_a[idx]
       
       assert_equal exp_status,          x.status
       assert_equal exp_path,            x.path

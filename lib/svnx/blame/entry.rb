@@ -21,7 +21,7 @@ module Svnx::Blame
     def set_from_element elmt
       set_attr_var elmt, 'line_number', 'line-number'
       
-      commit = elmt.elements['commit']
+      commit = elmt.at_xpath 'commit'
       set_attr_var commit, 'revision'
       set_elmt_vars commit, 'author', 'date'
     end

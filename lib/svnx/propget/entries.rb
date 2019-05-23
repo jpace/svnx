@@ -7,7 +7,7 @@ require 'svnx/base/entries'
 module Svnx::Propget
   class Entries < Svnx::Base::Entries
     def get_elements doc
-      doc.elements['properties'].elements
+      doc.xpath '//properties/target'
     end
 
     def create_entry xmlelement

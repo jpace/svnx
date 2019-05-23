@@ -46,11 +46,11 @@ module Svnx::Base
     end
 
     def attribute_value xmlelement, attrname
-      xmlelement.attributes[attrname.to_s]
+      xmlelement[attrname.to_s]
     end
 
     def element_text xmlelement, elmtname
-      elmt = xmlelement.elements[elmtname.to_s]
+      elmt = xmlelement.at_xpath elmtname.to_s
       elmt && elmt.text || ""
     end  
   end

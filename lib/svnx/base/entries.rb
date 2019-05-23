@@ -2,6 +2,7 @@
 # -*- ruby -*-
 
 require 'rexml/document'
+require 'nokogiri'
 require 'logue/loggable'
 
 module Svnx
@@ -12,6 +13,8 @@ end
 # this is a parse/process on-demand list of entries, acting like an
 # Enumerable.
 
+$use_nokogiri = true
+
 module Svnx::Base
   class Entries
     include Logue::Loggable, Enumerable
@@ -21,7 +24,11 @@ module Svnx::Base
     def initialize lines
       # it's a hash, but indexed with integers, for non-sequential access:
       @entries  = Hash.new
-      doc       = REXML::Document.new Array(lines).join
+      doc       = if $use_nokogiri
+                    Nokogiri::XML Array(lines).join
+                  else
+                    REXML::Document.new Array(lines).join
+                  end
       @elements = get_elements doc
       @size     = @elements.size
     end
@@ -34,24 +41,23 @@ module Svnx::Base
       raise "create_entry must be implemented for: #{self.class}"
     end
 
-    # this doesn't handle negative indices
     def [] idx
       if entry = @entries[idx]
         return entry
       end
-      if idx < 0 || idx >= size
+      if idx >= size
         raise "error: index #{idx} is not in range(0 .. #{size})"
+      elsif idx < 0
+        idx = size + idx
       end
-      @entries[idx] = create_entry @elements[idx + 1]
+      @entries[idx] = create_entry @elements[idx]
     end
 
     def each(&blk)
       # all elements must be processed before each can run:
       if @elements
-        # a little confusing here: REXML does each_with_index with idx
-        # zero-based, but elements[0] is invalid.
         @elements.each_with_index do |element, idx|
-          @entries[idx] ||= create_entry(element)
+          @entries[idx] ||= create_entry element
         end
 
         @elements = nil
