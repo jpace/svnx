@@ -80,7 +80,7 @@ module Svnx::Base
 
     def test_default
       options = Hash.new
-      cmd = Xyz::Command.new options
+      Xyz::Command.new options
     end
   end
 end

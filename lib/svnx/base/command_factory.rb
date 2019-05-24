@@ -28,6 +28,8 @@ module Svnx::Base
                    modl::Options
                  end
 
+      cmdlinecls ||= CommandLine
+
       CommandParams.new options: optcls, subcommand: melements[-1].downcase, cmdline: cmdlinecls 
     end
   end

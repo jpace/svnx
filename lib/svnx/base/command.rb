@@ -30,7 +30,7 @@ module Svnx::Base
     
     def initialize options, cmdlinecls: nil, optcls: nil, xml: false, caching: caching?
       factory = CommandFactory.new
-      
+
       params = factory.create self.class, cmdlinecls: cmdlinecls, optcls: optcls
       
       optcls ||= params.options
@@ -62,7 +62,7 @@ module Svnx::Base
                             modl::Entries
                           end
         
-        @entries = entries_class.new lines: @output
+        @entries = entries_class.new @output
       end
     end
   end

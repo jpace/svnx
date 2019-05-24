@@ -32,7 +32,7 @@ module Svnx::Propget
         a << '</properties>'
       end
 
-      entries = Entries.new lines.collect { |line| line + "\n" }.join
+      entries = Entries.new lines.collect { |line| line + "\n" }
       ary     = entries.to_a
       
       assert_entry "/abc", "svn:ignore", "ghi\njkl\n", ary[0]

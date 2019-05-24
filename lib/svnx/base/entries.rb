@@ -25,7 +25,7 @@ module Svnx::Base
       # it's a hash, but indexed with integers, for non-sequential access:
       @entries  = Hash.new
       doc       = if $use_nokogiri
-                    Nokogiri::XML Array(lines).join
+                    Nokogiri::XML lines.join('')
                   else
                     REXML::Document.new Array(lines).join
                   end

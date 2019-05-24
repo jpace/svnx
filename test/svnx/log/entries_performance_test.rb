@@ -19,6 +19,8 @@ module Svnx::Log
       $stderr.puts "done getting entries size."
 
       $stderr.puts "reading each entry ..."
+
+      entry = nil
       
       idx = 0
       while idx < size
