@@ -20,7 +20,6 @@ module Svnx::Log
     end
     
     def assert_entry_fields_not_nil entry
-      # these are occasionally missing or blank, which REXML considers nil:
       assert_not_nil entry.message
       assert_not_nil entry.author
     end

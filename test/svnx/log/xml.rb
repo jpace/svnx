@@ -1,8 +1,6 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'rexml/document'
-
 module Svnx::Log
   class XML
     # "svn log -r19:5"
@@ -109,8 +107,5 @@ module Svnx::Log
       a << '</logentry>'
       a << '</log>'
     end
-
-    doc = REXML::Document.new LINES.join('')
-    ELEMENTS = doc.elements[1]
   end
 end
