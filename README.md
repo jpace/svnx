@@ -5,6 +5,8 @@ svnx(1) - Subversion extensions
 
 Svnx is a module that wraps the `svn` command line.
 
+## COMMANDS
+
 ## AUTHOR
 
 Jeff Pace

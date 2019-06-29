@@ -10,15 +10,7 @@ end
 
 module Svnx::Commit
   class Options < Svnx::Base::Options
-    FIELDS = Hash.new.tap do |h|
-      h[:file]  = Proc.new { |x| [ "-F", x.file ] }
-      h[:paths] = nil
-    end
-
-    has_fields FIELDS.keys
-
-    def fields
-      FIELDS
-    end
+    has_fields file: Proc.new { |x| [ "-F", x.file ] },
+               paths: nil
   end
 end

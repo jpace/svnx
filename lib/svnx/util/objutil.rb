@@ -34,13 +34,18 @@ module Svnx
 
       # Creates a reader method for each field, and assigns and validates them from an initialize
       # method, which is also created.
-      def xhas_fields(*fields)
-        what = Array(fields).flatten
-        attr_reader(*what)
+      def has_fields fields = Hash.new
+        fields.keys.each do |field|
+          attr_reader field
+        end
         
         define_method :initialize do |args|
-          assign args, what
-          validate args, what
+          assign args, fields.keys
+          validate args, fields.keys
+        end
+
+        define_method :fields do
+          fields
         end
       end
     end

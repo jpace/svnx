@@ -10,15 +10,7 @@ end
 
 module Svnx::Update
   class Options < Svnx::Base::Options
-    FIELDS = Hash.new.tap do |h|
-      h[:revision] = Svnx::Base::REVISION_FIELD
-      h[:paths]    = nil
-    end
-    
-    has_fields FIELDS.keys
-
-    def fields
-      FIELDS
-    end
+    has_fields revision: Svnx::Base::REVISION_FIELD,
+               paths: nil
   end
 end

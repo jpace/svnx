@@ -10,18 +10,10 @@ end
 
 module Svnx::Propget
   class Options < Svnx::Base::Options    
-    FIELDS = Hash.new.tap do |h|
-      h[:revision] = Svnx::Base::REVISION_FIELD
-      h[:revprop]  = "--revprop"
-      h[:name]     = nil
-      h[:url]      = nil
-      h[:path]     = nil
-    end
-
-    has_fields FIELDS.keys
-
-    def fields
-      FIELDS
-    end
+    has_fields revision: Svnx:: Base::REVISION_FIELD,
+               revprop:  "--revprop",
+               name:     nil,
+               url:      nil,
+               path:     nil
   end
 end

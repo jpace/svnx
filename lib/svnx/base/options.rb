@@ -12,25 +12,14 @@ module Svnx::Base
   REVISION_FIELD = Proc.new { |x| [ "-r", x.revision ] }
   IGNORE_WHITESPACE = { ignorewhitespace: %w{ -x -bw -x --ignore-eol-style } }
 
-  REVISION_PATHS_URLS_FIELDS = Hash.new.tap do |h|
-    h[:revision] = REVISION_FIELD
-    h[:paths]    = nil
-    h[:urls]     = nil
-  end
+  REVISION_PATHS_URLS_FIELDS = { revision: REVISION_FIELD, paths: nil, urls: nil }
   
   class Options
     include Svnx::ObjectUtil
 
-    class << self
-      # Creates a reader method for each field
-      def has_fields(*fields)
-        what = Array(fields).flatten
-        attr_reader(*what)
-      end
-    end
-
     def initialize args
       fkeys = fields.keys
+      
       assign args, fkeys
       validate args, fkeys
     end

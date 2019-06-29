@@ -18,10 +18,6 @@ module Svnx::Diff
       h[:url]              = nil
     end.merge(Svnx::Base::IGNORE_WHITESPACE)
     
-    has_fields FIELDS.keys
-
-    def fields
-      FIELDS
-    end
+    has_fields FIELDS
   end
 end

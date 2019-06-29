@@ -6,6 +6,7 @@ require 'logue/log'
 require 'rainbow'
 require 'svnx/base/cmdline'
 require 'svnx/mock'
+require 'paramesan'
 
 # no verbose if running all tests:
 level = ARGV.size == 0 ? Logue::Level::DEBUG : Logue::Level::WARN
@@ -19,5 +20,6 @@ Rainbow.enabled = true
 module Svnx
   class TestCase < Test::Unit::TestCase
     include Logue::Loggable
+    include Paramesan
   end
 end

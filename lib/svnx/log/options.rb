@@ -10,18 +10,10 @@ end
 
 module Svnx::Log
   class Options < Svnx::Base::Options
-    FIELDS = Hash.new.tap do |h|
-      h[:limit]    = Proc.new { |x| [ "--limit", x.limit ] }
-      h[:verbose]  = "-v"
-      h[:revision] = Proc.new { |x| "-r" + x.revision.to_s }
-      h[:url]      = nil
-      h[:path]     = nil
-    end
-
-    has_fields FIELDS.keys
-
-    def fields
-      FIELDS
-    end
+    has_fields limit: Proc.new { |x| [ "--limit", x.limit ] },
+               verbose: "-v",
+               revision: Proc.new { |x| "-r" + x.revision.to_s },
+               url: nil,
+               path: nil
   end
 end

@@ -122,37 +122,25 @@ class Svnx::ObjectUtilTest < Test::Unit::TestCase
     assert_send expected, obj, methname
   end
   
-  # class FieldsParamsObject < Object
-  #   include Svnx::ObjectUtil
+  class FieldsObject < Object
+    include Svnx::ObjectUtil
 
-  #   has_fields :fp1, :fp2
-  # end
-
-  # class FieldsArrayObject < Object
-  #   include Svnx::ObjectUtil
-
-  #   FIELDS = [ :fa1, :fa2 ]
-
-  #   has_fields FIELDS
-  # end
+    has_fields fp1: nil, fp2: nil
+  end
   
-  # def self.build_has_fields_params
-  #   fp = FieldsParamsObject.new fp1: "1", fp2: "2"
-  #   fa = FieldsArrayObject.new fa1: "3", fa2: "4"
-
-  #   Array.new.tap do |a|
-  #     a << [ "1", fp, :fp1 ]
-  #     a << [ "2", fp, :fp2 ]
-  #     a << [ nil, fp, :fp3 ]
-  #     a << [ "3", fa, :fa1 ]
-  #     a << [ "4", fa, :fa2 ]
-  #     a << [ nil, fa, :fa3 ]
-  #   end
-  # end
+  def self.build_has_fields_params
+    obj = FieldsObject.new fp1: "1", fp2: "2"
+    
+    Array.new.tap do |a|
+      a << [ "1", obj, :fp1 ]
+      a << [ "2", obj, :fp2 ]
+      a << [ nil, obj, :fp3 ]
+    end
+  end
   
-  # param_test build_has_fields_params do |expected, obj, methname|
-  #   assert_send expected, obj, methname
-  # end
+  param_test build_has_fields_params do |expected, obj, methname|
+    assert_send expected, obj, methname
+  end
 
   def self.build_create_invalid_fields_message_params
     obj = create_object
