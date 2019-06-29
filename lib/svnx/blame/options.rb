@@ -10,6 +10,11 @@ end
 
 module Svnx::Blame
   class Options < Svnx::Base::Options
-    has_fields Svnx::Base::REVISION_PATHS_URLS_FIELDS.merge(Svnx::Base::IGNORE_WHITESPACE)
+    has_fields
+    
+    has_revision
+    has_paths
+    has_urls
+    has_ignore_whitespace
   end
 end

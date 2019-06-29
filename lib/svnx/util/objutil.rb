@@ -31,22 +31,34 @@ module Svnx
         what = Array(symbols).flatten
         attr_reader(*what)
       end
-
+      
       # Creates a reader method for each field, and assigns and validates them from an initialize
       # method, which is also created.
       def has_fields fields = Hash.new
+        @fields ||= Hash.new
+        @fields.merge! fields
+
         fields.keys.each do |field|
           attr_reader field
         end
         
         define_method :initialize do |args|
-          assign args, fields.keys
-          validate args, fields.keys
+          # call the method, not using the in-scope "fields" when this method is being defined.
+          flds = self.fields
+          assign args, self.fields.keys
+          validate args, self.fields.keys
         end
 
         define_method :fields do
-          fields
+          self.class.instance_variable_get '@fields'
         end
+      end
+
+      def has_field name, arg
+        @fields ||= Hash.new
+        @fields.merge! name => arg
+        
+        attr_reader name
       end
     end
 

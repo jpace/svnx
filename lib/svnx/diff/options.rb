@@ -10,14 +10,12 @@ end
 
 module Svnx::Diff
   class Options < Svnx::Base::Options
-    FIELDS = Hash.new.tap do |h|
-      h[:commit]           = Proc.new { |x| [ "-c", x.commit ] }
-      h[:ignoreproperties] = "--ignore-properties"
-      h[:depth]            = Proc.new { |x| [ "--depth", x.depth ] }
-      h[:paths]            = nil
-      h[:url]              = nil
-    end.merge(Svnx::Base::IGNORE_WHITESPACE)
-    
-    has_fields FIELDS
+    has_fields commit: Proc.new { |x| [ "-c", x.commit ] },
+               ignoreproperties: "--ignore-properties",
+               depth: Proc.new { |x| [ "--depth", x.depth ] }
+
+    has_ignore_whitespace
+    has_paths
+    has_url
   end
 end

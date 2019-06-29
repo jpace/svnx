@@ -9,13 +9,34 @@ module Svnx
 end
 
 module Svnx::Base
-  REVISION_FIELD = Proc.new { |x| [ "-r", x.revision ] }
-  IGNORE_WHITESPACE = { ignorewhitespace: %w{ -x -bw -x --ignore-eol-style } }
-
-  REVISION_PATHS_URLS_FIELDS = { revision: REVISION_FIELD, paths: nil, urls: nil }
-  
   class Options
     include Svnx::ObjectUtil
+
+    class << self
+      def has_revision
+        has_field :revision, Proc.new { |x| [ "-r", x.revision ] }
+      end
+
+      def has_ignore_whitespace
+        has_field :ignorewhitespace, %w{ -x -bw -x --ignore-eol-style }
+      end
+
+      def has_paths
+        has_field :paths, nil
+      end
+
+      def has_path
+        has_field :path, nil
+      end
+
+      def has_urls
+        has_field :urls, nil
+      end
+
+      def has_url
+        has_field :url, nil
+      end
+    end
 
     def initialize args
       fkeys = fields.keys
