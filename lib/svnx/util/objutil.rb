@@ -26,6 +26,10 @@ module Svnx
       end.join(" ")
     end
 
+    def fields
+      self.class.instance_variable_get '@fields'
+    end
+
     module ClassMethods
       def attr_readers(*symbols)
         what = Array(symbols).flatten
@@ -40,18 +44,7 @@ module Svnx
 
         fields.keys.each do |field|
           attr_reader field
-        end
-        
-        define_method :initialize do |args|
-          # call the method, not using the in-scope "fields" when this method is being defined.
-          flds = self.fields
-          assign args, self.fields.keys
-          validate args, self.fields.keys
-        end
-
-        define_method :fields do
-          self.class.instance_variable_get '@fields'
-        end
+        end        
       end
 
       def has_field name, arg

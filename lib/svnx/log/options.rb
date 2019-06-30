@@ -10,10 +10,10 @@ end
 
 module Svnx::Log
   class Options < Svnx::Base::Options
-    has_fields limit: Proc.new { |x| [ "--limit", x.limit ] },
-               verbose: "-v",
-               revision: Proc.new { |x| "-r" + x.revision.to_s },
-               url: nil,
-               path: nil
+    has_fields limit:    Proc.new { |x| [ "--limit", x.limit ] },
+               verbose:  "-v",
+
+               revision: Proc.new { |x| "-r" + x.revision.to_s }
+    has :url, :path
   end
 end

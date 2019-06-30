@@ -11,10 +11,9 @@ end
 module Svnx::Propset
   class Options < Svnx::Base::Options
     has_fields name:     nil,
-               revision: Proc.new { |x| [ "--revprop", "-r", x.revision ] },
-               file:     Proc.new { |x| [ "--file", x.file ] },
-               value:    nil,
-               url:      nil,
-               path:     nil
+               revision: Proc.new { |x| [ "--revprop", "-r", x.revision ] }
+    has :file
+    has_fields value: nil
+    has :url, :path
   end
 end

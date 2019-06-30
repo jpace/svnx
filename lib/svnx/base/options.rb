@@ -13,28 +13,32 @@ module Svnx::Base
     include Svnx::ObjectUtil
 
     class << self
-      def has_revision
-        has_field :revision, Proc.new { |x| [ "-r", x.revision ] }
+      def mapping field
+        case field
+        when :revision
+          Proc.new { |x| [ "-r", x.revision ] }
+        when :ignorewhitespace, :ignore_whitespace
+          %w{ -x -bw -x --ignore-eol-style }
+        when :paths
+          nil
+        when :path
+          nil
+        when :urls
+          nil
+        when :url
+          nil
+        when :file
+          Proc.new { |x| [ "-F", x.file ] }
+        else
+          raise "invalid field '#{field}'"
+        end
       end
 
-      def has_ignore_whitespace
-        has_field :ignorewhitespace, %w{ -x -bw -x --ignore-eol-style }
-      end
-
-      def has_paths
-        has_field :paths, nil
-      end
-
-      def has_path
-        has_field :path, nil
-      end
-
-      def has_urls
-        has_field :urls, nil
-      end
-
-      def has_url
-        has_field :url, nil
+      def has(*fields)
+        fields.each do |field|
+          arg = mapping field
+          has_field field, arg
+        end
       end
     end
 
@@ -49,10 +53,6 @@ module Svnx::Base
       fields.keys.collect do |fld|
         [ fld, get_args(fld) ]
       end
-    end
-
-    def fields
-      raise "not implemented for #{self.class}"
     end
     
     def to_args

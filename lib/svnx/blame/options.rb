@@ -10,11 +10,6 @@ end
 
 module Svnx::Blame
   class Options < Svnx::Base::Options
-    has_fields
-    
-    has_revision
-    has_paths
-    has_urls
-    has_ignore_whitespace
+    has :revision, :paths, :urls, :ignorewhitespace
   end
 end

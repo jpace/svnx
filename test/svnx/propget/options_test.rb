@@ -6,23 +6,22 @@ require 'svnx/options/tc'
 
 module Svnx::Propget
   class OptionsTest < Svnx::Options::TestCase
-    def options_class
-      Options
+    def self.build_send_params
+      defvals = { revision: nil, revprop: nil, url: nil, path: nil }
+      [
+        [ { revision: "123:456" } ],
+        [ { revprop: true } ],
+        [ { name: "abc" } ],
+        [ { path: "a/b" } ],
+        [ { url: "p://a/b" } ],
+        [ defvals, Hash.new ]
+      ].collect do |vals|
+        [ vals.first, vals.last ]
+      end
     end
     
-    def test_assign_default
-      defvals = { revision: nil, revprop: nil, url: nil, path: nil }
-      assert_options defvals, Hash.new
-    end
-
-    param_test [
-      { revision: "123:456" },
-      { revprop: true },
-      { name: "abc" },
-      { path: "a/b" },
-      { url: "p://a/b" },
-    ] do |vals|
-      assert_options vals, vals
+    param_test build_send_params do |expected, vals|
+      assert_send Options, expected, vals
     end
 
     param_test [
@@ -32,8 +31,9 @@ module Svnx::Propget
       [ [ "abc" ],           name: "abc" ],
       [ [ "p://abc" ],       url: "p://abc" ],
       [ [ "a/b" ],           path: "a/b" ],
-    ] do |exp, vals|
-      assert_to_args exp, vals
+    ] do |expected, vals|
+      opts = Options.new vals
+      assert_equal expected, opts.to_args
     end
   end
 end

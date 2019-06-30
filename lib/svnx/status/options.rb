@@ -10,10 +10,6 @@ end
 
 module Svnx::Status
   class Options < Svnx::Base::Options
-    has_fields
-    
-    has_revision
-    has_paths
-    has_url
+    has :revision, :paths, :url
   end
 end

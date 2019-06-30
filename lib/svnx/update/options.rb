@@ -10,9 +10,6 @@ end
 
 module Svnx::Update
   class Options < Svnx::Base::Options
-    has_fields
-    
-    has_paths
-    has_revision
+    has :revision, :paths
   end
 end

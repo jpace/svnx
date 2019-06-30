@@ -10,12 +10,10 @@ end
 
 module Svnx::Diff
   class Options < Svnx::Base::Options
-    has_fields commit: Proc.new { |x| [ "-c", x.commit ] },
+    has_fields commit:           Proc.new { |x| [ "-c", x.commit ] },
                ignoreproperties: "--ignore-properties",
-               depth: Proc.new { |x| [ "--depth", x.depth ] }
+               depth:            Proc.new { |x| [ "--depth", x.depth ] }
 
-    has_ignore_whitespace
-    has_paths
-    has_url
+    has :ignorewhitespace, :paths, :url
   end
 end

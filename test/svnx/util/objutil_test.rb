@@ -126,6 +126,13 @@ class Svnx::ObjectUtilTest < Test::Unit::TestCase
     include Svnx::ObjectUtil
 
     has_fields fp1: nil, fp2: nil
+
+    def initialize args
+      flds = self.fields
+      
+      assign args, self.fields.keys
+      validate args, self.fields.keys
+    end
   end
   
   def self.build_has_fields_params

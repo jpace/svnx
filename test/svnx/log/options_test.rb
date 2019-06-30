@@ -6,23 +6,26 @@ require 'svnx/options/tc'
 
 module Svnx::Log
   class OptionsTest < Svnx::Options::TestCase
-    def options_class
-      Options
+    def self.build_send_params
+      defvals = { verbose: nil, limit: nil, revision: nil, path: nil, url: nil }      
+      [
+        [ { verbose:  true } ],
+        [ { limit:    17 } ],
+        [ { revision: 123 } ],
+        [ { path:     "a/b" } ],
+        [ { url:      "p: //a/b" } ],
+        [ defvals,    Hash.new ]
+      ].collect do |vals|
+        [ vals.first, vals.last ]
+      end
     end
     
-    def test_assign_default
-      defvals = { verbose: nil, limit: nil, revision: nil, path: nil, url: nil }
-      assert_options defvals, Hash.new
-    end
-
-    param_test [
-      { verbose:  true },
-      { limit:    17 },
-      { revision: 123 },
-      { path:     "a/b" },
-      { url:      "p: //a/b" },
-    ] do |vals|
-      assert_options vals, vals
+    param_test build_send_params do |expvals, vals|
+      opts = Options.new vals
+      expvals.each do |methname, expval|
+        result = opts.send methname
+        assert_equal expval, result
+      end
     end
 
     param_test [
@@ -33,7 +36,8 @@ module Svnx::Log
       [ [ "p://abc" ], url: "p://abc" ],
       [ [ "a/b" ], path: [ "a/b" ] ],
     ] do |exp, vals|
-      assert_to_args exp, vals
+      opts = Options.new vals
+      assert_equal exp, opts.to_args
     end
 
     def test_init

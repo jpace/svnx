@@ -10,7 +10,6 @@ end
 
 module Svnx::Commit
   class Options < Svnx::Base::Options
-    has_fields file: Proc.new { |x| [ "-F", x.file ] },
-               paths: nil
+    has :file, :paths
   end
 end
