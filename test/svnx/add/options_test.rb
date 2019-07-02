@@ -1,17 +1,15 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'svnx/update/options'
+require 'svnx/add/options'
 require 'svnx/options/tc'
 
-module Svnx::Update
+module Svnx::Add
   class OptionsTest < Svnx::Options::TestCase
     def self.build_send_params
-      defvals = { revision: nil, paths: nil }
+      defvals = { paths: nil }
       [
-        [ { revision: nil, paths: nil }, Hash.new ],
-        [ { paths: [ "a/b", "c/d" ] },   paths: [ "a/b", "c/d" ] ],
-        [ { revision: 123 },             revision: 123 ],
+        [ { paths: [ "a/b", "c/d" ] }, paths: [ "a/b", "c/d" ] ],
         [ defvals, Hash.new ]
       ].collect do |vals|
         [ vals.first, vals.last ]
@@ -24,7 +22,6 @@ module Svnx::Update
 
     param_test [
       [ Array.new,        Hash.new ],
-      [ [ "-r", 123 ],    revision: 123 ],
       [ [ "a/b" ],        paths: [ "a/b" ] ],
       [ [ "a/b", "c/d" ], paths: [ "a/b", "c/d" ] ],
     ] do |expected, vals|

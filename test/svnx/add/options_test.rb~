@@ -1,17 +1,17 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'svnx/update/options'
+require 'svnx/add/options'
 require 'svnx/options/tc'
 
-module Svnx::Update
+module Svnx::Add
   class OptionsTest < Svnx::Options::TestCase
     def self.build_send_params
-      defvals = { revision: nil, paths: nil }
+      defvals = { revision: nil, url: nil, path: nil }
       [
-        [ { revision: nil, paths: nil }, Hash.new ],
-        [ { paths: [ "a/b", "c/d" ] },   paths: [ "a/b", "c/d" ] ],
-        [ { revision: 123 },             revision: 123 ],
+        [ { revision: "123" } ],
+        [ { path: "a/b" } ],
+        [ { url: "p://a/b" } ],
         [ defvals, Hash.new ]
       ].collect do |vals|
         [ vals.first, vals.last ]
@@ -20,13 +20,15 @@ module Svnx::Update
     
     param_test build_send_params do |expected, vals|
       assert_send Options, expected, vals
-    end    
+    end
 
     param_test [
-      [ Array.new,        Hash.new ],
-      [ [ "-r", 123 ],    revision: 123 ],
-      [ [ "a/b" ],        paths: [ "a/b" ] ],
-      [ [ "a/b", "c/d" ], paths: [ "a/b", "c/d" ] ],
+      [ Array.new, Hash.new ],
+      [ [ "-r", "123" ], revision: "123" ],
+      # should raise an error here -- add can't take revision "M:N"
+      # [ [ "-r", "123:456" ], revision: "123:456" ],
+      [ [ "p://abc" ], url: "p://abc" ],
+      [ [ "a/b" ], path: "a/b" ]
     ] do |expected, vals|
       opts = Options.new vals
       assert_equal expected, opts.to_args
