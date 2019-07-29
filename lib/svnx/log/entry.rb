@@ -17,11 +17,7 @@ module Svnx::Log
       set_elmt_vars elmt, 'author', 'date', 'msg'
 
       @paths = elmt.xpath('paths/path').collect do |pe|
-        kind = attribute_value pe, 'kind'
-        action = attribute_value pe, 'action'
-        name = pe.text
-
-        EntryPath.new(kind: kind, action: Svnx::Action.new(action), name: name)
+        EntryPath.new attr: pe
       end.sort                  # sorted, because svn is not consistent with order
 
       @entries = elmt.xpath('logentry').collect do |le|
@@ -34,7 +30,7 @@ module Svnx::Log
     end
 
     def to_s
-      [ @revision, @author, @date, @msg, @paths ].collect { |x| x.to_s }.join " "
+      [ @revision, @author, @date, @msg ].collect { |x| x.to_s }.join " "
     end
 
     def match action, filter

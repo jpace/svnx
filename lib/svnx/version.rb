@@ -3,5 +3,5 @@
 
 module Svnx
   NAME = 'svnx'
-  VERSION = '2.5.3'
+  VERSION = '2.6.0'
 end

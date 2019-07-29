@@ -8,7 +8,7 @@ require 'svnx/tc'
 module Svnx::Log
   class EntriesPerformanceTest < Svnx::TestCase
     def x_test_one
-      lines = Pathname.new('/tmp/svnlogs/1558452430/log-develop.xml').readlines
+      lines = Pathname.new('/tmp/svnlogs/1558452430/log-feature.xml').readlines
       $stderr.puts
       $stderr.puts "reading log entries ..."
       entries = Entries.new lines
