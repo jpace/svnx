@@ -29,7 +29,6 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency "command-cacheable", "~> 0.2"
   spec.add_runtime_dependency "logue", "~> 1.0.16"
-  spec.add_runtime_dependency "rainbow", "~> 2.1.0"
   spec.add_runtime_dependency "nokogiri", "~> 1.10.3"
   
   spec.add_development_dependency "bundler", "~> 2.0"
