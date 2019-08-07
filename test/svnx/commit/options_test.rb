@@ -23,7 +23,7 @@ module Svnx::Commit
 
     param_test [
       [ Array.new, Hash.new ],
-      [ [ "-F", "a/b" ],  file: "a/b" ],
+      [ [ "--file", "a/b" ],  file: "a/b" ],
       [ [ "a/b" ],        paths: [ "a/b" ] ],
       [ [ "a/b", "c/d" ], paths: [ "a/b", "c/d" ] ],
     ] do |expected, vals|

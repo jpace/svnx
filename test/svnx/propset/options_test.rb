@@ -33,7 +33,7 @@ module Svnx::Propset
       [ [ "abc", "def" ],                 value: "def", name: "abc" ],
       [ [ "p://abc" ],                    url: "p://abc" ],
       [ [ "a/b" ],                        path: "a/b" ],
-      [ [ "abc", "-F", "ghi", "def", ],   value: "def", name: "abc", file: "ghi" ],
+      [ [ "abc", "--file", "ghi", "def", ],   value: "def", name: "abc", file: "ghi" ],
     ] do |expected, vals|
       opts = Options.new vals
       assert_equal expected, opts.to_args

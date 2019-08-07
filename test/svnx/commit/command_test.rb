@@ -29,7 +29,7 @@ module Svnx::Commit
     end
     
     def test_commit
-      exp = { args: %w{ -F abc def ghi }, xml: false, caching: false }
+      exp = { args: %w{ --file abc def ghi }, xml: false, caching: false }
       assert_command exp, file: "abc", paths: [ "def", "ghi" ]
     end
   end

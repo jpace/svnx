@@ -2,6 +2,7 @@
 # -*- ruby -*-
 
 require 'svnx/util/objutil'
+require 'svnx/util/strutil'
 
 module Svnx
   module Base
@@ -16,7 +17,7 @@ module Svnx::Base
       def mapping field
         case field
         when :revision
-          Proc.new { |x| [ "-r", x.revision ] }
+          Proc.new { |x| [ "-r", x.send(:revision) ] }
         when :ignorewhitespace, :ignore_whitespace
           %w{ -x -bw -x --ignore-eol-style }
         when :paths
@@ -28,7 +29,7 @@ module Svnx::Base
         when :url
           nil
         when :file
-          Proc.new { |x| [ "-F", x.file ] }
+          Proc.new { |x| [ "--file", x.file ] }
         else
           raise "invalid field '#{field}'"
         end
@@ -38,6 +39,15 @@ module Svnx::Base
         fields.each do |field|
           arg = mapping field
           has_field field, arg
+        end
+      end
+
+      def to_tag sym, invoke = nil
+        tag = "--" + StringUtil.with_dashes(sym)
+        if invoke
+          Proc.new { |x| [ tag, x.send(sym) ] }
+        else
+          tag
         end
       end
     end

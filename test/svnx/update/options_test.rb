@@ -11,7 +11,7 @@ module Svnx::Update
       [
         [ { revision: nil, paths: nil }, Hash.new ],
         [ { paths: [ "a/b", "c/d" ] },   paths: [ "a/b", "c/d" ] ],
-        [ { revision: 123 },             revision: 123 ],
+        [ { revision: "123" },             revision: "123" ],
         [ defvals, Hash.new ]
       ].collect do |vals|
         [ vals.first, vals.last ]
@@ -24,7 +24,7 @@ module Svnx::Update
 
     param_test [
       [ Array.new,        Hash.new ],
-      [ [ "-r", 123 ],    revision: 123 ],
+      [ [ "-r", "123" ],    revision: "123" ],
       [ [ "a/b" ],        paths: [ "a/b" ] ],
       [ [ "a/b", "c/d" ], paths: [ "a/b", "c/d" ] ],
     ] do |expected, vals|
