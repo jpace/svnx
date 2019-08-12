@@ -27,9 +27,10 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename f }
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency "command-cacheable", "~> 0.2"
-  spec.add_runtime_dependency "logue", "~> 1.0.16"
-  spec.add_runtime_dependency "nokogiri", "~> 1.10.3"
+  spec.add_dependency "command-cacheable", "~> 0.2"
+  spec.add_dependency "logue", ">= 1.0.16"
+  spec.add_dependency "nokogiri", "~> 1.10.3"
+  spec.add_dependency "rainbow", "~> 3.0.0"
   
   spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "rake", "~> 10.0"

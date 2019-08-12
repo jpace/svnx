@@ -11,11 +11,11 @@ end
 
 module Svnx::Log
   class Options < Svnx::Base::Options
-    has_fields limit:             Proc.new { |x| [ "--limit", x.send(:limit) ] },
+    has_fields limit:             to_args("--limit", :limit),
                verbose:           "-v",
                stop_on_copy:      to_tag(:stop_on_copy),
-               use_merge_history: "--use-merge-history",
-               depth:             Proc.new { |x| [ "--depth", x.send(:depth) ] }
+               use_merge_history: to_tag(:use_merge_history),
+               depth:             to_args("--depth", :depth)
     has :revision, :url, :path
   end
 end

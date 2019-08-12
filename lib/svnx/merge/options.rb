@@ -10,9 +10,9 @@ end
 
 module Svnx::Merge
   class Options < Svnx::Base::Options
-    has_fields commit: Proc.new { |x| [ "-c",       x.commit ] },
-               range:  Proc.new { |x| [ "-r",       x.range ]  },
-               accept: Proc.new { |x| [ "--accept", x.accept ] },
+    has_fields commit: to_args("-c", :commit),
+               range:  to_args("-r", :range),
+               accept: to_args("--accept", :accept),
                from:   nil,
                to:     nil
   end

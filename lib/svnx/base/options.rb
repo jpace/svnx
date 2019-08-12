@@ -17,7 +17,7 @@ module Svnx::Base
       def mapping field
         case field
         when :revision
-          Proc.new { |x| [ "-r", x.send(:revision) ] }
+          to_args "-r", field
         when :ignorewhitespace, :ignore_whitespace
           %w{ -x -bw -x --ignore-eol-style }
         when :paths
@@ -29,7 +29,7 @@ module Svnx::Base
         when :url
           nil
         when :file
-          Proc.new { |x| [ "--file", x.file ] }
+          to_args "--file", field
         else
           raise "invalid field '#{field}'"
         end
@@ -40,6 +40,10 @@ module Svnx::Base
           arg = mapping field
           has_field field, arg
         end
+      end
+
+      def to_args tagname, methname
+        Proc.new { |obj| [ tagname, obj.send(methname) ] }
       end
 
       def to_tag sym, invoke = nil
