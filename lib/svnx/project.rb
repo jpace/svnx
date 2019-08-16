@@ -35,8 +35,9 @@ class Svnx::Project
     require "svnx/#{cmd}/command"
     require "svnx/#{cmd}/options"
 
-    initargs = Hash[url: "@url", path: "@dir", paths: "[ @dir ]"]
-    optcls   = Kernel.const_get "Svnx::#{cmd.to_s.capitalize}::Options"
+    modname  = Kernel.const_get "Svnx::" + cmd.to_s.capitalize    
+    initargs = { url: "@url", path: "@dir", paths: "[ @dir ]" }
+    optcls   = modname::Options
     opts     = optcls.new Hash.new
     fields   = opts.fields.keys
     params   = fields.collect { |key| key.to_s + ": " + (initargs[key] || "nil") }.join ", "
@@ -44,8 +45,8 @@ class Svnx::Project
     
     src = Array.new.tap do |a|
       a << "def #{cmd} #{params}, cmdlinecls: @cmdlinecls"
-      a << "  cmd = Svnx::#{cmd.to_s.capitalize}::Command.new({ #{cmdargs} }, cmdlinecls: cmdlinecls)"
-      a << "  cmd.respond_to?(:entries) ? cmd.entries : cmd.output"
+      a << "  svncmd = #{modname}::Command.new({ #{cmdargs} }, cmdlinecls: cmdlinecls)"
+      a << "  svncmd.respond_to?(:entries) ? svncmd.entries : svncmd.output"
       a << "end"
     end.join "\n"
     

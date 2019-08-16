@@ -11,7 +11,7 @@ module Svnx
           super
         else
           type = args.first
-          types = constants(false)
+          types = constants false
           types.each do |t|
             tc = const_get t
             if tc.type == type.to_sym || tc.abbrev == type
@@ -53,9 +53,7 @@ module Svnx
       Action.const_set str.upcase, action
       methname = str + '?'
       define_method methname do
-        instance_eval do
-          @type.to_sym == sym
-        end
+        @type.to_sym == sym
       end      
     end
   end

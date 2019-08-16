@@ -67,17 +67,14 @@ module Svnx
       proj = Svnx::Project.new args[:args]
       
       assert_equal exp, proj.where, "args: #{args}"
-    end  
+    end
 
-    # command delegation
+    # not merge, because it takes more than one dir/url, so it's not on a project now
+    # and not commit because taht validates options, and cmdlinecls and url are not valid for it
 
     param_test [
       :info,
       :update,
-      #$$$ merge takes more than one dir/url, so it's not on a project now
-      # :merge,
-      #$$$ not enabled because commit validates options, and cmdlinecls and url are not valid for it:
-      # :commit,
       :log,
       :diff,
       :propset,
