@@ -66,8 +66,8 @@ module Svnx::Base
     
     def self.build_params
       options = { file: "abc", paths: [ "def", "ghi" ] }
-      command = SvnxTest::MockCommand.new options,           optcls: SvnxTest::MockOptions, cmdlinecls: Svnx::Base::MockCommandLine
-      other   = SvnxTest2::Nesting::MockCommand.new options, cmdlinecls: Svnx::Base::MockCommandLine
+      command = SvnxTest::MockCommand.new options,           optcls: SvnxTest::MockOptions, cmdlinecls: MockCommandLine
+      other   = SvnxTest2::Nesting::MockCommand.new options, cmdlinecls: MockCommandLine
       Array.new.tap do |a|
         a << [ SvnxTest::MockOptions,       command ]
         a << [ SvnxTest2::Nesting::Options, other   ]

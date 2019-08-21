@@ -20,7 +20,7 @@ module Svnx::Base
   class CommandFactory
     include Logue::Loggable
     
-    def create cmdcls, cmdlinecls: CommandLine, optcls: nil
+    def create cmdcls, cmdlinecls: nil, optcls: nil
       melements = ClassUtil.module_elements cmdcls
       
       optcls ||= begin

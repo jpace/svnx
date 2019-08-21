@@ -13,7 +13,7 @@ module Svnx::Propset
     has_fields name:     nil,
                revision: Proc.new { |x| [ "--revprop", "-r", x.send(:revision) ] }
     has :file
-    has_fields value: nil
+    has_field :value, nil
     has :url, :path
   end
 end

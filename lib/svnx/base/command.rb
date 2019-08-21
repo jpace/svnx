@@ -29,22 +29,30 @@ module Svnx::Base
     attr_reader :options
     
     def initialize options, cmdlinecls: nil, optcls: nil, xml: false, caching: caching?
+      debug "options: #{options}"
       factory = CommandFactory.new
 
       params = factory.create self.class, cmdlinecls: cmdlinecls, optcls: optcls
       
       optcls ||= params.options
+      debug "optcls: #{optcls}"
       
       @options = optcls.new options
       cmdargs = @options.to_args
+      debug "cmdargs: #{cmdargs}"
       
       subcommand = params.subcommand
       
       cmdlinecls ||= params.cmdline
+
+      debug "subcommand: #{subcommand}"
       
       @cmdline = cmdlinecls.new(subcommand: subcommand, xml: xml, caching: caching, args: cmdargs)
+      debug "@cmdline: #{@cmdline}"
       
       @output = @cmdline.execute
+      debug "@output: #{@output}"
+      
       @error = @cmdline.error
       @status = @cmdline.status
     end

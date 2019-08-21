@@ -54,6 +54,20 @@ module Svnx::Base
           tag
         end
       end
+
+      def has_tag_field name
+        has_field name, to_tag(name)
+      end
+
+      def has_tag_fields(*names)
+        names.each do |name|
+          has_tag_field name
+        end
+      end
+
+      def has_tag_argument tagname, methname
+        has_field methname, to_args(tagname, methname)
+      end
     end
 
     def initialize args

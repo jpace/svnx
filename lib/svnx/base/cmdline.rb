@@ -19,24 +19,19 @@ module Svnx::Base
     attr_reader :status  
 
     def initialize subcommand: nil, xml: true, caching: false, args: Array.new
-      debug "subcommand: #{subcommand}"
-      debug "args: #{args}"
       @subcommand = subcommand
       @xml = xml
       @caching = caching
       @args = args
-      debug "@args: #{@args}"
     end
 
     def execute
       cmdargs = [ 'svn', @subcommand ]
       cmdargs << '--xml' if @xml
       cmdargs.concat @args
-      debug "cmdargs: #{cmdargs}"
       
       cmdline = command_line cmdargs
       cmdline.execute
-      debug "cmdline: #{cmdline}"
       
       @output = cmdline.output
       @error = cmdline.error
