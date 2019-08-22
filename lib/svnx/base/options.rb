@@ -47,7 +47,7 @@ module Svnx::Base
       end
 
       def to_tag sym, invoke = nil
-        tag = "--" + StringUtil.with_dashes(sym)
+        tag = "--" + Svnx::StringUtil.with_dashes(sym)
         if invoke
           Proc.new { |x| [ tag, x.send(sym) ] }
         else
