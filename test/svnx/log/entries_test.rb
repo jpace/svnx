@@ -25,7 +25,7 @@ module Svnx::Log
     end
 
     def assert_log_entry_16 entry
-      expdata = '16', 'Buddy Bizarre', '2012-09-16T14:07:30.329525Z', 'CUT! What in the hell do you think you\'re doing here? This is a closed set.'
+      expdata = 16, 'Buddy Bizarre', '2012-09-16T14:07:30.329525Z', 'CUT! What in the hell do you think you\'re doing here? This is a closed set.'
       expdata << { :kind => 'dir', 
         :action => 'A', 
         :name => '/src/java'
@@ -45,7 +45,6 @@ module Svnx::Log
     def test_create_from_xml
       # doing "svn log -r19:5"
       entries = Entries.new XML::LINES
-      debug "entries: #{entries}"
       assert_log_entry_16 entries[3]
     end
     
@@ -63,7 +62,6 @@ module Svnx::Log
       end
       
       entries = Entries.new lines
-      debug "entries: #{entries}"
       
       # empty message here:
       assert_entry_fields_not_nil entries[0]
@@ -106,6 +104,14 @@ module Svnx::Log
         end
         idx += 1
       end
+    end
+    
+    def test_each_then_negative_index
+      # each clears entries.elements, which [] also uses
+      entries = Entries.new XML::LINES
+      entries.each { |x| }
+      entry = entries[-1]
+      assert_equal 5, entry.revision
     end
   end
 end

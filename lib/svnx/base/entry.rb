@@ -21,8 +21,18 @@ module Svnx::Base
       raise "must be implemented"
     end
 
-    def set_attr_var xmlelement, varname, attrname = varname
-      set_var varname, xmlelement && attribute_value(xmlelement, attrname)
+    def set_attr_var xmlelement, varname, attrname = varname, convert: nil
+      value = if xmlelement
+                val = attribute_value xmlelement, attrname
+                if convert
+                  val = val.send convert
+                end
+                val
+              else
+                nil
+              end
+      
+      set_var varname, value
     end
 
     def set_attr_vars xmlelement, *varnames

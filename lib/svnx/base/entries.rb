@@ -42,13 +42,13 @@ module Svnx::Base
     end
 
     def [] idx
-      if entry = @entries[idx]
-        return entry
-      end
       if idx >= size
         raise "error: index #{idx} is not in range(0 .. #{size})"
       elsif idx < 0
         idx = size + idx
+      end
+      if entry = @entries[idx]
+        return entry
       end
       @entries[idx] = create_entry @elements[idx]
     end

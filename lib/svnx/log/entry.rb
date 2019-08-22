@@ -11,7 +11,7 @@ module Svnx::Log
     attr_reader :revision, :reverse_merge, :author, :date, :paths, :msg, :entries
 
     def set_from_element elmt
-      set_attr_var elmt, 'revision'
+      set_attr_var elmt, 'revision', convert: :to_i
       @reverse_merge = attribute_value elmt, 'reverse-merge'
       
       set_elmt_vars elmt, 'author', 'date', 'msg'
@@ -31,6 +31,10 @@ module Svnx::Log
 
     def to_s
       [ @revision, @author, @date, @msg ].collect { |x| x.to_s }.join " "
+    end
+
+    def inspect
+      to_s
     end
 
     def match action, filter

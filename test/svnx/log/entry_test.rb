@@ -23,7 +23,7 @@ module Svnx::Log
       elmt = nk.at_xpath '//logentry'
       
       e = Entry.new elmt
-      assert_equal "789",                         e.revision
+      assert_equal 789,                           e.revision
       assert_equal "a-ghi",                       e.author
       assert_equal nil,                           e.reverse_merge
       assert_equal "2019-02-41T41:15:40.132144Z", e.date
@@ -55,7 +55,7 @@ module Svnx::Log
       elmt = nk.at_xpath '//logentry'
       
       e = Entry.new elmt
-      assert_equal "567", e.revision
+      assert_equal 567, e.revision
       assert_equal "a-abc", e.author
       assert_equal nil, e.reverse_merge
       assert_equal "2019-01-14T14:15:40.321166Z", e.date
@@ -63,7 +63,7 @@ module Svnx::Log
       assert_true e.paths.empty?
 
       f = e.entries.first
-      assert_equal "543", f.revision
+      assert_equal 543, f.revision
       assert_equal "false", f.reverse_merge
       assert_equal "a-def", f.author
       assert_equal "2019-01-12T12:41:20.157024Z", f.date
