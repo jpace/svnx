@@ -35,6 +35,10 @@ module Svnx::Log
       @name
     end
 
+    def inspect
+      to_s
+    end
+
     def <=> other
       name <=> other.name
     end
