@@ -1,50 +1,45 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-module Svnx
-  module Revision
-    RELATIVE_REVISION_RE = Regexp.new '^([\+\-])(\d+)$'
-  end
-end
-
-module Svnx::Revision
+module Svnx::Revision  
   class ArgumentFactory
     include Logue::Loggable
 
+    RELATIVE_REGEXP = Regexp.new '^([\+\-])(\d+)$'
     DATE_REGEXP = Regexp.new '^\{(.*?)\}'
     SVN_ARGUMENT_WORDS = %w{ HEAD BASE COMMITTED PREV }
 
-    def create value, args = Hash.new
+    def create value, entries: nil
       case value
       when Fixnum
-        create_for_fixnum value, args
+        create_for_fixnum value, entries: entries
       when String
-        create_for_string value, args
+        create_for_string value, entries: entries
       when Symbol
         raise RevisionError.new "symbol not yet handled"
       when Date
-        # $$$ this (and Time) will probably have to be converted to svn's format
+        # $$$ Date and Time will probably have to be converted to svn's format
         raise RevisionError.new "date not yet handled"
       when Time
         raise RevisionError.new "time not yet handled"
       end          
     end
 
-    def create_for_fixnum value, args
+    def create_for_fixnum value, entries: nil
       if value < 0
         # these are log entries:
-        RelativeArgument.new value, entries: args[:entries]
+        RelativeArgument.new value, entries: entries
       else
         IndexArgument.new value
       end
     end
 
-    def create_for_string value, args
+    def create_for_string value, entries: nil
       case 
       when SVN_ARGUMENT_WORDS.include?(value)
         StringArgument.new value
-      when md = RELATIVE_REVISION_RE.match(value)
-        RelativeArgument.new md[0].to_i, entries: args[:entries]
+      when md = RELATIVE_REGEXP.match(value)
+        RelativeArgument.new md[0].to_i, entries: entries
       when DATE_REGEXP.match(value)
         StringArgument.new value
       else

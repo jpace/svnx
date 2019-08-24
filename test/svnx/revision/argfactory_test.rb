@@ -48,31 +48,19 @@ module Svnx::Revision
     end
 
     def create value
-      ArgumentFactory.new.create value, entries: @entries      
+      ArgumentFactory.new.create value, entries: @entries
     end
 
-    param_test [
-      22,
-      20,
-    ] do |value|
-      arg = create value
-      assert_kind_of IndexArgument, arg
-    end
-
-    param_test [
-      -1,
-      '-1',
-      -2,
-    ] do |value|
-      arg = create value
-      assert_kind_of IndexArgument, arg
-      assert_kind_of RelativeArgument, arg
-    end
-
-    param_test %w< HEAD BASE COMMITTED PREV {2012-12-10} > do |word|
-      # date is a StringArgument, for now
-      arg = create word
-      assert_kind_of StringArgument, arg
+    params = Array.new.tap do |a|
+      a << [ IndexArgument, 22 ]
+      a << [ IndexArgument, 20 ]
+      a << [ [ IndexArgument, RelativeArgument ], -1 ]
+      a << [ [ IndexArgument, RelativeArgument ], '-1' ]
+      a << [ [ IndexArgument, RelativeArgument ], -2 ]
+      %w< HEAD BASE COMMITTED PREV {2012-12-10} >.each do |word|
+        # date is a StringArgument, for now
+        a << [ StringArgument, word ]
+      end
     end
   end
 end

@@ -31,8 +31,8 @@ module Svnx::Revision
     attr_reader :value
 
     class << self
-      def create value, args = Hash.new
-        ArgumentFactory.new.create value, args
+      def create value, entries: nil
+        ArgumentFactory.new.create value, entries: entries
       end
     end
 
@@ -64,8 +64,8 @@ end
 # recent; -1 is the most recent).
 module Svnx::Revision
   class RelativeArgument < IndexArgument
-    def initialize value, args
-      unless entries = args[:entries]
+    def initialize value, entries: nil
+      unless entries
         raise RevisionError.new "cannot determine relative revision without entries"
       end
       
