@@ -14,7 +14,6 @@ module Svnx::Add
       msg = "cmdopts: #{cmdopts}"
       assert_equal true,          cl.executed, msg
       assert_equal exp[:args],    cl.args,     msg
-      assert_equal exp[:xml],     cl.xml,      msg
       assert_equal exp[:caching], cl.caching,  msg
     end
     
@@ -29,7 +28,7 @@ module Svnx::Add
     end
     
     def test_add
-      exp = { args: %w{ abc def }, xml: false, caching: false }
+      exp = { args: %w{ abc def }, caching: false }
       assert_command exp, paths: [ "abc", "def" ]
     end
   end

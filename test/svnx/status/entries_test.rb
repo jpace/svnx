@@ -4,12 +4,9 @@
 require 'svnx/status/entries'
 require 'svnx/status/xml'
 require 'svnx/tc'
-require 'paramesan'
 
 module Svnx::Status
   class EntriesTestCase < Svnx::TestCase
-    include Paramesan
-    
     param_test [
       [ 'modified',    'a.txt',            0 ], 
       [ 'unversioned', 'one/two/def.java', 1 ], 

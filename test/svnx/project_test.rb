@@ -4,13 +4,9 @@
 require 'svnx/project'
 require 'svnx/propget/entries'
 require 'svnx/tc'
-require 'svnx/mock'
-require 'paramesan'
 
 module Svnx
   class ProjectTest < Svnx::TestCase
-    include Paramesan
-
     class MockCommandLine < Svnx::Base::MockCommandLine
       ELEMENTS = Array.new
       

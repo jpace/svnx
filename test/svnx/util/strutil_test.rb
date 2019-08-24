@@ -2,13 +2,10 @@
 # -*- ruby -*-
 
 require 'svnx/util/strutil'
-require 'test/unit'
-require 'paramesan'
+require 'svnx/tc'
 
 module Svnx
-  class StringUtilTest < Test::Unit::TestCase
-    include Paramesan
-
+  class StringUtilTest < Svnx::TestCase
     param_test [
       [ "abc-def", "abc_def" ],
       [ "abc-def-ghi", "abc_def_ghi" ],

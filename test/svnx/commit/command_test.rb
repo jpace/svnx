@@ -14,7 +14,6 @@ module Svnx::Commit
       msg = "cmdopts: #{cmdopts}"
       assert_equal true,          cl.executed, msg
       assert_equal exp[:args],    cl.args,     msg
-      assert_equal exp[:xml],     cl.xml,      msg
       assert_equal exp[:caching], cl.caching,  msg
     end
     
@@ -29,7 +28,7 @@ module Svnx::Commit
     end
     
     def test_commit
-      exp = { args: %w{ --file abc def ghi }, xml: false, caching: false }
+      exp = { args: %w{ --file abc def ghi }, caching: false }
       assert_command exp, file: "abc", paths: [ "def", "ghi" ]
     end
   end

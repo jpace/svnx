@@ -2,12 +2,9 @@
 # -*- ruby -*-
 
 require 'svnx/util/timeutil'
-require 'test/unit'
-require 'paramesan'
+require 'svnx/tc'
 
-class TimeUtilTest < Test::Unit::TestCase
-  include Paramesan
-  
+class TimeUtilTest < Svnx::TestCase
   param_test [
     [ [ 30,  :seconds ], 30 ],                
     [ [ 119, :seconds ], 119 ],               

@@ -1,12 +1,12 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'test/unit'
 require 'svnx/revision/date'
+require 'svnx/tc'
 require 'time'
 
 module Svnx::Revision
-  class DateTest < Test::Unit::TestCase
+  class DateTest < Svnx::TestCase
     # to_svn_str
 
     def assert_to_svn_str expected, frdatestr, todatestr

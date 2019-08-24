@@ -2,12 +2,9 @@
 # -*- ruby -*-
 
 require 'svnx/util/dateutil'
-require 'test/unit'
-require 'paramesan'
+require 'svnx/tc'
 
-class DateUtilTest < Test::Unit::TestCase
-  include Paramesan
-
+class DateUtilTest < Svnx::TestCase
   param_test [
     [ "10/05 08:51", "2016-10-05 08:51:10 -0400" ],
     [ "10/05 08:54", "2016-10-05 08:54:10 -0400" ],

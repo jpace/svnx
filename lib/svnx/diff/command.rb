@@ -10,7 +10,7 @@ module Svnx::Diff
     attr_reader :entries
     
     def initialize cmdopts, cmdlinecls: Svnx::Base::CommandLine
-      super cmdopts, cmdlinecls: cmdlinecls, xml: false, caching: true
+      super cmdopts, cmdlinecls: cmdlinecls, caching: true
       if @output
         @entries = Svnx::Diff::Parser.new.parse_all_output @output.dup
       end

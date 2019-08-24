@@ -3,7 +3,9 @@
 
 require 'logue/loggable'
 require 'svnx/util/classutil'
+require 'svnx/base/options'
 require 'svnx/base/command_factory'
+require 'svnx/base/command_line_factory'
 
 module Svnx::Base
   class Command
@@ -26,52 +28,46 @@ module Svnx::Base
     attr_reader :output
     attr_reader :error
     attr_reader :status
-    attr_reader :options
     
-    def initialize options, cmdlinecls: nil, optcls: nil, xml: false, caching: caching?
-      debug "options: #{options}"
-      factory = CommandFactory.new
-
-      params = factory.create self.class, cmdlinecls: cmdlinecls, optcls: optcls
+    def initialize options, cmdlinecls: nil, caching: caching?
+      cmdfactory = CommandFactory.new
+      params = cmdfactory.create self.class, cmdlinecls: cmdlinecls
       
-      optcls ||= params.options
-      debug "optcls: #{optcls}"
-      
-      @options = optcls.new options
+      @options = params.options.new options
       cmdargs = @options.to_args
-      debug "cmdargs: #{cmdargs}"
-      
-      subcommand = params.subcommand
       
       cmdlinecls ||= params.cmdline
 
-      debug "subcommand: #{subcommand}"
+      clfactory = CommandLineFactory.new
       
-      @cmdline = cmdlinecls.new(subcommand: subcommand, xml: xml, caching: caching, args: cmdargs)
-      debug "@cmdline: #{@cmdline}"
-      
+      @cmdline = clfactory.create params: params, cls: cmdlinecls, xml: xml?, caching: caching, args: cmdargs
       @output = @cmdline.execute
-      debug "@output: #{@output}"
-      
       @error = @cmdline.error
       @status = @cmdline.status
+    end
+
+    def xml?
+      false
     end
   end
 
   class EntriesCommand < Command
     attr_reader :entries
     
-    def initialize options, cmdlinecls: CommandLine, caching: caching?, xml: true, entries_class: nil
-      super options, cmdlinecls: cmdlinecls, xml: xml, caching: caching
+    def initialize options, cmdlinecls: nil, caching: caching?
+      super options, cmdlinecls: cmdlinecls, caching: caching
       
-      if not @output.empty?
-        entries_class ||= begin
-                            modl = ClassUtil.find_module self.class
-                            modl::Entries
-                          end
-        
-        @entries = entries_class.new @output
-      end
+      @entries = if not @output.empty?
+                   entries_class = begin
+                                     modl = ClassUtil.find_module self.class
+                                     modl::Entries
+                                   end
+                   entries_class.new @output
+                 end
+    end
+
+    def xml?
+      true
     end
   end
 end

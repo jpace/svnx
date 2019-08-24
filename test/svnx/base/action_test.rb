@@ -3,12 +3,9 @@
 
 require 'svnx/base/action'
 require 'svnx/tc'
-require 'paramesan'
 
 module Svnx
   class ActionTestCase < Svnx::TestCase
-    include Paramesan
-
     def self.full_params
       Array.new.tap do |a|
         a << [ :added?,       'added',       'A', :added       ]

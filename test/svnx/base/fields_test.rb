@@ -2,12 +2,9 @@
 # -*- ruby -*-
 
 require 'svnx/base/fields'
-require 'test/unit'
-require 'paramesan'
+require 'svnx/tc'
 
-class Svnx::Base::FieldsTest < Test::Unit::TestCase
-  include Paramesan
-
+class Svnx::Base::FieldsTest < Svnx::TestCase
   def self.create_object obj = Object.new
     obj.extend Svnx::Base::Fields
     obj

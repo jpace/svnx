@@ -13,25 +13,22 @@ module Svnx::Status
   class Entry < Svnx::Base::Entry
     include Comparable
     
-    attr_reader :status
-    attr_reader :path
-    attr_reader :status_revision
-    attr_reader :action
     attr_reader :commit_revision
     attr_reader :name
+    attr_reader :path
+    attr_reader :status
+    attr_reader :status_revision
 
     def initialize xmlelement, rootpath: nil
       @rootpath = rootpath
       super xmlelement
-      # @status is an Svnx::Action
-      @action = @status
     end
 
     def set_from_element elmt
       set_attr_var elmt, 'path'
 
       wcstatus = elmt.at_xpath 'wc-status'
-      @status = Svnx::Action.new(wcstatus['item'])
+      @status = Svnx::Action.new wcstatus['item']
       set_attr_var wcstatus, 'status_revision', 'revision'
       
       commit = wcstatus.at_xpath 'commit'
@@ -45,7 +42,7 @@ module Svnx::Status
     end
 
     def to_s
-      "path: #{@path}; status: #{@status}"
+      " #{@path}: #{@status}"
     end
 
     def <=> other

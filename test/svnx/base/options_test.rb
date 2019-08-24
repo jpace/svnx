@@ -2,8 +2,7 @@
 # -*- ruby -*-
 
 require 'svnx/base/options'
-require 'test/unit'
-require 'paramesan'
+require 'svnx/tc'
 
 module Svnx::Base
   class ExampleOptions < Options
@@ -19,9 +18,7 @@ module Svnx::Base
     end
   end
   
-  class OptionsTest < Test::Unit::TestCase
-    include Paramesan
-    
+  class OptionsTest < Svnx::TestCase
     param_test [
       [ %w{ v1 },         true,  false ], 
       [ %w{ v2a v2b },    false, true ],  

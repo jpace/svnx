@@ -11,9 +11,13 @@ module Svnx::Status
       super lines
     end
 
+    def xpath
+      '//status/target/entry'
+    end
+
     def get_elements doc
       if $use_nokogiri
-        doc.xpath '//status/target/entry'
+        doc.xpath xpath
       else
         # status/target
         doc.elements['status'].elements['target'].elements

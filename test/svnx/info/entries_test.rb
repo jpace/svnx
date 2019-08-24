@@ -4,12 +4,9 @@
 require 'svnx/info/entries'
 require 'svnx/tc'
 require 'svnx/info/xml'
-require 'paramesan'
 
 module Svnx::Info
   class EntriesTestCase < Svnx::TestCase
-    include Paramesan
-
     EXPROOT = 'file:///Programs/Subversion/Repositories/pvntestbed.from'
 
     param_test [

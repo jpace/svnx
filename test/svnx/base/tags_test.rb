@@ -3,13 +3,10 @@
 
 require 'svnx/base/tags'
 require 'svnx/base/fields'
-require 'test/unit'
-require 'paramesan'
+require 'svnx/tc'
 
 module Svnx::Base
-  class TagsTest < Test::Unit::TestCase
-    include Paramesan
-
+  class TagsTest < Svnx::TestCase
     def self.create_object obj = Object.new
       obj.extend Svnx::Base::Tags
       obj

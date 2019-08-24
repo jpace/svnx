@@ -17,8 +17,7 @@ module Svnx::Log
     def initialize attr: nil, kind: nil, action: nil, name: nil, prop_mods: nil, text_mods: nil
       if attr
         @kind = attribute_value attr, 'kind'
-        act = attribute_value attr, 'action'
-        @action = Svnx::Action.new act
+        @action = Svnx::Action.new(attribute_value attr, 'action')
         @name = attr.text
         @prop_mods = "true" == attribute_value(attr, 'prop-mods')
         @text_mods = "true" == attribute_value(attr, 'text-mods')

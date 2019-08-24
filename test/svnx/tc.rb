@@ -3,7 +3,6 @@
 
 require 'test/unit'
 require 'logue/log'
-require 'svnx/base/cmdline'
 require 'svnx/mock'
 require 'paramesan'
 

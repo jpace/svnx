@@ -1,15 +1,12 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'svnx/tc'
 require 'svnx/log/entries'
 require 'svnx/revision/argument'
-require 'paramesan'
+require 'svnx/tc'
 
 module Svnx::Revision
   class ArgumentTestCase < Svnx::TestCase
-    include Paramesan
-    
     def setup
       lines = Array.new.tap do |a|
         a << '<?xml version="1.0"?>'

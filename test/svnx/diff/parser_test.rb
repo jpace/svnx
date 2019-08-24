@@ -4,12 +4,10 @@
 require 'svnx/diff/parser'
 require 'logue/loggable'
 require 'svnx/tc'
-require 'test/unit'
-require 'paramesan'
 
 module Svnx::Diff
-  class ParserTest < Test::Unit::TestCase
-    include Logue::Loggable, Paramesan
+  class ParserTest < Svnx::TestCase
+    include Logue::Loggable
 
     # header file
 

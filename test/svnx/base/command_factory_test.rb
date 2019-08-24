@@ -5,7 +5,6 @@ require 'svnx/base/command_factory'
 require 'svnx/base/command'
 require 'svnx/base/options'
 require 'svnx/tc'
-require 'paramesan'
 
 module M1
   class Cmd < Svnx::Base::Command
@@ -32,31 +31,26 @@ end
 
 module Svnx::Base
   class CommandFactoryTest < Svnx::TestCase
-    include Paramesan
-    
-    def self.build_params
-      Array.new.tap do |a|
-        a << [ M1::Opts,        "m1", CommandLine,     M1::Cmd,     optcls: M1::Opts            ]
-        a << [ M2::C2::Options, "c2", CommandLine,     M2::C2::Cmd, Hash.new                    ]
-        a << [ M2::C2::Options, "c2", M2::C2::CmdLine, M2::C2::Cmd, cmdlinecls: M2::C2::CmdLine ]
-      end
+    params = Array.new.tap do |a|
+      a << [ M2::C2::Options, "c2", CommandLine,     M2::C2::Cmd, Hash.new                    ]
+      a << [ M2::C2::Options, "c2", M2::C2::CmdLine, M2::C2::Cmd, cmdlinecls: M2::C2::CmdLine ]
     end
 
-    param_test build_params do |expoptcls, _, _, cls, args|
+    param_test params do |expoptcls, _, _, cls, args|
       f = CommandFactory.new
       params = f.create cls, args
       
       assert_equal expoptcls, params.options
     end
 
-    param_test build_params do |_, expsubcmd, _, cls, args|
+    param_test params do |_, expsubcmd, _, cls, args|
       f = CommandFactory.new
       params = f.create cls, args
       
       assert_equal expsubcmd, params.subcommand
     end
 
-    param_test build_params do |_, _, expcmdlinecls, cls, args|
+    param_test params do |_, _, expcmdlinecls, cls, args|
       f = CommandFactory.new
       params = f.create cls, args
       

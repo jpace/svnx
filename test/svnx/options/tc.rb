@@ -1,8 +1,7 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'test/unit'
-require 'paramesan'
+require 'svnx/tc'
 
 module Svnx
   module Options
@@ -10,9 +9,7 @@ module Svnx
 end
 
 module Svnx::Options
-  class TestCase < Test::Unit::TestCase
-    include Paramesan
-
+  class TestCase < Svnx::TestCase
     def assert_send optcls, expected, values
       opts = optcls.new values
       expected.each do |methname, expval|

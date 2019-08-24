@@ -3,7 +3,6 @@
 
 require 'svnx/diff/options'
 require 'svnx/options/tc'
-require 'paramesan'
 
 module Svnx::Diff
   class OptionsTest < Svnx::Options::TestCase

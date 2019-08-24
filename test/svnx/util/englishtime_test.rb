@@ -2,12 +2,9 @@
 # -*- ruby -*-
 
 require 'svnx/util/dateutil'
-require 'test/unit'
-require 'paramesan'
+require 'svnx/tc'
 
-class EnglishTimeTest < Test::Unit::TestCase
-  include Paramesan
-
+class EnglishTimeTest < Svnx::TestCase
   def self.build_ago_params
     now = Time.now
     h1 = now - 3600

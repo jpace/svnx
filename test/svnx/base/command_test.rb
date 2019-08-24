@@ -4,14 +4,13 @@
 require 'svnx/commit/command'
 require 'svnx/tc'
 require 'svnx/mock'
-require 'paramesan'
 
 module SvnxTest
   class MockCommand < Svnx::Base::Command
     caching
   end
 
-  class MockOptions < Svnx::Base::Options
+  class Options < Svnx::Base::Options
     attr_reader :abc
     
     def initialize args
@@ -62,20 +61,19 @@ end
 
 module Svnx::Base
   class CommandTest < Svnx::TestCase
-    include Paramesan
-    
     def self.build_params
       options = { file: "abc", paths: [ "def", "ghi" ] }
-      command = SvnxTest::MockCommand.new options,           optcls: SvnxTest::MockOptions, cmdlinecls: MockCommandLine
+      command = SvnxTest::MockCommand.new options,           cmdlinecls: MockCommandLine
       other   = SvnxTest2::Nesting::MockCommand.new options, cmdlinecls: MockCommandLine
       Array.new.tap do |a|
-        a << [ SvnxTest::MockOptions,       command ]
+        a << [ SvnxTest::Options,       command ]
         a << [ SvnxTest2::Nesting::Options, other   ]
       end
     end
 
     param_test build_params do |expoptcls, cmd|
-      assert_equal expoptcls, cmd.options.class, "cmd: #{cmd}"
+      opts = cmd.instance_variable_get '@options'
+      assert_equal expoptcls, opts.class, "cmd: #{cmd}"
     end
 
     def test_default

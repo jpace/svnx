@@ -1,11 +1,11 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'test/unit'
 require 'svnx/diff/elements'
+require 'svnx/tc'
 
 module Svnx::Diff
-  class ElementTest < Test::Unit::TestCase
+  class ElementTest < Svnx::TestCase
     def create_diff_file fname, rev
       File.new filename: fname, revision: rev
     end

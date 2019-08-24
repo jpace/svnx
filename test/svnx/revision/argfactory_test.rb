@@ -5,12 +5,9 @@ require 'svnx/tc'
 require 'svnx/log/entries'
 require 'svnx/revision/argument'
 require 'svnx/tc'
-require 'paramesan'
 
 module Svnx::Revision
   class ArgumentFactoryTestCase < Svnx::TestCase
-    include Paramesan
-    
     def setup
       lines = Array.new.tap do |a|
         a << '<?xml version="1.0"?>'

@@ -5,12 +5,9 @@ require 'svnx/log/entries'
 require 'svnx/revision/range'
 require 'svnx/revision/argument'
 require 'svnx/tc'
-require 'paramesan'
 
 module Svnx::Revision
   class RangeTestCase < Svnx::TestCase
-    include Paramesan
-    
     # not testing the relative functionality, which is covered by the Argument tests.
     
     def assert_to_s exp, obj, msg
