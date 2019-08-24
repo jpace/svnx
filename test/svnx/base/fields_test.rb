@@ -1,15 +1,15 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'svnx/util/objutil'
+require 'svnx/base/fields'
 require 'test/unit'
 require 'paramesan'
 
-class Svnx::ObjectUtilTest < Test::Unit::TestCase
+class Svnx::Base::FieldsTest < Test::Unit::TestCase
   include Paramesan
 
   def self.create_object obj = Object.new
-    obj.extend Svnx::ObjectUtil
+    obj.extend Svnx::Base::Fields
     obj
   end
 
@@ -72,7 +72,7 @@ class Svnx::ObjectUtilTest < Test::Unit::TestCase
   end
 
   class ReadersParamsObject < Object
-    include Svnx::ObjectUtil
+    include Svnx::Base::Fields
 
     attr_readers :rp1, :rp2
 
@@ -83,7 +83,7 @@ class Svnx::ObjectUtilTest < Test::Unit::TestCase
   end
 
   class ReadersArrayObject < Object
-    include Svnx::ObjectUtil
+    include Svnx::Base::Fields
 
     READERS = [ :ra1, :ra2 ]
 
@@ -123,13 +123,11 @@ class Svnx::ObjectUtilTest < Test::Unit::TestCase
   end
   
   class FieldsObject < Object
-    include Svnx::ObjectUtil
+    include Svnx::Base::Fields
 
     has_fields fp1: nil, fp2: nil
 
     def initialize args
-      flds = self.fields
-      
       assign args, self.fields.keys
       validate args, self.fields.keys
     end

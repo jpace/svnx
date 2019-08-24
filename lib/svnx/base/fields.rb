@@ -1,8 +1,10 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-module Svnx
-  module ObjectUtil
+require 'svnx/util/strutil'
+
+module Svnx::Base
+  module Fields
     # shortcut for "@var = args[:var]", for multiple variable names, which are symbols.
     def assign args, symbols = Array.new
       symbols.each do |symbol|
@@ -27,7 +29,8 @@ module Svnx
     end
 
     def fields
-      self.class.instance_variable_get '@fields'
+      varname = '@fields'
+      self.class.instance_variable_defined?(varname) && self.class.instance_variable_get(varname)
     end
 
     module ClassMethods
@@ -39,17 +42,14 @@ module Svnx
       # Creates a reader method for each field, and assigns and validates them from an initialize
       # method, which is also created.
       def has_fields fields = Hash.new
-        @fields ||= Hash.new
-        @fields.merge! fields
-
-        fields.keys.each do |field|
-          attr_reader field
+        fields.each do |name, arg|
+          has_field name, arg
         end        
       end
 
       def has_field name, arg
         @fields ||= Hash.new
-        @fields.merge! name => arg
+        @fields[name] = arg
         
         attr_reader name
       end
