@@ -6,10 +6,6 @@ require 'svnx/command/tc'
 
 module Svnx::Diff
   class CommandTest < Svnx::Command::TestCase
-    def assert_command cmdopts = Hash.new
-      super Command, "diff", cmdopts
-    end
-    
     def test_default
       assert_command
     end

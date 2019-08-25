@@ -2,7 +2,7 @@
 # -*- ruby -*-
 
 require 'svnx/propget/options'
-require 'svnx/base/command'
+require 'svnx/base/entries_command'
 
 module Svnx::Propget
   class Command < Svnx::Base::EntriesCommand

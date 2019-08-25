@@ -30,17 +30,16 @@ module Svnx::Base
     attr_reader :status
     
     def initialize options, cmdlinecls: nil, caching: caching?
-      cmdfactory = CommandFactory.new
-      params = cmdfactory.create self.class, cmdlinecls: cmdlinecls
-      
-      @options = params.options.new options
-      cmdargs = @options.to_args
-      
-      cmdlinecls ||= params.cmdline
+      cmdargs = read_options options
 
-      clfactory = CommandLineFactory.new
+      if cmdlinecls
+        @cmdline = cmdlinecls.new subcommand: subcommand, xml: xml?, caching: caching, args: cmdargs
+      else
+        cmdfactory = CommandFactory.new
+        clfactory = cmdfactory.command_line_factory
+        @cmdline = clfactory.create subcommand: subcommand, xml: xml?, caching: caching, args: cmdargs
+      end
       
-      @cmdline = clfactory.create params: params, cls: cmdlinecls, xml: xml?, caching: caching, args: cmdargs
       @output = @cmdline.execute
       @error = @cmdline.error
       @status = @cmdline.status
@@ -49,25 +48,20 @@ module Svnx::Base
     def xml?
       false
     end
-  end
 
-  class EntriesCommand < Command
-    attr_reader :entries
-    
-    def initialize options, cmdlinecls: nil, caching: caching?
-      super options, cmdlinecls: cmdlinecls, caching: caching
-      
-      @entries = if not @output.empty?
-                   entries_class = begin
-                                     modl = ClassUtil.find_module self.class
-                                     modl::Entries
-                                   end
-                   entries_class.new @output
-                 end
+    def read_options args
+      opts = options_class.new args
+      opts.to_args
     end
 
-    def xml?
-      true
+    def options_class
+      modl = ClassUtil.find_module self.class
+      modl::Options
+    end
+
+    def subcommand
+      melements = ClassUtil.module_elements self.class
+      melements[-1].downcase
     end
   end
 end

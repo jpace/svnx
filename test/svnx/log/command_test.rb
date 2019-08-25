@@ -6,12 +6,9 @@ require 'svnx/command/tc'
 
 module Svnx::Log
   class CommandTest < Svnx::Command::TestCase
-    def assert_command cmdopts = Hash.new
-      super Command, "log", cmdopts
-    end
-    
     def test_log
-      assert_command path: "/tmp/svnx-from"
+      args = { path: "/tmp/svnx-from" }
+      assert_command args
     end
   end
 end

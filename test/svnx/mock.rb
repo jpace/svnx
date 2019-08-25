@@ -28,4 +28,10 @@ module Svnx::Base
       @@all_executed
     end
   end
+
+  class MockCommandLineFactory < CommandLineFactory
+    def create params: nil, cls: nil, xml: nil, caching: nil, args: nil
+      MockCommandLine.new subcommand: params.subcommand, xml: xml, caching: caching, args: args
+    end    
+  end
 end

@@ -19,11 +19,13 @@ module Svnx::Add
     
     def test_invalid_fields
       assert_raise do |e|
-        assert_command add: 123, from: "/tmp/svnx-from", to: "/tmp/svnx-to"
+        args = { add: 123, from: "/tmp/svnx-from", to: "/tmp/svnx-to" }
+        assert_command args
       end
       
       assert_raise do |e|
-        assert_command url: "abc"
+        args = { url: "abc" }
+        assert_command args
       end
     end
     

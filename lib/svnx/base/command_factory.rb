@@ -8,17 +8,19 @@ module Svnx::Base
   class CommandParams
     attr_reader :options
     attr_reader :subcommand
-    attr_reader :cmdline
 
-    def initialize options: nil, subcommand: nil, cmdline: nil
+    def initialize options: nil, subcommand: nil
       @options = options
       @subcommand = subcommand
-      @cmdline = cmdline
     end
   end
   
   class CommandFactory
     include Logue::Loggable
+
+    def initialize cmdlinefactory = CommandLineFactory.new
+      @cmdlinefactory = cmdlinefactory
+    end
     
     def create cmdcls, cmdlinecls: nil
       melements = ClassUtil.module_elements cmdcls
@@ -28,7 +30,11 @@ module Svnx::Base
                  modl::Options
                end
       
-      CommandParams.new options: optcls, subcommand: melements[-1].downcase, cmdline: cmdlinecls || CommandLine
+      CommandParams.new options: optcls, subcommand: melements[-1].downcase
+    end
+
+    def command_line_factory
+      @cmdlinefactory
     end
   end
 end

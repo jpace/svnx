@@ -11,19 +11,21 @@ module Svnx::Commit
       cmdlinecls = Svnx::Base::MockCommandLine
       Command.new cmdopts, cmdlinecls: cmdlinecls
       cl = cmdlinecls.all_executed.last
-      msg = "cmdopts: #{cmdopts}"
-      assert_equal true,          cl.executed, msg
-      assert_equal exp[:args],    cl.args,     msg
-      assert_equal exp[:caching], cl.caching,  msg
+      
+      assert_equal true,          cl.executed
+      assert_equal exp[:args],    cl.args
+      assert_equal exp[:caching], cl.caching
     end
     
     def test_invalid_fields
       assert_raise do |e|
-        assert_command commit: 123, from: "/tmp/svnx-from", to: "/tmp/svnx-to"
+        args = { commit: 123, from: "/tmp/svnx-from", to: "/tmp/svnx-to" }
+        assert_command args
       end
       
       assert_raise do |e|
-        assert_command url: "abc"
+        args = { url: "abc" }
+        assert_command args
       end
     end
     

@@ -3,28 +3,24 @@
 
 require 'svnx/base/command_factory'
 require 'svnx/base/command'
-require 'svnx/base/options'
 require 'svnx/tc'
 
 module M1
-  class Cmd < Svnx::Base::Command
-    caching
-  end
-
-  class Opts < Svnx::Base::Options
-  end  
-end
-
-module M2
   module C2
-    class Cmd < Svnx::Base::Command
+    class Command < Svnx::Base::Command
       caching
     end
 
     class Options < Svnx::Base::Options
     end
+  end
 
-    class CmdLine < Svnx::Base::CommandLine
+  module C3
+    class Command < Svnx::Base::Command
+      caching
+    end
+
+    class Options < Svnx::Base::Options
     end
   end
 end
@@ -32,29 +28,22 @@ end
 module Svnx::Base
   class CommandFactoryTest < Svnx::TestCase
     params = Array.new.tap do |a|
-      a << [ M2::C2::Options, "c2", CommandLine,     M2::C2::Cmd, Hash.new                    ]
-      a << [ M2::C2::Options, "c2", M2::C2::CmdLine, M2::C2::Cmd, cmdlinecls: M2::C2::CmdLine ]
+      a << [ [ M1::C2::Options, "c2" ], M1::C2::Command, Hash.new ]
+      a << [ [ M1::C3::Options, "c3" ], M1::C3::Command, Hash.new ]
     end
 
-    param_test params do |expoptcls, _, _, cls, args|
+    param_test params do |expected, cls, args|
       f = CommandFactory.new
-      params = f.create cls, args
+      result = f.create cls
       
-      assert_equal expoptcls, params.options
+      assert_equal expected[0], result.options
     end
 
-    param_test params do |_, expsubcmd, _, cls, args|
+    param_test params do |expected, cls, args|
       f = CommandFactory.new
-      params = f.create cls, args
+      result = f.create cls
       
-      assert_equal expsubcmd, params.subcommand
-    end
-
-    param_test params do |_, _, expcmdlinecls, cls, args|
-      f = CommandFactory.new
-      params = f.create cls, args
-      
-      assert_equal expcmdlinecls, params.cmdline
+      assert_equal expected[1], result.subcommand
     end
   end
 end
