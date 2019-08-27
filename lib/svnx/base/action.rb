@@ -45,6 +45,7 @@ module Svnx
       :modified    => 'M',
       :replaced    => 'R',
       :unversioned => '?',
+      :missing     => '?',
       :external    => 'X',
       :normal      => 'q' # actually, X, but in a different column than X for external
     ].each do |sym, char|
