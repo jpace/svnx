@@ -8,38 +8,57 @@ require 'svnx/tc'
 module Svnx::Status
   class EntryTestCase < Svnx::TestCase
     params = Array.new.tap do |a|
-      a << [ Svnx::Action::MODIFIED,    "a.txt",            "22", "13", "a.txt",            0 ]
-      a << [ Svnx::Action::UNVERSIONED, "one/two/def.java", nil,  nil,  "one/two/def.java", 1 ]
+      a << [ "a.txt",            0 ]
+      a << [ "one/two/def.java", 1 ]
     end
 
-    def get_entry idx, field
+    param_test params do |expected, idx|
       entry = Entry.new XML::ELEMENTS.to_a[idx]
-      entry.send field
+      result = entry.path
+      assert_equal expected, result
+    end
+
+    wc_params = Array.new.tap do |a|
+      a << [ "none", Svnx::Action::MODIFIED,     22, 0 ]
+      a << [ "none", Svnx::Action::UNVERSIONED, nil, 1 ]
     end
     
-    param_test params do |exp_status, _, _, _, _, idx|
-      result = get_entry idx, :status
+    param_test wc_params do |exp_props, exp_status, exp_revision, idx|
+      entry = Entry.new XML::ELEMENTS.to_a[idx]
+      wc = entry.working_copy
+      result = wc.properties
+      assert_equal exp_props, result
+    end
+    
+    param_test wc_params do |exp_props, exp_status, exp_revision, idx|
+      entry = Entry.new XML::ELEMENTS.to_a[idx]
+      wc = entry.working_copy
+      result = wc.status
       assert_equal exp_status, result
     end
     
-    param_test params do |_, exp_path, _, _, _, idx|
-      result = get_entry idx, :path
-      assert_equal exp_path, result
+    param_test wc_params do |exp_props, exp_status, exp_revision, idx|
+      entry = Entry.new XML::ELEMENTS.to_a[idx]
+      wc = entry.working_copy
+      result = wc.revision
+      assert_equal exp_revision, result
+    end
+
+    commit_params = Array.new.tap do |a|
+      a << [ "authone", "2012-09-16T13:51:55.741762Z", 13, 0 ]
+      a << [ "authtwo", "2012-09-16T13:38:01.073277Z",  9, 4 ]
     end
     
-    param_test params do |_, _, exp_status_revision, _, _, idx|
-      result = get_entry idx, :status_revision
-      assert_equal exp_status_revision, result
+    param_test commit_params do |exp_author, exp_date, exp_revision, idx|
+      entry = Entry.new XML::ELEMENTS.to_a[idx]
+      commit = entry.working_copy.commit
+      result = commit.author
+      assert_equal exp_author, result
     end
-    
-    param_test params do |_, _, _, exp_commit_revision, _, idx|
-      result = get_entry idx, :commit_revision
-      assert_equal exp_commit_revision, result
-    end
-    
-    param_test params do |_, _, _, _, exp_name, idx|
-      result = get_entry idx, :name
-      assert_equal exp_name, result
+
+    def test_no_commit 
+      entry = Entry.new XML::ELEMENTS.to_a[1]
+      result = entry.working_copy.commit
     end
   end
 end
