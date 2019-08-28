@@ -10,6 +10,19 @@ module Svnx
 end
 
 module Svnx::Status
+  class Commit
+    attr_reader :revision
+    attr_reader :author
+    attr_reader :date
+  end
+  
+  class WorkingCopy
+    attr_reader :properties
+    attr_reader :item
+    attr_reader :revision
+    attr_reader :commit
+  end
+  
   class Entry < Svnx::Base::Entry
     include Comparable
     
