@@ -27,6 +27,7 @@ module Svnx::Commit
       [ [ "a/b" ],        paths: [ "a/b" ] ],
       [ [ "a/b", "c/d" ], paths: [ "a/b", "c/d" ] ],
       [ [ "--with-revprop", "key=value" ], with_revprop: [ "key=value" ] ],
+      [ [ "--message", "abc" ], message: [ "abc" ] ],
     ] do |expected, vals|
       opts = Options.new vals
       assert_equal expected, opts.to_args
