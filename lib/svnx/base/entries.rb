@@ -3,7 +3,6 @@
 
 require 'rexml/document'
 require 'nokogiri'
-require 'logue/loggable'
 
 module Svnx
   module Base
@@ -17,7 +16,7 @@ $use_nokogiri = true
 
 module Svnx::Base
   class Entries
-    include Logue::Loggable, Enumerable
+    include Enumerable
 
     attr_reader :size
 
@@ -41,29 +40,33 @@ module Svnx::Base
       raise "create_entry must be implemented for: #{self.class}"
     end
 
-    def [] idx
-      if idx >= size
-        raise "error: index #{idx} is not in range(0 .. #{size})"
-      elsif idx < 0
-        idx = size + idx
-      end
-      if entry = @entries[idx]
-        return entry
-      end
-      @entries[idx] = create_entry @elements[idx]
+    def to_index idx
+      idx < 0 ? size + idx : idx
     end
 
-    def each(&blk)
-      # all elements must be processed before each can run:
-      if @elements
-        @elements.each_with_index do |element, idx|
-          @entries[idx] ||= create_entry element
+    def [] idx
+      if idx.kind_of? Range
+        fridx = to_index idx.first
+        toidx = to_index idx.last
+        rg = Range.new fridx, toidx, idx.exclude_end?
+        rg.collect { |x| self[x] }
+      else
+        if idx >= size
+          raise "error: index #{idx} is not in range(0 .. #{size})"
+        else
+          idx = to_index idx
         end
-
-        @elements = nil
+        if entry = @entries[idx]
+          return entry
+        end
+        @entries[idx] = create_entry @elements[idx]
       end
-
-      @entries.keys.sort.collect { |idx| @entries[idx] }.each(&blk)
+    end
+      
+    def each(&blk)
+      entries = (0 ... size).collect do |idx|
+        @entries[idx] ||= create_entry @elements[idx]
+      end.each(&blk)
     end
   end
 end

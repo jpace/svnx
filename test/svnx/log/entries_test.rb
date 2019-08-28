@@ -113,5 +113,41 @@ module Svnx::Log
       entry = entries[-1]
       assert_equal 5, entry.revision
     end
+    
+    def test_index_range_inclusive
+      entries = Entries.new XML::LINES
+      result = entries[0 .. -2]
+      assert_equal 14, result.size
+    end
+    
+    def test_index_range_exclusive
+      entries = Entries.new XML::LINES
+      result = entries[0 ... -2]
+      assert_equal 13, result.size
+    end
+    
+    def test_index_from_negative
+      entries = Entries.new XML::LINES
+      result = entries[-3 .. -2]
+      assert_equal 2, result.size
+    end
+    
+    def test_to_a
+      entries = Entries.new XML::LINES
+      result = entries.to_a
+      assert_equal 15, result.size
+    end
+    
+    def test_detect
+      entries = Entries.new XML::LINES
+      result = entries.detect { |x| x.revision.to_i < 17 }
+      assert_equal 16, result.revision
+    end
+    
+    def test_collect
+      entries = Entries.new XML::LINES
+      result = entries.collect { |x| x }
+      assert_equal 15, result.size
+    end
   end
 end
