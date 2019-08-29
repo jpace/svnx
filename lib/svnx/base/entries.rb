@@ -64,7 +64,7 @@ module Svnx::Base
     end
       
     def each(&blk)
-      entries = (0 ... size).collect do |idx|
+      (0 ... size).collect do |idx|
         @entries[idx] ||= create_entry @elements[idx]
       end.each(&blk)
     end

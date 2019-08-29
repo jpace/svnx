@@ -1,7 +1,10 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'svnx/util/strutil'
+module Svnx
+  module Base
+  end
+end
 
 module Svnx::Base
   module Fields

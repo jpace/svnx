@@ -61,6 +61,18 @@ module Svnx::Base
       def has_tag_argument tagname, methname
         has_field methname, to_args(tagname, methname)
       end
+
+      def has_tag_arg name
+        has_field name, to_args(to_tag(name), name)
+      end
+
+      def has_tag_arguments(*names)
+        names.each do |name|
+          tag = to_tag name
+          args = to_args tag, name
+          has_field name, args
+        end
+      end
     end
 
     extend ClassMethods

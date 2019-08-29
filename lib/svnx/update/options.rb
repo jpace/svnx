@@ -11,8 +11,7 @@ end
 module Svnx::Update
   class Options < Svnx::Base::Options
     has :revision, :paths
-    has_tag_argument "--depth", :depth
-    has_tag_argument "--set-depth", :set_depth
+    has_tag_arguments :depth, :set_depth
     has_tag_field :ignore_externals
   end
 end

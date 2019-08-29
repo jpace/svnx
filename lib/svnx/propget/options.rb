@@ -9,9 +9,9 @@ module Svnx
 end
 
 module Svnx::Propget
-  class Options < Svnx::Base::Options    
-    has_fields revprop: "--revprop",
-               name:    nil
+  class Options < Svnx::Base::Options
+    has_tag_field :revprop
     has :revision, :url, :path
+    has_fields name: nil
   end
 end

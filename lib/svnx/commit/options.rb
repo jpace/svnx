@@ -11,7 +11,6 @@ end
 module Svnx::Commit
   class Options < Svnx::Base::Options
     has :file, :paths
-    has_fields with_revprop: to_args("--with-revprop", :with_revprop)
-    has_fields message: to_args("--message", :message)
+    has_tag_arguments :with_revprop, :message, :username, :password
   end
 end

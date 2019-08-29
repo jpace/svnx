@@ -11,10 +11,8 @@ end
 
 module Svnx::Log
   class Options < Svnx::Base::Options
-    has_fields limit:   to_args("--limit", :limit),
-               verbose: "-v",
-               depth:   to_args("--depth", :depth)
-    has_tag_fields :stop_on_copy, :use_merge_history
+    has_tag_arguments :limit, :depth
+    has_tag_fields :verbose, :stop_on_copy, :use_merge_history
     has :revision, :url, :path
   end
 end

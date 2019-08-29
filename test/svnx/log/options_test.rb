@@ -39,7 +39,7 @@ module Svnx::Log
 
     param_test [
       [ Array.new, Hash.new ],
-      [ [ "-v" ], verbose: true ],
+      [ [ "--verbose" ], verbose: true ],
       [ [ "--limit", 17 ], limit: 17 ],
       [ [ "-r", 123 ], revision: 123 ],
       [ [ "-r", "HEAD" ], revision: "HEAD" ],
