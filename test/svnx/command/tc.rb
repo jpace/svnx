@@ -24,6 +24,7 @@ module Svnx::Command
 
     def assert_command cmdopts = Hash.new
       cmdlinecls = Svnx::Base::MockCommandLine
+      factory = Svnx::Base::CommandLineFactory.new
       command_class.new cmdopts, cmdlinecls: cmdlinecls
       ex = cmdlinecls.all_executed.last
       assert_not_nil ex
