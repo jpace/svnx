@@ -10,10 +10,8 @@ end
 
 module Svnx::Merge
   class Options < Svnx::Base::Options
-    has_fields commit: to_args("-c", :commit),
-               range:  to_args("-r", :range),
-               accept: to_args("--accept", :accept),
-               from:   nil,
-               to:     nil
+    has_tag_argument :change, :revision, :accept
+    has_fields from: nil,
+               to:   nil
   end
 end
