@@ -10,6 +10,6 @@ end
 
 module Svnx::Blame
   class Options < Svnx::Base::Options
-    has :revision, :paths, :urls, :ignorewhitespace
+    has :revision, :paths, :urls, :ignore_whitespace
   end
 end

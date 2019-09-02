@@ -10,8 +10,8 @@ module Svnx::Diff
       assert_command
     end
     
-    def test_commit
-      assert_command commit: 123
+    def test_change
+      assert_command change: 123
     end
   end
 end

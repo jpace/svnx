@@ -11,6 +11,6 @@ end
 module Svnx::Commit
   class Options < Svnx::Base::Options
     has :file, :paths
-    has_tag_arguments :with_revprop, :message, :username, :password
+    has_tag_argument :with_revprop, :message, :username, :password
   end
 end

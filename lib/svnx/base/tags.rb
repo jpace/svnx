@@ -11,7 +11,7 @@ module Svnx::Base
         case field
         when :revision
           to_args "-r", field
-        when :ignorewhitespace, :ignore_whitespace
+        when :ignore_whitespace
           %w{ -x -bw -x --ignore-eol-style }
         when :paths
           nil
@@ -28,6 +28,7 @@ module Svnx::Base
         end
       end
 
+      # for common options/tags
       def has(*fields)
         fields.each do |field|
           arg = mapping field
@@ -35,42 +36,32 @@ module Svnx::Base
         end
       end
 
+      # gets the value for the tag/option by calling methname
       def to_args tagname, methname
         Proc.new { |obj| [ tagname, obj.send(methname) ] }
       end
 
-      def to_tag sym, invoke = nil
-        tag = "--" + Svnx::StringUtil.with_dashes(sym)
-        if invoke
-          Proc.new { |x| [ tag, x.send(sym) ] }
-        else
-          tag
-        end
+      # converts the symbol to a tag
+      def to_tag sym
+        "--" + Svnx::StringUtil.with_dashes(sym)
       end
 
-      def has_tag_field name
-        has_field name, to_tag(name)
+      # tags with no argument
+      def has_tag_field(*names)
+        has_tags(false, *names)
       end
 
-      def has_tag_fields(*names)
-        names.each do |name|
-          has_tag_field name
-        end
+      # tags with an argument
+      def has_tag_argument(*names)
+        has_tags(true, *names)
       end
 
-      def has_tag_argument tagname, methname
-        has_field methname, to_args(tagname, methname)
-      end
-
-      def has_tag_arg name
-        has_field name, to_args(to_tag(name), name)
-      end
-
-      def has_tag_arguments(*names)
+      # tags with an argument
+      def has_tags(argument, *names)
         names.each do |name|
           tag = to_tag name
-          args = to_args tag, name
-          has_field name, args
+          value = argument ? to_args(tag, name) : tag
+          has_field name, value
         end
       end
     end

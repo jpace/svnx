@@ -17,7 +17,6 @@ module Svnx::Base
       a << [ Proc, :revision ]
 
       nowstags = %w{ -x -bw -x --ignore-eol-style }
-      a << [ nowstags, :ignorewhitespace ]
       a << [ nowstags, :ignore_whitespace ]
 
       a << [ nil, :paths ]
@@ -105,6 +104,24 @@ module Svnx::Base
     
     param_test params do |expected, field|
       obj = D.new
+      result = obj.fields.has_key? field
+      assert_equal expected, result
+    end
+
+    class E
+      include Svnx::Base::Tags
+      include Svnx::Base::Fields
+
+      has_tag_argument :abc
+    end
+
+    params = Array.new.tap do |a|
+      a << [ true,  :abc ]
+      a << [ false, :def ]
+    end
+    
+    param_test params do |expected, field|
+      obj = E.new
       result = obj.fields.has_key? field
       assert_equal expected, result
     end

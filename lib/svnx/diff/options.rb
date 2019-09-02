@@ -10,10 +10,8 @@ end
 
 module Svnx::Diff
   class Options < Svnx::Base::Options
-    has_fields commit:           to_args("-c", :commit),
-               ignoreproperties: "--ignore-properties",
-               depth:            to_args("--depth", :depth)
-    
-    has :ignorewhitespace, :paths, :url
+    has_tag_argument :change, :depth
+    has_tag_field :ignore_properties
+    has :ignore_whitespace, :paths, :url
   end
 end

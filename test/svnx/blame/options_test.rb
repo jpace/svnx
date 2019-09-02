@@ -28,7 +28,7 @@ module Svnx::Blame
       [ [ "-r", "123:456" ], revision: "123:456" ],
       [ [ "p://abc" ], urls: [ "p://abc" ] ],
       [ [ "a/b" ], paths: [ "a/b" ] ],
-      [ %w{ -x -bw -x --ignore-eol-style }, ignorewhitespace: true ],
+      [ %w{ -x -bw -x --ignore-eol-style }, ignore_whitespace: true ],
     ] do |expected, vals|
       opts = Options.new vals
       assert_equal expected, opts.to_args

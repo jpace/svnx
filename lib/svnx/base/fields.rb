@@ -32,8 +32,14 @@ module Svnx::Base
     end
 
     def fields
+      # instance variable on the class itself, not an instance of the class
       varname = '@fields'
-      self.class.instance_variable_defined?(varname) && self.class.instance_variable_get(varname)
+      cls = self.class
+      if cls.instance_variable_defined? varname
+        cls.instance_variable_get varname
+      else
+        false
+      end
     end
 
     module ClassMethods
@@ -42,8 +48,6 @@ module Svnx::Base
         attr_reader(*what)
       end
       
-      # Creates a reader method for each field, and assigns and validates them from an initialize
-      # method, which is also created.
       def has_fields fields = Hash.new
         fields.each do |name, arg|
           has_field name, arg
