@@ -11,7 +11,7 @@ end
 module Svnx::Propget
   class Options < Svnx::Base::Options
     has_tag_field :revprop
-    has :revision, :url, :path
     has_field :name, nil
+    has :revision, :url, :path
   end
 end

@@ -29,6 +29,7 @@ module Svnx::Propget
       [ [ "-r", "123" ],     revision: "123" ],
       [ [ "-r", "123:456" ], revision: "123:456" ],
       [ [ "abc" ],           name: "abc" ],
+      [ [ "abc", "p1" ],     name: "abc", path: "p1" ],
       [ [ "p://abc" ],       url: "p://abc" ],
       [ [ "a/b" ],           path: "a/b" ],
     ] do |expected, vals|
