@@ -7,5 +7,6 @@ require 'svnx/base/command'
 module Svnx::Cat
   class Command < Svnx::Base::Command
     caching
+    nonxml
   end
 end

@@ -35,7 +35,7 @@ module Svnx::Base
       @output = cmdline.output
       @error = cmdline.error
       @status = cmdline.status
-
+      
       @output
     end
   end

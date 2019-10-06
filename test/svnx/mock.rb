@@ -2,7 +2,7 @@
 # -*- ruby -*-
 
 require 'svnx/base/cmdline'
-require 'svnx/base/command_line_factory'
+require 'svnx/base/cmdline_factory'
 
 module Svnx::Base
   class MockCommandLine < CommandLine

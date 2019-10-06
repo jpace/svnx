@@ -4,8 +4,9 @@
 require 'logue/loggable'
 require 'svnx/util/classutil'
 require 'svnx/base/options'
-require 'svnx/base/command_factory'
-require 'svnx/base/command_line_factory'
+require 'svnx/base/cmdline_factory'
+
+Logue::Log.level = Logue::Level::DEBUG
 
 module Svnx::Base
   class Command
@@ -23,6 +24,18 @@ module Svnx::Base
           false
         end
       end
+
+      def xml
+        define_method :xml? do
+          true
+        end
+      end
+
+      def nonxml
+        define_method :xml? do
+          false
+        end
+      end
     end
 
     attr_reader :output
@@ -32,21 +45,26 @@ module Svnx::Base
     def initialize options, cmdlinecls: nil, caching: caching?
       cmdargs = read_options options
 
-      if cmdlinecls
-        @cmdline = cmdlinecls.new subcommand: subcommand, xml: xml?, caching: caching, args: cmdargs
-      else
-        cmdfactory = CommandFactory.new
-        clfactory = cmdfactory.command_line_factory
-        @cmdline = clfactory.create subcommand: subcommand, xml: xml?, caching: caching, args: cmdargs
-      end
+      params = { subcommand: subcommand, xml: xml?, caching: caching, args: cmdargs }
+
+      cmdline = if cmdlinecls
+                  cmdlinecls.new params
+                else
+                  clfactory = CommandLineFactory.new
+                  clfactory.create params
+                end
       
-      @output = @cmdline.execute
-      @error = @cmdline.error
-      @status = @cmdline.status
+      @output = cmdline.execute
+      @error = cmdline.error
+      @status = cmdline.status
+    end
+
+    def caching?
+      false
     end
 
     def xml?
-      false
+      true
     end
 
     def read_options args

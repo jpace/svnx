@@ -38,7 +38,7 @@ module Svnx::Base
       if cls.instance_variable_defined? varname
         cls.instance_variable_get varname
       else
-        false
+        Hash.new
       end
     end
 

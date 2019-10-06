@@ -5,10 +5,6 @@ require 'svnx/tc'
 
 module Svnx::Command
   class TestCase < Svnx::TestCase
-    def command_line_class
-      Svnx::Base::MockCommandLine
-    end
-
     def command_class
       re = Regexp.new '^(.*)::\w+$'
       modname = self.class.name.sub re, '\1'
@@ -24,12 +20,11 @@ module Svnx::Command
 
     def assert_command cmdopts = Hash.new
       cmdlinecls = Svnx::Base::MockCommandLine
-      factory = Svnx::Base::CommandLineFactory.new
       command_class.new cmdopts, cmdlinecls: cmdlinecls
       ex = cmdlinecls.all_executed.last
       assert_not_nil ex
       assert_equal ex.subcommand.to_s, subcommand
-      assert ex.executed
+      assert_true ex.executed
     end
   end
 end

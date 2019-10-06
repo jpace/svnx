@@ -7,11 +7,6 @@ require 'svnx/tc'
 
 module Svnx::Base
   class TagsTest < Svnx::TestCase
-    def self.create_object obj = Object.new
-      obj.extend Svnx::Base::Tags
-      obj
-    end
-
     params = Array.new.tap do |a|
       # no == for Procs
       a << [ Proc, :revision ]
@@ -32,10 +27,10 @@ module Svnx::Base
     param_test params do |expected, field|
       if expected == RuntimeError
         assert_raise expected do
-          Svnx::Base::Tags::mapping field
+          Tags::mapping field
         end
       else
-        result = Svnx::Base::Tags::mapping field
+        result = Tags::mapping field
         if expected.kind_of? Class
           assert_kind_of expected, result
         else
@@ -45,22 +40,22 @@ module Svnx::Base
     end
 
     class A
-      include Svnx::Base::Tags
-      include Svnx::Base::Fields
+      include Tags
+      include Fields
 
       has :revision
     end
 
     class B
-      include Svnx::Base::Tags
-      include Svnx::Base::Fields
+      include Tags
+      include Fields
 
       has :paths
     end
 
     class C
-      include Svnx::Base::Tags
-      include Svnx::Base::Fields
+      include Tags
+      include Fields
     end
 
     params = Array.new.tap do |a|
@@ -77,7 +72,7 @@ module Svnx::Base
 
     def test_no_fields
       result = C.new.fields
-      assert_false result
+      assert_equal Hash.new, result
     end
 
     params = Array.new.tap do |a|
@@ -91,8 +86,8 @@ module Svnx::Base
     end
 
     class D
-      include Svnx::Base::Tags
-      include Svnx::Base::Fields
+      include Tags
+      include Fields
 
       has_tag_field :abc
     end
@@ -109,8 +104,8 @@ module Svnx::Base
     end
 
     class E
-      include Svnx::Base::Tags
-      include Svnx::Base::Fields
+      include Tags
+      include Fields
 
       has_tag_argument :abc
     end

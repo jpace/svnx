@@ -1,7 +1,6 @@
 #!/usr/bin/ruby -w
 # -*- ruby -*-
 
-require 'rexml/document'
 require 'logue/loggable'
 
 module Svnx

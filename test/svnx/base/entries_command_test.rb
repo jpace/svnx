@@ -20,7 +20,7 @@ module Svnx::Base
   class EntriesCommandTest < Svnx::TestCase
     def test_default
       options = Hash.new
-      Xyz::Command.new options
+      Xyz::Command.new options, cmdlinecls: MockCommandLine
     end
   end
 end

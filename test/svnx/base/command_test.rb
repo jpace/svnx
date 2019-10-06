@@ -8,6 +8,7 @@ module SvnxTest
   module M1
     class Command < Svnx::Base::Command
       caching
+      nonxml
     end
 
     class Options < Svnx::Base::Options
@@ -17,7 +18,17 @@ module SvnxTest
 
   module M2
     class Command < Svnx::Base::Command
-      caching
+      noncaching
+      xml
+    end
+
+    class Options < Svnx::Base::Options
+#      has :file
+    end
+  end  
+
+  module M3
+    class Command < Svnx::Base::Command
     end
 
     class Options < Svnx::Base::Options
@@ -28,23 +39,40 @@ end
 
 module Svnx::Base
   class CommandTest < Svnx::TestCase
-    params = Array.new.tap do |a|
-      options = Hash.new
-      cmd = SvnxTest::M1::Command.new options, cmdlinecls: Svnx::Base::MockCommandLine
-      a << [ SvnxTest::M1::Options, "m1", cmd ]
-      
-      cmd = SvnxTest::M2::Command.new options, cmdlinecls: Svnx::Base::MockCommandLine
-      a << [ SvnxTest::M2::Options, "m2", cmd ]
-    end
-
-    param_test params do |expopts, _, cmd|
+    param_test [
+      [ SvnxTest::M1::Options, SvnxTest::M1::Command ],
+      [ SvnxTest::M2::Options, SvnxTest::M2::Command ],
+    ] do |expected, cmdcls|
+      cmd = cmdcls.new Hash.new, cmdlinecls: MockCommandLine
       result = cmd.options_class
-      assert_equal expopts, result
+      assert_equal expected, result
     end
 
-    param_test params do |_, expsubcommand, cmd|
+    param_test [
+      [ "m1",  SvnxTest::M1::Command ],
+      [ "m2",  SvnxTest::M2::Command ],
+    ] do |expected, cmdcls|
+      cmd = cmdcls.new Hash.new, cmdlinecls: MockCommandLine
       result = cmd.subcommand
-      assert_equal expsubcommand, result
+      assert_equal expected, result
+    end
+
+    param_test [
+      [ true,  SvnxTest::M1::Command ],
+      [ false, SvnxTest::M2::Command ],
+      [ false, SvnxTest::M3::Command ],
+    ] do |expected, cmdcls|
+      cmd = cmdcls.new Hash.new, cmdlinecls: MockCommandLine
+      assert_equal expected, cmd.caching?
+    end
+
+    param_test [
+      [ false, SvnxTest::M1::Command ], 
+      [ true,  SvnxTest::M2::Command ], 
+      [ true,  SvnxTest::M3::Command ], 
+    ] do |expected, cmdcls|
+      cmd = cmdcls.new Hash.new, cmdlinecls: MockCommandLine
+      assert_equal expected, cmd.xml?
     end
   end
 end

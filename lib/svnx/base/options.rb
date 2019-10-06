@@ -11,8 +11,8 @@ end
 
 module Svnx::Base
   class Options
-    include Svnx::Base::Tags
-    include Svnx::Base::Fields
+    include Tags
+    include Fields
     
     def initialize args
       fkeys = fields.keys
