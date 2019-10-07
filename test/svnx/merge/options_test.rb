@@ -13,7 +13,7 @@ module Svnx::Merge
         [ { accept:   "postpone" } ],
         [ { from:     "a/b" } ],
         [ { to:       "a/b" } ],
-        [ { change: nil, revision: nil, accept: nil, from: nil, to: nil }, Hash.new ]
+        [ { change: nil, revision: nil, accept: nil, from: nil, to: nil, non_interactive: nil }, Hash.new ]
       ].collect do |vals|
         [ vals.first, vals.last ]
       end
@@ -36,6 +36,7 @@ module Svnx::Merge
       [ [ "p://abc", "q://def" ],    from: "p://abc", to: "q://def" ],
       [ [ "p://abc" ],               from: "p://abc" ],
       [ [ "a/b" ],                   from: "a/b" ],
+      [ [ "--non-interactive" ],     non_interactive: true ],
     ] do |exp, vals|
       opts = Options.new vals
       assert_equal exp, opts.to_args
