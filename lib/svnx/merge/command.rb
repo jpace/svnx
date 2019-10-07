@@ -7,5 +7,6 @@ require 'svnx/base/command'
 module Svnx::Merge
   class Command < Svnx::Base::Command
     noncaching
+    nonxml
   end
 end

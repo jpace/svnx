@@ -44,6 +44,7 @@ module Svnx::Base
     
     def initialize options, cmdlinecls: nil, caching: caching?
       cmdargs = read_options options
+      info "cmdargs: #{cmdargs}"
 
       params = { subcommand: subcommand, xml: xml?, caching: caching, args: cmdargs }
 
@@ -53,6 +54,9 @@ module Svnx::Base
                   clfactory = CommandLineFactory.new
                   clfactory.create params
                 end
+
+      debug "cmdline: #{cmdline}"
+      info "cmdline.command: #{cmdline.command}"
       
       @output = cmdline.execute
       @error = cmdline.error
