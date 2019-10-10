@@ -33,5 +33,10 @@ module Svnx::Commit
       exp = { args: %w{ --file abc def ghi }, caching: false }
       assert_command exp, file: "abc", paths: [ "def", "ghi" ]
     end
+    
+    def test_xml
+      cmd = Command.new Hash.new, cmdlinecls: Svnx::Base::MockCommandLine
+      assert_equal false, cmd.xml?
+    end
   end
 end

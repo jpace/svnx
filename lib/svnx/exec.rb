@@ -9,7 +9,6 @@ end
 
 class Svnx::Exec  
   attr_reader :dir
-  attr_reader :url
   
   def initialize dir: nil, url: nil, cmdlinecls: nil
     @dir = dir

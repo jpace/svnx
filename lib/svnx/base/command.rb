@@ -6,8 +6,6 @@ require 'svnx/util/classutil'
 require 'svnx/base/options'
 require 'svnx/base/cmdline_factory'
 
-Logue::Log.level = Logue::Level::DEBUG
-
 module Svnx::Base
   class Command
     include Logue::Loggable
@@ -44,7 +42,7 @@ module Svnx::Base
     
     def initialize options, cmdlinecls: nil, caching: caching?
       cmdargs = read_options options
-      info "cmdargs: #{cmdargs}"
+      debug "cmdargs: #{cmdargs}"
 
       params = { subcommand: subcommand, xml: xml?, caching: caching, args: cmdargs }
 
@@ -55,8 +53,7 @@ module Svnx::Base
                   clfactory.create params
                 end
 
-      debug "cmdline: #{cmdline}"
-      info "cmdline.command: #{cmdline.command}"
+      debug "cmdline.command: #{cmdline.command}"
       
       @output = cmdline.execute
       @error = cmdline.error

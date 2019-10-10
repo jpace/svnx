@@ -10,5 +10,10 @@ module Svnx::Update
       args = { paths: "/tmp/svnx-from" }
       assert_command args
     end
+
+    def test_xml
+      cmd = Command.new Hash.new, cmdlinecls: Svnx::Base::MockCommandLine
+      assert_equal false, cmd.xml?
+    end
   end
 end

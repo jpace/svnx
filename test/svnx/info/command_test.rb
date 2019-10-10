@@ -10,5 +10,10 @@ module Svnx::Info
       args = { revision: 123 }
       assert_command args
     end
+    
+    def test_xml
+      cmd = Command.new Hash.new, cmdlinecls: Svnx::Base::MockCommandLine
+      assert_equal true, cmd.xml?
+    end
   end
 end

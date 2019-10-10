@@ -7,5 +7,6 @@ require 'svnx/update/options'
 module Svnx::Update
   class Command < Svnx::Base::Command
     noncaching
+    nonxml
   end
 end
